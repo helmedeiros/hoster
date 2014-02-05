@@ -39,13 +39,13 @@ while getopts "ldhpn:" opt; do
       ;;
 
     # Set production's host file
-    p)
+    p)  
         echo "-choose PRODUCTION!" >&2
         FILE="hosts.prd";
       ;;
 
     n)
-      if [[ "$OPTARG" =~ ^[a-z0-9]+$ ]] ; then
+      if [ -n "$1" ]; then    
         network=${OPTARG}   
         ROUTER=$(networksetup -getinfo $network | grep '^Router:' | awk '{print $2}')
       else
@@ -60,7 +60,7 @@ while getopts "ldhpn:" opt; do
     ;;
     :)
     echo "Option -$OPTARG requires an argument." >&2
-    exit 1
+    exit 1    
     ;;
   esac
 done

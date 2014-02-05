@@ -45,8 +45,9 @@ while getopts "ldhpn:" opt; do
       ;;
 
     n)
-      if [[ "$OPTARG" =~ ^[a-z0-9]+$ ]] ; then
+      if [[ "$OPTARG" =~ ^[.*] ; then
         network=${OPTARG}   
+        echo "$network";
         ROUTER=$(networksetup -getinfo $network | grep '^Router:' | awk '{print $2}')
       else
         die "Invalid parameter for network: ${OPTARG}."
