@@ -25,6 +25,12 @@ while getopts "ldhp" opt; do
         FILE="hosts.lch";
       ;;
 
+    # Set development's host file
+    d)
+        echo "-choosed DEVELOPMENT!" >&2
+        FILE="hosts.dev";
+      ;;
+
     \?)
     echo "Invalid option: -$OPTARG" >&2
     exit 1
