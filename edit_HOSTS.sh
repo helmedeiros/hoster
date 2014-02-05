@@ -14,7 +14,6 @@ source $(dirname $0)/commands.sh
 FILE="Hosts";
 FILE_PATH="/private/etc/";
 network="Wi-Fi";
-ROUTER="172.20.92.1";
 
 # Parse user options
 #
@@ -67,8 +66,6 @@ while getopts "ldhpn:" opt; do
 done
 
 DEFAULT_IDE="sublime";
-
-
 
 echo $ROUTER;
 
