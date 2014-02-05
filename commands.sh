@@ -9,3 +9,6 @@ function run_cmd(){
 	  exit 1
 	fi
 }
+
+# Custom die function.
+function die() { echo >&2 -e "\nERROR: $@\n"; exit 1; }
