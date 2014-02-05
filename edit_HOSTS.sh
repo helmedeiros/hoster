@@ -13,10 +13,11 @@ source $(dirname $0)/commands.sh
 
 FILE="Hosts";
 FILE_PATH="/private/etc/";
+network="Wi-Fi";
 
 # Parse user options
 #
-while getopts "ldhp" opt; do
+while getopts "ldhpn:" opt; do
   case $opt in
 
     # Set localhost's host file
@@ -43,6 +44,14 @@ while getopts "ldhp" opt; do
         FILE="hosts.prd";
       ;;
 
+    n)
+      if [[ "$OPTARG" =~ ^[a-z0-9]+$ ]] ; then
+        network=${OPTARG}   
+      else
+        die "Invalid parameter for network: ${OPTARG}."
+      fi
+      ;;
+
 
     \?)
     echo "Invalid option: -$OPTARG" >&2
@@ -57,7 +66,7 @@ done
 
 DEFAULT_IDE="sublime";
 
-ROUTER=$(networksetup -getinfo Ethernet | grep '^Router:' | awk '{print $2}')
+ROUTER=$(networksetup -getinfo $network | grep '^Router:' | awk '{print $2}')
 
 echo $ROUTER;
 
