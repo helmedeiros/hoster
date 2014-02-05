@@ -34,8 +34,15 @@ while getopts "ldhp" opt; do
     # Set homolagtion's host file
     h)
         echo "-choose HOMOLOGATION!" >&2
-        FILE="hosts.dev";
+        FILE="hosts.hml";
       ;;
+
+    # Set production's host file
+    p)
+        echo "-choose PRODUCTION!" >&2
+        FILE="hosts.prd";
+      ;;
+
 
     \?)
     echo "Invalid option: -$OPTARG" >&2
