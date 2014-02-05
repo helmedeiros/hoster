@@ -14,6 +14,28 @@ source $(dirname $0)/commands.sh
 FILE="Hosts";
 FILE_PATH="/private/etc/";
 
+# Parse user options
+#
+while getopts "ldhp" opt; do
+  case $opt in
+
+    # Set localhost's host file
+    l)
+        echo "-choosed LOCAL!" >&2
+        FILE="hosts.lch";
+      ;;
+
+    \?)
+    echo "Invalid option: -$OPTARG" >&2
+    exit 1
+    ;;
+    :)
+    echo "Option -$OPTARG requires an argument." >&2
+    exit 1
+    ;;
+  esac
+done
+
 DEFAULT_IDE="sublime";
 
 ROUTER=$(networksetup -getinfo Ethernet | grep '^Router:' | awk '{print $2}')
