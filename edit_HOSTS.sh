@@ -14,6 +14,7 @@ source $(dirname $0)/commands.sh
 FILE="Hosts";
 FILE_PATH="/private/etc/";
 network="Wi-Fi";
+ROUTER="172.20.92.1";
 
 # Parse user options
 #
@@ -47,6 +48,7 @@ while getopts "ldhpn:" opt; do
     n)
       if [[ "$OPTARG" =~ ^[a-z0-9]+$ ]] ; then
         network=${OPTARG}   
+        ROUTER=$(networksetup -getinfo $network | grep '^Router:' | awk '{print $2}')
       else
         die "Invalid parameter for network: ${OPTARG}."
       fi
@@ -66,7 +68,7 @@ done
 
 DEFAULT_IDE="sublime";
 
-ROUTER=$(networksetup -getinfo $network | grep '^Router:' | awk '{print $2}')
+
 
 echo $ROUTER;
 
