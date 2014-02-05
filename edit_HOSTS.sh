@@ -21,13 +21,19 @@ while getopts "ldhp" opt; do
 
     # Set localhost's host file
     l)
-        echo "-choosed LOCAL!" >&2
+        echo "-choose LOCAL!" >&2
         FILE="hosts.lch";
       ;;
 
     # Set development's host file
     d)
-        echo "-choosed DEVELOPMENT!" >&2
+        echo "-choose DEVELOPMENT!" >&2
+        FILE="hosts.dev";
+      ;;
+
+    # Set homolagtion's host file
+    h)
+        echo "-choose HOMOLOGATION!" >&2
         FILE="hosts.dev";
       ;;
 
