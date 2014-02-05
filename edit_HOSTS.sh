@@ -11,6 +11,7 @@
 #      ./edit_HOST.sh -l 
 source $(dirname $0)/commands.sh
 source $(dirname $0)/handle_options.sh
+source $(dirname $0)/paths.sh
 
 FILE="Hosts";
 FILE_PATH="/private/etc/";
@@ -18,16 +19,6 @@ network="Wi-Fi";
 
 DEFAULT_IDE="sublime";
 
-
-function set_path(){
-    echo $ROUTER;
-
-    case $ROUTER in
-      "172.20.92.1")  FILE_PATH="~/Dropbox/JOBS/RBS/Hosts/";
-              echo "CONFIGURING RBS";
-              ;;
-    esac
-}
 
 handle_options $@;
 set_path;
