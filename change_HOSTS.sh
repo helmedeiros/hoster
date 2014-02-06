@@ -14,9 +14,11 @@ source $(dirname $0)/builtin/handle_options.sh
 source $(dirname $0)/builtin/paths.sh
 source $(dirname $0)/builtin/defaults.sh
 
+HOST_PATH="/private/etc";
+
 define_defaults "sublime" "/private/etc/" "Hosts" "Wi-Fi"
 handle_options $@;
 set_path;
 
-run_cmd "mv $FILE_PATH/Hosts $FILE_PATH/tmp"
-run_cmd "cp $FILE_PATH$FILE $FILE_PATH/Hosts"
+run_cmd "mv $HOST_PATH/Hosts $HOST_PATH/tmp"
+run_cmd "cp $FILE_PATH$FILE $HOST_PATH/Hosts"
