@@ -20,5 +20,5 @@ define_defaults "sublime" "/private/etc/" "Hosts" "Wi-Fi"
 handle_options $@;
 set_path;
 
-run_cmd "mv $HOST_PATH/Hosts $HOST_PATH/tmp"
-run_cmd "cp $FILE_PATH$FILE $HOST_PATH/Hosts"
+run_cmd "sudo mv $HOST_PATH/Hosts $HOST_PATH/tmp"
+run_cmd "sudo cp $FILE_PATH$FILE $HOST_PATH/Hosts"

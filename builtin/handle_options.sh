@@ -3,24 +3,19 @@
 function handle_options(){
     # Parse user options
     #
-    while getopts "ldhpn:ic" opt; do
+    while getopts "dehiln:p" opt; do
       case $opt in
-
-        #change hosts action
-        c)
-          set_path;
-          run_cmd "$DEFAULT_IDE $FILE_PATH$FILE"
-        ;;
-        # Set localhost's host file
-        l)
-            echo "-choose LOCAL!" >&2
-            FILE="hosts.lch";
-          ;;
 
         # Set development's host file
         d)
             echo "-choose DEVELOPMENT!" >&2
             FILE="hosts.dev";
+          ;;
+
+        # Start editing one environment
+        e)
+            set_path;
+            run_cmd "$DEFAULT_IDE $FILE_PATH$FILE";
           ;;
 
         # Set homolagtion's host file
@@ -34,10 +29,10 @@ function handle_options(){
             cmd_hosts_init; 
           ;;
 
-        # Set production's host file
-        p)  
-            echo "-choose PRODUCTION!" >&2
-            FILE="hosts.prd";
+        # Set localhost's host file
+        l)
+            echo "-choose LOCAL!" >&2
+            FILE="hosts.lch";
           ;;
 
         n)
@@ -49,6 +44,11 @@ function handle_options(){
           fi
           ;;
 
+        # Set production's host file
+        p)  
+            echo "-choose PRODUCTION!" >&2
+            FILE="hosts.prd";
+          ;;
 
         \?)
         echo "Invalid option: -$OPTARG" >&2
