@@ -3,9 +3,14 @@
 function handle_options(){
     # Parse user options
     #
-    while getopts "ldhpn:" opt; do
+    while getopts "ldhpn:ic" opt; do
       case $opt in
 
+        #change hosts action
+        c)
+          set_path;
+          run_cmd "$DEFAULT_IDE $FILE_PATH$FILE"
+        ;;
         # Set localhost's host file
         l)
             echo "-choose LOCAL!" >&2
@@ -22,6 +27,11 @@ function handle_options(){
         h)
             echo "-choose HOMOLOGATION!" >&2
             FILE="hosts.hml";
+          ;;
+
+        # create environment hosts
+        i)            
+            cmd_hosts_init; 
           ;;
 
         # Set production's host file

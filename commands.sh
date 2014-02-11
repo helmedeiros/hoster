@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+source $(dirname $0)/builtin/host_actions.sh
+source $(dirname $0)/builtin/paths.sh
+
 
 function run_cmd(){
 	echo "Running: $1"
@@ -9,6 +12,8 @@ function run_cmd(){
 	  exit 1
 	fi
 }
+
+function cmd_hosts_init(){ hosts_init; }
 
 # Custom die function.
 function die() { echo >&2 -e "\nERROR: $@\n"; exit 1; }

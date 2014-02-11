@@ -11,11 +11,7 @@
 #      ./edit_HOST.sh -l 
 source $(dirname $0)/commands.sh
 source $(dirname $0)/builtin/handle_options.sh
-source $(dirname $0)/builtin/paths.sh
 source $(dirname $0)/builtin/defaults.sh
 
 define_defaults "sublime" "/private/etc/" "Hosts" "Wi-Fi"
 handle_options $@;
-set_path;
-
-run_cmd "$DEFAULT_IDE $FILE_PATH$FILE"
