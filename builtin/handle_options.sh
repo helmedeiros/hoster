@@ -3,7 +3,7 @@
 function handle_options(){
     # Parse user options
     #
-    while getopts "dehiln:p" opt; do
+    while getopts "dehiln:ps" opt; do
       case $opt in
 
         # Set development's host file
@@ -49,6 +49,14 @@ function handle_options(){
             echo "-choose PRODUCTION!" >&2
             FILE="hosts.prd";
           ;;
+
+        # Set one environment
+        s)
+            HOST_PATH="/private/etc";
+            set_path;
+            run_cmd "sudo mv $HOST_PATH/Hosts $HOST_PATH/tmp"
+            run_cmd "sudo cp $FILE_PATH$FILE $HOST_PATH/Hosts"
+          ;;  
 
         \?)
         echo "Invalid option: -$OPTARG" >&2
