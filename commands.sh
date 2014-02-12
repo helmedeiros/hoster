@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 source $(dirname $0)/builtin/defaults.sh
 source $(dirname $0)/builtin/handle_options.sh
+source $(dirname $0)/help.sh
 source $(dirname $0)/builtin/host_actions.sh
 source $(dirname $0)/builtin/paths.sh
 
@@ -30,6 +31,10 @@ function cmd_define_defaults(){
 function cmd_handle_options(){
 	handle_options $@;
 } 
+
+function cmd_list_help_commands(){
+	list_common_cmds_help;
+}
 
 
 # Custom die function.

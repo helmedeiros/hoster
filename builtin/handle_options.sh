@@ -2,69 +2,94 @@
 #
 function handle_options(){
     
-  # Parse user options
-  while getopts "dehiln:ps" opt; do
-    case $opt in
+  # The user didn't specify a command; give them help
+  if [ $# = 0 ]; then
+    list_commands;
+  else 
+    # Execute getopt
+    ARGS=$(getopt -o dehHiln:ps -l "dev,edit,hlg,help,init,lcl,net:,prod,set" -n "getopt.sh" -- "$@");
 
-      # Set development's host file
-      d)
-        echo "-choose DEVELOPMENT!" >&2
-        FILE="hosts.dev";
-      ;;
+    eval set -- "$ARGS";
 
-      # Start editing one environment
-      e)
-        set_path;
-        run_cmd "$DEFAULT_IDE $FILE_PATH$FILE";
-      ;;
+    # Parse user options
+    while true; do
+      case "$1" in
 
-      # Set homolagtion's host file
-      h)
-        echo "-choose HOMOLOGATION!" >&2
-        FILE="hosts.hml";
-      ;;
+        # Set development's host file
+        -d|--dev)
+          echo "-choose DEVELOPMENT!" >&2
+          FILE="hosts.dev";
+          shift;
+        ;;
 
-      # create environment hosts
-      i)            
-        cmd_hosts_init; 
-      ;;
+        # Start editing one environment
+        -e|--edit)
+          set_path;
+          run_cmd "$DEFAULT_IDE $FILE_PATH$FILE";
+          shift;
+        ;;
 
-      # Set localhost's host file
-      l)
-        echo "-choose LOCAL!" >&2
-        FILE="hosts.lch";
-      ;;
+        # Set homolagtion's host file
+        -h|--hlg)
+          echo "-choose HOMOLOGATION!" >&2
+          FILE="hosts.hml";
+          shift;
+        ;;
 
-      n)
-        if [ -n "$1" ]; then    
-          network=${OPTARG}   
-          ROUTER=$(networksetup -getinfo $network | grep '^Router:' | awk '{print $2}')
-        else
-          die "Invalid parameter for network: ${OPTARG}."
-        fi
-      ;;
+        # Set homolagtion's host file
+        -H|--help)
+          list_commands;
+          exit 1;
+        ;;
 
-      # Set production's host file
-      p)  
-        echo "-choose PRODUCTION!" >&2
-        FILE="hosts.prd";
-      ;;
+        # create environment hosts
+        -i|--init)            
+          cmd_hosts_init; 
+          exit 1;
+        ;;
 
-      # Set one environment
-      s)
-        HOST_PATH="/private/etc";
-        set_path;
-        run_cmd "sudo mv $HOST_PATH/Hosts $HOST_PATH/tmp"
-        run_cmd "sudo cp $FILE_PATH$FILE $HOST_PATH/Hosts"
-      ;;  
+        # Set localhost's host file
+        -l|--lcl)
+          echo "-choose LOCAL!" >&2
+          FILE="hosts.lch";
+          shift;
+        ;;
 
-      \?)        
-        die "Invalid option: -$OPTARG"
-      ;;
-        
-      :)
-        die "Option -$OPTARG requires an argument."
-      ;;
-    esac
-  done
+        -n|--net)
+          shift;
+          if [ -n "$1" ]; then    
+            network=${OPTARG}   
+            ROUTER=$(networksetup -getinfo $network | grep '^Router:' | awk '{print $2}')
+            shift;
+          else
+            die "Invalid parameter for network: ${OPTARG}."
+          fi
+        ;;
+
+        # Set production's host file
+        -p|--prod)  
+          echo "-choose PRODUCTION!" >&2
+          FILE="hosts.prd";
+          shift;
+        ;;
+
+        # Set one environment
+        -s|--set)
+          HOST_PATH="/private/etc";
+          set_path;
+          run_cmd "sudo mv $HOST_PATH/Hosts $HOST_PATH/tmp"
+          run_cmd "sudo cp $FILE_PATH$FILE $HOST_PATH/Hosts"
+          shift;
+        ;;  
+
+        \?)        
+          die "Invalid option: -$OPTARG"
+        ;;
+          
+        :)
+          die "Option -$OPTARG requires an argument."
+        ;;
+      esac
+    done
+  fi
 }
