@@ -11,8 +11,6 @@
 #      hoster -p -e
 
 source $(dirname $0)/commands.sh
-source $(dirname $0)/builtin/handle_options.sh
-source $(dirname $0)/builtin/defaults.sh
 
-define_defaults "sublime" "/private/etc/" "Hosts" "Wi-Fi"
-handle_options $@;
+cmd_define_defaults "sublime" "/private/etc/" "Hosts" "Wi-Fi"
+cmd_handle_options $@;

@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
+source $(dirname $0)/builtin/defaults.sh
+source $(dirname $0)/builtin/handle_options.sh
 source $(dirname $0)/builtin/host_actions.sh
 source $(dirname $0)/builtin/paths.sh
+
 
 
 function run_cmd(){
@@ -13,7 +16,21 @@ function run_cmd(){
 	fi
 }
 
-function cmd_hosts_init(){ hosts_init; }
+# Requests hosts_init inside /builtin/host_actions.sh
+function cmd_hosts_init(){ 
+	hosts_init; 
+}
+
+# Requests define_defaults inside /builtin/defaults.sh
+function cmd_define_defaults(){
+	define_defaults $@;
+} 
+
+# Requests handle_options inside /builtin/handle_options.sh
+function cmd_handle_options(){
+	handle_options $@;
+} 
+
 
 # Custom die function.
 function die() { echo >&2 -e "\nERROR: $@\n"; exit 1; }
