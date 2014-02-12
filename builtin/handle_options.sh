@@ -7,7 +7,7 @@ function handle_options(){
     list_commands;
   else 
     # Execute getopt
-    ARGS=$(getopt -o dehHiln:ps -l "dev,edit,hlg,help,init,lcl,net:,prod,set" -n "getopt.sh" -- "$@");
+    ARGS=$(getopt -o dehHiln:psV -l "dev,edit,hlg,help,init,lcl,net:,prod,set,version" -n "getopt.sh" -- "$@");
 
     eval set -- "$ARGS";
 
@@ -80,6 +80,12 @@ function handle_options(){
           run_cmd "sudo mv $HOST_PATH/Hosts $HOST_PATH/tmp"
           run_cmd "sudo cp $FILE_PATH$FILE $HOST_PATH/Hosts"
           shift;
+        ;;  
+
+        # Show the version
+        -V|--version)
+          version;
+          exit;
         ;;  
 
         \?)        

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # hoster helps messages.
-hoster_usage_string="$progname [--help] <command> [<args>]";
+hoster_usage_string="$progname [--help] [--version] <command> [<args>]";
 
 function list_commands(){
 	printf "usage: %s\n\n" "$hoster_usage_string";

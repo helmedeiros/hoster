@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
+source $(dirname $0)/help.sh
+source $(dirname $0)/version.sh
 source $(dirname $0)/builtin/defaults.sh
 source $(dirname $0)/builtin/handle_options.sh
-source $(dirname $0)/help.sh
 source $(dirname $0)/builtin/host_actions.sh
 source $(dirname $0)/builtin/paths.sh
 
