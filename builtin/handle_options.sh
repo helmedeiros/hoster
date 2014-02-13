@@ -13,27 +13,27 @@ function handle_options(){
 
     # Parse user options
     while true; do
-      case "$1" in
+      OPT="$1";
+      shift;
+
+      case "$OPT" in
 
         # Set development's host file
         -d|--dev)
           echo "-choose DEVELOPMENT!" >&2
           FILE="hosts.dev";
-          shift;
         ;;
 
         # Start editing one environment
         -e|--edit)
           set_path;
           run_cmd "$DEFAULT_IDE $FILE_PATH$FILE";
-          shift;
         ;;
 
         # Set homolagtion's host file
         -h|--hlg)
           echo "-choose HOMOLOGATION!" >&2
           FILE="hosts.hml";
-          shift;
         ;;
 
         # Set homolagtion's host file
@@ -52,7 +52,6 @@ function handle_options(){
         -l|--lcl)
           echo "-choose LOCAL!" >&2
           FILE="hosts.lch";
-          shift;
         ;;
 
         -n|--net)
@@ -60,7 +59,6 @@ function handle_options(){
           if [ -n "$1" ]; then    
             network=${OPTARG}   
             ROUTER=$(networksetup -getinfo $network | grep '^Router:' | awk '{print $2}')
-            shift;
           else
             die "Invalid parameter for network: ${OPTARG}."
           fi
@@ -70,7 +68,6 @@ function handle_options(){
         -p|--prod)  
           echo "-choose PRODUCTION!" >&2
           FILE="hosts.prd";
-          shift;
         ;;
 
         # Set one environment
@@ -79,13 +76,12 @@ function handle_options(){
           set_path;
           run_cmd "sudo mv $HOST_PATH/Hosts $HOST_PATH/tmp"
           run_cmd "sudo cp $FILE_PATH$FILE $HOST_PATH/Hosts"
-          shift;
         ;;  
 
         # Show the version
         -V|--version)
           version;
-          exit;
+          exit 1;
         ;;  
 
         \?)        

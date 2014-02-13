@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # hoster version definition.
-version='1.6'
+version='1.61'
 progname=`basename $0`
 
 #  Version and help.
