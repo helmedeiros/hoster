@@ -9,8 +9,8 @@ source $(dirname $0)/builtin/paths.sh
 
 
 function run_cmd(){
-	echo "Running: $1"
-	$1
+	echo "Running: $1";
+	$1;
 
 	if [ "$?" -ne "0" ]; then
 	  echo "command failed: $1"
@@ -35,6 +35,12 @@ function cmd_handle_options(){
 
 function cmd_list_help_commands(){
 	list_common_cmds_help;
+}
+
+function cmd_close_when_no_parameters(){
+	if [ -z "$1" ]; then
+        break;
+      fi
 }
 
 

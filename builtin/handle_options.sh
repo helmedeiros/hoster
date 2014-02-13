@@ -39,13 +39,11 @@ function handle_options(){
         # Set homolagtion's host file
         -H|--help)
           list_commands;
-          exit 1;
         ;;
 
         # create environment hosts
         -i|--init)            
-          cmd_hosts_init; 
-          exit 1;
+          cmd_hosts_init;
         ;;
 
         # Set localhost's host file
@@ -80,8 +78,7 @@ function handle_options(){
 
         # Show the version
         -V|--version)
-          version;
-          exit 1;
+          version;          
         ;;  
 
         \?)        
@@ -92,6 +89,8 @@ function handle_options(){
           die "Option -$OPTARG requires an argument."
         ;;
       esac
+
+      cmd_close_when_no_parameters $@;
     done
   fi
 }
