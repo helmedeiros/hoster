@@ -70,24 +70,13 @@ function handle_options(){
 
         # Set one environment
         -s|--set)
-          HOST_PATH="/private/etc";
-          set_path;
-          run_cmd "sudo cp $HOST_PATH/Hosts $HOST_PATH/tmp"
-          run_cmd "sudo cp $FILE_PATH$FILE $HOST_PATH/Hosts"
+          cmd_set;
         ;;  
 
         # Show the version
         -V|--version)
           version;          
         ;;  
-
-        \?)        
-          die "Invalid option: -$OPTARG"
-        ;;
-          
-        :)
-          die "Option -$OPTARG requires an argument."
-        ;;
       esac
 
       cmd_close_when_no_parameters $@;

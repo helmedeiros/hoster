@@ -2,6 +2,7 @@
 source $(dirname $0)/help.sh
 source $(dirname $0)/version.sh
 source $(dirname $0)/builtin/defaults.sh
+source $(dirname $0)/builtin/edition.sh
 source $(dirname $0)/builtin/handle_options.sh
 source $(dirname $0)/builtin/host_actions.sh
 source $(dirname $0)/builtin/paths.sh
@@ -16,6 +17,11 @@ function run_cmd(){
 	  echo "command failed: $1"
 	  exit 1
 	fi
+}
+
+# Requests hosts_init inside /builtin/edition.sh
+function cmd_set(){ 
+	set_configuration; 
 }
 
 # Requests hosts_init inside /builtin/host_actions.sh
