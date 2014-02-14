@@ -26,7 +26,7 @@ function handle_options(){
 
         # Start editing one environment
         -e|--edit)
-          set_path;
+          set_path ;
           run_cmd "$DEFAULT_IDE $FILE_PATH$FILE";
         ;;
 
@@ -52,11 +52,11 @@ function handle_options(){
           FILE="hosts.lch";
         ;;
 
-        -n|--net)
-          shift;
-          if [ -n "$1" ]; then    
-            network=${OPTARG}   
+        -n|--net)   
+          if [ -n "$1" ]; then   
+            network=${1}   
             ROUTER=$(networksetup -getinfo $network | grep '^Router:' | awk '{print $2}')
+            shift;
           else
             die "Invalid parameter for network: ${OPTARG}."
           fi
