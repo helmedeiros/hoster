@@ -7,7 +7,7 @@ function handle_options(){
     list_commands;
   else 
     # Execute getopt
-    ARGS=$(getopt -o dehHiln:psV -l "dev,edit,hlg,help,init,lcl,net:,prod,set,version" -n "getopt.sh" -- "$@");
+    ARGS=$(getopt -o ae:HiVdhlp -l "apply,edit:,help,init,version,ev,hlg,lcl,prod" -n "getopt.sh" -- "$@");
 
     eval set -- "$ARGS";
 
@@ -18,16 +18,63 @@ function handle_options(){
 
       case "$OPT" in
 
+        # Apply one environment
+        a|apply)
+          cmd_apply_host;
+        ;; 
+
+        # Start editing one environment
+        e|edit)
+          if [ -z "$3" ]; then  
+            handle_env_options $3;
+            shift;
+          else 
+            die "Invalid parameter for edit ${1}."
+          fi
+          set_path ;
+          run_cmd "$DEFAULT_IDE $FILE_PATH$FILE";
+        ;;
+
+        # Set homolagtion's host file
+        --H|--help)
+          list_commands;
+        ;;
+
+        # create environment hosts
+        i|init)            
+          cmd_hosts_init;
+        ;;
+
+        # Show the version
+        --V|--version)
+          version;          
+        ;;  
+      esac
+
+      cmd_close_when_no_parameters $@;
+    done
+  fi
+}
+
+function handle_env_options(){
+    echo "ABC-> $2";
+
+    # Execute getopt
+    SUBARGS=$(getopt -o dhlp -l "dev,hlg,lcl,prod" -n "getopt.sh" -- "$@");
+
+    eval set -- "$SUBARGS";
+
+    # Parse user options
+    while true; do
+      SUBOPT="$1";
+      shift;
+
+      case "$SUBOPT" in
+
         # Set development's host file
         -d|--dev)
           echo "-choose DEVELOPMENT!" >&2
           FILE="hosts.dev";
-        ;;
-
-        # Start editing one environment
-        -e|--edit)
-          set_path ;
-          run_cmd "$DEFAULT_IDE $FILE_PATH$FILE";
         ;;
 
         # Set homolagtion's host file
@@ -36,30 +83,10 @@ function handle_options(){
           FILE="hosts.hml";
         ;;
 
-        # Set homolagtion's host file
-        -H|--help)
-          list_commands;
-        ;;
-
-        # create environment hosts
-        -i|--init)            
-          cmd_hosts_init;
-        ;;
-
         # Set localhost's host file
         -l|--lcl)
           echo "-choose LOCAL!" >&2
           FILE="hosts.lch";
-        ;;
-
-        -n|--net)   
-          if [ -n "$1" ]; then   
-            network=${1}   
-            ROUTER=$(networksetup -getinfo $network | grep '^Router:' | awk '{print $2}')
-            shift;
-          else
-            die "Invalid parameter for network: ${OPTARG}."
-          fi
         ;;
 
         # Set production's host file
@@ -68,18 +95,6 @@ function handle_options(){
           FILE="hosts.prd";
         ;;
 
-        # Set one environment
-        -s|--set)
-          cmd_set;
-        ;;  
-
-        # Show the version
-        -V|--version)
-          version;          
-        ;;  
       esac
-
-      cmd_close_when_no_parameters $@;
     done
-  fi
 }

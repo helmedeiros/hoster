@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 
-function set_configuration(){
+function apply_host(){
 	HOST_PATH="/private/etc";
 	set_path;
 	run_cmd "sudo cp $HOST_PATH/Hosts $HOST_PATH/tmp"

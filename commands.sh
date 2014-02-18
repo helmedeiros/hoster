@@ -20,8 +20,8 @@ function run_cmd(){
 }
 
 # Requests hosts_init inside /builtin/edition.sh
-function cmd_set(){ 
-	set_configuration; 
+function cmd_apply_host(){ 
+	apply_host; 
 }
 
 # Requests hosts_init inside /builtin/host_actions.sh
