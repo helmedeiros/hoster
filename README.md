@@ -7,6 +7,15 @@ It is not always easy to discover the hosts needed for an application to run. Th
 
 Using this pattern will be possible to you and your company to keep local, development, homologation and production specific pairs of hostnames and ip addresses versioned into your code repository, applying one of these into your main Host file.
 
+Build
+=====
+The project use the maven assembly plugin to gather scripts and organize the package. First you need to have maven installed on the system and then to build just follow the steps:
+1. mvn clean
+2. mvn package
+
+Ignore the target folder, it's just trash left behind by maven.
+
+
 Install
 =====
 1. First, clone down the repository:	
