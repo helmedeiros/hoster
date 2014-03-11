@@ -19,7 +19,6 @@ def install():
     # BUG: There is a \n at the end of line we need to remove to ensure the correct file location
     bashrcPath = bashrcPath.replace("\n", "")
     print '-> Entering Directory:'
-    os.system("cd "+hLocation+"/"+hVersion)
     os.system("ln -sf "+hLocation+"/"+hVersion+"/hoster.sh "+hLocation+"/"+hVersion+"/hoster")
     print '-> Applying file permissions'
     os.system("chmod +x "+hLocation+"/"+hVersion+"/hoster")
