@@ -29,6 +29,9 @@
                     </descriptors>
 					<outputDirectory>bin</outputDirectory>
 					<finalName>${project.artifactId}-${project.version}</finalName>
+					<script>
+					openssl sha1 ./bin/hoster-0.1-as.tar.gz
+					</script>
                 </configuration>
 				<executions>
 					<execution>
@@ -41,27 +44,27 @@
 				</executions>
             </plugin>
 			<plugin>
-			        <groupId>org.codehaus.mojo</groupId>
-			        <artifactId>shell-maven-plugin</artifactId>
-			        <version>1.0-beta-1</version>
-			        <executions>
-			          <execution>
-			            <id>assembly</id>
-			            <phase>package</phase>
-			            <goals>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>shell-maven-plugin</artifactId>
+				<version>1.0-beta-1</version>
+				<executions>
+					<execution>
+						<id>assembly</id>
+						<phase>package</phase>
+						<goals>
 							<goal>shell</goal>
 						</goals>
-			            <configuration>
-			              <workDir>${workDir}</workDir>
-			              <chmod>true</chmod>
-			              <keepScriptFile>false</keepScriptFile>
-			              <script>
-			                ls -lsa
-			              </script>
-			            </configuration>
-			          </execution>
-			        </executions>
-			      </plugin>
+						<configuration>
+							<workDir>${workDir}../../</workDir>
+							<chmod>true</chmod>
+							<keepScriptFile>false</keepScriptFile>
+							<script>
+								openssl sha1 ./bin/hoster-0.1-as.tar.gz > ./bin/${project.artifactId}-${project.version}.checksum
+							</script>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
         </plugins>
     </build>
 </project>
