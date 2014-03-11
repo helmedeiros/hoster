@@ -6,58 +6,76 @@ function handle_options(){
   if [ $# = 0 ]; then
     list_commands;
   else 
-    # Execute getopt
-    ARGS=$(getopt -o ae:HiVdhlp -l "apply,edit:,help,init,version,ev,hlg,lcl,prod" -n "getopt.sh" -- "$@");
+    handle_main_options $@;
+  fi
+}
 
-    eval set -- "$ARGS";
 
-    # Parse user options
-    while true; do
-      OPT="$1";
-      shift;
+function handle_main_options(){
+  COMMAND="";  
+
+   # Parse user options
+   while [ $# -gt 0 ]; do
+      OPT=$1;
 
       case "$OPT" in
 
         # Apply one environment
-        a|apply)
-          cmd_apply_host;
+        apply)
+          COMMAND="APPLY";
+          break;
+        ;; 
+
+        # Add a host to the project
+        add)
+          COMMAND="ADD";
+          cmd_add_host $@;
+          break;
         ;; 
 
         # Start editing one environment
-        e|edit)
-          if [ -z "$3" ]; then  
-            handle_env_options $3;
-            shift;
-          else 
-            die "Invalid parameter for edit ${1}."
-          fi
-          set_path ;
-          run_cmd "$DEFAULT_IDE $FILE_PATH$FILE";
+        edit)
+          COMMAND="EDIT";
+          cmd_edit_host $@;
+          break;
         ;;
 
         # Set homolagtion's host file
         --H|--help)
-          list_commands;
+          COMMAND="HELP";
+          break;
         ;;
 
         # create environment hosts
         i|init)            
-          cmd_hosts_init;
+          COMMAND="INIT";
+          break;
+        ;;
+
+        list)
+          COMMAND="LIST";
+          cmd_list_host $@;
+          break;
         ;;
 
         # Show the version
         --V|--version)
-          version;          
-        ;;  
+          COMMAND="VERSION";
+          break;
+        ;; 
+
+        *)
+          echo "$progname: '$OPT' is not a $progname command. See '$progname --help'."  
+          break;        
+        ;; 
       esac
 
       cmd_close_when_no_parameters $@;
     done
-  fi
 }
 
 function handle_env_options(){
-    echo "ABC-> $2";
+    ENVIRONMENT=""; 
 
     # Execute getopt
     SUBARGS=$(getopt -o dhlp -l "dev,hlg,lcl,prod" -n "getopt.sh" -- "$@");
@@ -73,28 +91,26 @@ function handle_env_options(){
 
         # Set development's host file
         -d|--dev)
-          echo "-choose DEVELOPMENT!" >&2
-          FILE="hosts.dev";
+          ENVIRONMENT="dev"; 
         ;;
 
         # Set homolagtion's host file
         -h|--hlg)
-          echo "-choose HOMOLOGATION!" >&2
-          FILE="hosts.hml";
+          ENVIRONMENT="hlg";
         ;;
 
         # Set localhost's host file
         -l|--lcl)
-          echo "-choose LOCAL!" >&2
-          FILE="hosts.lch";
+          ENVIRONMENT="lcl";
         ;;
 
         # Set production's host file
         -p|--prod)  
-          echo "-choose PRODUCTION!" >&2
-          FILE="hosts.prd";
+          ENVIRONMENT="prod";
         ;;
 
       esac
+
+      cmd_close_when_no_parameters $@;
     done
 }
