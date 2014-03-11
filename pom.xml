@@ -40,6 +40,28 @@
 					</execution>
 				</executions>
             </plugin>
+			<plugin>
+			        <groupId>org.codehaus.mojo</groupId>
+			        <artifactId>shell-maven-plugin</artifactId>
+			        <version>1.0-beta-1</version>
+			        <executions>
+			          <execution>
+			            <id>assembly</id>
+			            <phase>package</phase>
+			            <goals>
+							<goal>shell</goal>
+						</goals>
+			            <configuration>
+			              <workDir>${workDir}</workDir>
+			              <chmod>true</chmod>
+			              <keepScriptFile>false</keepScriptFile>
+			              <script>
+			                ls -lsa
+			              </script>
+			            </configuration>
+			          </execution>
+			        </executions>
+			      </plugin>
         </plugins>
     </build>
 </project>

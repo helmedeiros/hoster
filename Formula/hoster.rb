@@ -8,7 +8,7 @@ class Hoster < Formula
   homepage "https://github.com/helmedeiros/hoster"
   head "https://github.com/iuriandreazza/hoster.git" 
   url "https://github.com/iuriandreazza/hoster/releases/download/0.1/hoster-0.1-as.tar.gz"
-  sha1 "89d0acc94d4d7572b9d08bbcda14d2f1c2454e78"
+  sha1 "372aa3ac02fa4dc4483f962cf805a629b91a59e8"
 
   depends_on :python
   depends_on 'tree'
@@ -30,7 +30,14 @@ class Hoster < Formula
     #
     # The installed folder is not in the path, so use the entire path to any
     # executables being tested: `system "#{bin}/program", "do", "something"`.
+    print "-> Testing Hoster Installation"
+    print "."
+    system "hoster", "--version"
     
-    system "true"
+    print "-> Testing Creating HOSTER Strucutre"
+    print "."
+    system "hoster", "init"
+    system "hoster", "add", "127.0.0.1", "www.test.com", "--dev"
+    system "hoster", "list"
   end
 end
