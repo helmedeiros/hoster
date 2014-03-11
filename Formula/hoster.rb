@@ -6,16 +6,15 @@ require "formula"
 
 class Hoster < Formula
   homepage "https://github.com/helmedeiros/hoster"
-  url "https://github.com/iuriandreazza/hoster/blob/master/bin/hoster-0.1-as.tar.gz"
-  sha1 "090f1e3797b72e4ca48c06c9abf8e7da98823dc8"
+  url "https://github.com/iuriandreazza/hoster/releases/download/0.1/hoster-0.1-as.tar.gz"
+  sha1 "ee680527f6e4b3bcc3f1c862995578c8291224a0"
 
   # depends_on "cmake" => :build
-  depends_on :x11 # if your formula requires any X11/XQuartz components
   depends_on :python # if your formula requires any X11/XQuartz components
 
   def install
     # ENV.deparallelize  # if your formula fails when building in parallel
-    system "setup.py"
+    system "python","setup.py"
 
     # Remove unrecognized options if warned by configure
     #system "./configure", "--disable-debug",

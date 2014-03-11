@@ -12,6 +12,18 @@ def install():
     print '    Inicializing Install Hoster: '+ hVersion + ' on ' + hLocation
     print '################################################################'
     
+    print '-> Entering Directory:'
+    os.system("cd /usr/local/Cellar/hoster/"+hVersion)
+    print '-> Applying file permissions'
+    os.system("chmod +x hoster")
+    print '-> Altering bashrc profile'
+    #Append Mode Only
+    with open('~/.bashrc', 'a') as bashfile:
+        bashfile.write("export PATH=${PATH}:/Users/helmed/Projects/workspaceShell/hoster/")
+    print '-> Reloading the profile'
+    os.system("source ~/.bashrc")
+    
+    
     
     
 
