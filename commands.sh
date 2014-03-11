@@ -10,18 +10,51 @@ source $(dirname $0)/builtin/paths.sh
 
 
 function run_cmd(){
-	echo "Running: $1";
-	$1;
+	if [ $# -eq 1 ]; then
+    echo "Running: $1"
+  fi
 
+  $1
+  
 	if [ "$?" -ne "0" ]; then
 	  echo "command failed: $1"
 	  exit 1
 	fi
 }
 
+# Requests add_host inside /builtin/host_actions.sh
+function cmd_add_host(){
+  add_host $@;
+}
+
+# Requests host_add inside /builtin/host_actions.sh
+function cmd_host_add(){
+  host_add;
+}
+
+# Requests list_host inside /builtin/host_actions.sh
+function cmd_list_host(){
+  list_host $@;
+}
+
+# Requests hosts_list inside /builtin/host_actions.sh
+function cmd_hosts_list(){
+  hosts_list;
+}
+
 # Requests hosts_init inside /builtin/edition.sh
 function cmd_apply_host(){ 
 	apply_host; 
+}
+
+# Requests edit_host inside /builtin/edition.sh
+function cmd_edit_host(){
+  edit_host $@;
+}
+
+# Requests hosts_edit inside /builtin/edition.sh
+function cmd_hosts_edit(){
+	hosts_edit;
 }
 
 # Requests hosts_init inside /builtin/host_actions.sh
@@ -43,12 +76,86 @@ function cmd_list_help_commands(){
 	list_common_cmds_help;
 }
 
+# Requests version inside version.sh
+function cmd_show_version(){
+  version;
+} 
+
 function cmd_close_when_no_parameters(){
 	if [ -z "$1" ]; then
         break;
       fi
 }
 
+function cmd_execute_options(){
+  case "$COMMAND" in
+    ADD)
+      cmd_host_add;
+      break;
+    ;;
+    APPLY)
+      break;
+    ;;
+    EDIT)
+      cmd_hosts_edit;
+      break;      
+    ;;
+    HELP)
+      cmd_list_help_commands;
+      break;
+    ;;
+    INIT)
+      cmd_hosts_init;
+      break;
+    ;;
+    LIST)
+      cmd_hosts_list;
+      break;
+    ;;
+    VERSION)
+      cmd_show_version;
+      break;
+    ;;
+  esac
+}
+
+function cmd_set_environment(){
+	case "$1" in
+
+        # Set development's host file
+        dev)
+          FILE="hosts.dev";
+        ;;
+
+        # Set homolagtion's host file
+        hlg)
+          FILE="hosts.hml";
+        ;;
+
+        # Set localhost's host file
+        lcl)
+          FILE="hosts.lch";
+        ;;
+
+        # Set production's host file
+        prod)  
+          FILE="hosts.prd";
+        ;;
+
+      esac
+}
+
+function cmd_top_level(){
+  found=$(find \. -type d -name "$HOST_DEFAULT_FOLDER");
+
+  if [ -n "$found" ]; then
+    run_cmd "cd $HOST_DEFAULT_FOLDER" "silent";
+    TOP_LEVEL_FOLDER=$(pwd);
+  else
+    run_cmd "cd .." "silent";
+    cmd_top_level;
+  fi
+}
 
 # Custom die function.
 function die() { echo >&2 -e "\nERROR: $@\n"; exit 1; }
