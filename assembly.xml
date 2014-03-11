@@ -1,0 +1,25 @@
+<assembly>
+    <id>as</id>
+    <formats>
+        <format>tar.gz</format>
+    </formats>
+    <dependencySets>
+        <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+            <outputDirectory>lib</outputDirectory>
+            <unpack>false</unpack>
+        </dependencySet>
+    </dependencySets>
+
+    <fileSets>
+        <fileSet>
+            <directory>./</directory>
+            <includes>
+                <include>./**.sh</include>
+				<include>builtin/**</include>
+				<include>Readme.md</include>
+            </includes>
+			<fileMode>0755</fileMode>
+        </fileSet>
+    </fileSets>
+</assembly>

@@ -1,4 +1,4 @@
-	#!/usr/bin/env bash
+#!/usr/bin/env bash
 #
 # hoster.sh - An host file controler;
 #
