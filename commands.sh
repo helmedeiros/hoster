@@ -91,30 +91,23 @@ function cmd_execute_options(){
   case "$COMMAND" in
     ADD)
       cmd_host_add;
-      break;
     ;;
     APPLY)
-      break;
     ;;
     EDIT)
       cmd_hosts_edit;
-      break;      
     ;;
     HELP)
       cmd_list_help_commands;
-      break;
     ;;
     INIT)
       cmd_hosts_init;
-      break;
     ;;
     LIST)
       cmd_hosts_list;
-      break;
     ;;
     VERSION)
       cmd_show_version;
-      break;
     ;;
   esac
 }
