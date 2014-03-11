@@ -12,10 +12,10 @@ Build
 The project use the maven assembly plugin to gather scripts and organize the package. First you need to have maven installed on the system and then to build just follow the steps:
 
 1. 
-	```mvn clean
+	```mvn clean```
 	
 2. 
-	```mvn package
+	```mvn package```
 
 Ignore the target folder, it's just trash left behind by maven.
 
