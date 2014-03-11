@@ -7,7 +7,7 @@ require "formula"
 class Hoster < Formula
   homepage "https://github.com/helmedeiros/hoster"
   url "https://github.com/iuriandreazza/hoster/releases/download/0.1/hoster-0.1-as.tar.gz"
-  sha1 "ee680527f6e4b3bcc3f1c862995578c8291224a0"
+  sha1 "713b3c749d690042d23c96a55f2fa803acb16150"
 
   # depends_on "cmake" => :build
   depends_on :python # if your formula requires any X11/XQuartz components
