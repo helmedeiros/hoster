@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+	#!/usr/bin/env bash
 #
 # hoster.sh - An host file controler;
 #
@@ -12,5 +12,8 @@
 
 source $(dirname $0)/commands.sh
 
+HOST_DEFAULT_FOLDER=".hosts";
+
 cmd_define_defaults "sublime" "/private/etc/" "Hosts" "Wi-Fi"
 cmd_handle_options $@;
+cmd_execute_options $@;
