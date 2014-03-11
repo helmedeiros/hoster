@@ -10,24 +10,15 @@ class Hoster < Formula
   url "https://github.com/iuriandreazza/hoster/releases/download/0.1/hoster-0.1-as.tar.gz"
   sha1 "89d0acc94d4d7572b9d08bbcda14d2f1c2454e78"
 
-  # depends_on "cmake" => :build
-  depends_on :python # if your formula requires any X11/XQuartz components
+  depends_on :python
+  depends_on 'tree'
 
   def install
-    # ENV.deparallelize  # if your formula fails when building in parallel
-    prefix.install Dir['./*.sh','./builtin/*']
+    ENV.deparallelize
+    #Reject py, and copy all tgz folders
+    prefix.install Dir['*'].reject{|f|f['*.py'] }
+    system "python", (prefix + "setup.py"), prefix, version
     man.mkpath
-    system "python","setup.py"
-    
-    #install Dir['builtin/*']
-
-    # Remove unrecognized options if warned by configure
-    #system "./configure", "--disable-debug",
-    #                      "--disable-dependency-tracking",
-    #                      "--disable-silent-rules",
-    #                      "--prefix=#{prefix}"
-    # system "cmake", ".", *std_cmake_args
-    #system "make", "install" # if this fails, try separate make/make install steps
   end
 
   test do
@@ -39,6 +30,7 @@ class Hoster < Formula
     #
     # The installed folder is not in the path, so use the entire path to any
     # executables being tested: `system "#{bin}/program", "do", "something"`.
+    
     system "true"
   end
 end
