@@ -8,16 +8,18 @@ class Hoster < Formula
   homepage "https://github.com/helmedeiros/hoster"
   head "https://github.com/iuriandreazza/hoster.git" 
   url "https://github.com/iuriandreazza/hoster/releases/download/0.1/hoster-0.1-as.tar.gz"
-  sha1 "a510fd0291adce226a49fccc558d5a76296e01ad"
+  sha1 "89d0acc94d4d7572b9d08bbcda14d2f1c2454e78"
 
   # depends_on "cmake" => :build
   depends_on :python # if your formula requires any X11/XQuartz components
 
   def install
     # ENV.deparallelize  # if your formula fails when building in parallel
-    prefix.install Dir['./*']
+    prefix.install Dir['./*.sh','./builtin/*']
     man.mkpath
     system "python","setup.py"
+    
+    #install Dir['builtin/*']
 
     # Remove unrecognized options if warned by configure
     #system "./configure", "--disable-debug",

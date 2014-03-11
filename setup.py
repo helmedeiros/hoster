@@ -26,9 +26,12 @@ def install():
     print '->     located at: '+bashrcPath
     # Append Mode Only
     with open(bashrcPath, 'a') as bashfile:
-        bashfile.write("export PATH=${PATH}:"+hLocation+"/"+hVersion)
-    print '-> Reloading the profile'
+        bashfile.write("export PATH=${PATH}:"+hLocation+"/"+hVersion+"\n")
+    print '-> Reloading bashrc profile for the install'
     os.system("source "+bashrcPath)
+    
+    print '-> To work without restarting the terminal execute:'
+    print '->     $ source '+bashrcPath
     
 # Current version
 hVersion = '0.1'
