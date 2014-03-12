@@ -4,7 +4,7 @@
 
     <groupId>hoster</groupId>
     <artifactId>hoster</artifactId>
-    <version>1.7.1-IURI</version>
+    <version>1.7.2-IURI</version>
 
     <name>Hoster</name>
     <url>https://github.com/helmedeiros/hoster</url>
@@ -26,7 +26,7 @@
 				<configuration>
 					<!-- Specifies the configuration file of the assembly plugin -->
 					<descriptors>
-						<descriptor>assembly.xml</descriptor>
+						<descriptor>Library/Build/assembly.xml</descriptor>
 					</descriptors>
 					<outputDirectory>bin</outputDirectory>
 					<finalName>${project.artifactId}-${project.version}</finalName>
