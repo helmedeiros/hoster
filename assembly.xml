@@ -18,6 +18,7 @@
                 <include>./**.sh</include>
 				<include>./**.py</include>
 				<include>builtin/**</include>
+				<include>./**.version</include>
 				<include>share/**</include>
 				<include>README.md</include>
             </includes>

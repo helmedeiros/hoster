@@ -4,7 +4,7 @@
 
     <groupId>hoster</groupId>
     <artifactId>hoster</artifactId>
-    <version>0.1</version>
+    <version>1.7.1-IURI</version>
 
     <name>Hoster</name>
     <url>https://github.com/helmedeiros/hoster</url>
@@ -12,26 +12,24 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+	
 
     <build>
         <finalName>maven-assembly-plugin</finalName>
-        <plugins>
-            <!-- The configuration of maven-assembly-plugin -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.4</version>
-                <!-- The configuration of the plugin -->
-                <configuration>
-                    <!-- Specifies the configuration file of the assembly plugin -->
-                    <descriptors>
-                        <descriptor>assembly.xml</descriptor>
-                    </descriptors>
+		<plugins>
+			<!-- The configuration of maven-assembly-plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.4</version>
+				<!-- The configuration of the plugin -->
+				<configuration>
+					<!-- Specifies the configuration file of the assembly plugin -->
+					<descriptors>
+						<descriptor>assembly.xml</descriptor>
+					</descriptors>
 					<outputDirectory>bin</outputDirectory>
 					<finalName>${project.artifactId}-${project.version}</finalName>
-					<script>
-					openssl sha1 ./bin/hoster-0.1-as.tar.gz
-					</script>
                 </configuration>
 				<executions>
 					<execution>
@@ -59,6 +57,7 @@
 							<chmod>true</chmod>
 							<keepScriptFile>false</keepScriptFile>
 							<script>
+								echo "${project.version}" > hoster.version
 								openssl sha1 ./bin/hoster-0.1-as.tar.gz > ./bin/${project.artifactId}-${project.version}.checksum
 							</script>
 						</configuration>

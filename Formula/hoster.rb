@@ -7,8 +7,8 @@ require "formula"
 class Hoster < Formula
   homepage "https://github.com/helmedeiros/hoster"
   head "https://github.com/iuriandreazza/hoster.git" 
-  url "https://github.com/iuriandreazza/hoster/releases/download/0.1/hoster-0.1-as.tar.gz"
-  sha1 "372aa3ac02fa4dc4483f962cf805a629b91a59e8"
+  url "https://github.com/iuriandreazza/hoster/releases/download/1.7.1/hoster-1.7.1-IURI-as.tar.gz"
+  sha1 "96252f3506ee953bd49a2cb281977155e593ab94"
 
   depends_on :python
   depends_on 'tree'
