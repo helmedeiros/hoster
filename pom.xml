@@ -58,7 +58,7 @@
 							<keepScriptFile>false</keepScriptFile>
 							<script>
 								echo "${project.version}" > hoster.version
-								openssl sha1 ./bin/hoster-0.1-as.tar.gz > ./bin/${project.artifactId}-${project.version}.checksum
+								openssl sha1 ./bin/${project.artifactId}-${project.version}-as.tar.gz > ./bin/${project.artifactId}-${project.version}.checksum
 							</script>
 						</configuration>
 					</execution>
