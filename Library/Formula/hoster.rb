@@ -17,7 +17,7 @@ class Hoster < Formula
     ENV.deparallelize
     #Reject py, and copy all tgz folders
     prefix.install Dir['*'].reject{|f|f['*.py'] }
-    system "python", (prefix + "setup.py"), prefix, version
+    system "python", (prefix + "Library/Setup/setup.py"), prefix, version
     man.mkpath
   end
 
