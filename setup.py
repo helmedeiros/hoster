@@ -25,6 +25,10 @@ def install():
     os.system("chmod +x "+hLocation+"/hoster")
     print '-> Altering bashrc profile'
     print '->     located at: '+bashrcPath
+    
+    #execute a bkp the bashrc
+    os.system("cp "+bashrcPath+" "+bashrcPath+".bk")
+    
     #need to validate about the export, if it's there we will do nothing
     #if it's there we will replace it with the new export
     with open(bashrcPath, "wt") as fout:
