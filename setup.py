@@ -31,12 +31,11 @@ def install():
     
     #need to validate about the export, if it's there we will do nothing
     #if it's there we will replace it with the new export
-    with open(bashrcPath, "wt") as fout:
-        with open(bashrcPath, "rt") as fin:
+    with open(bashrcPath, "wt+") as fout:
+        with open(bashrcPath+".bk", "rt+") as fin:
             for line in fin:
-                if( 'hoster' in line):
-                    #clean the line
-                    fout.write(line.replace(line, ''))    
+                if( 'hoster' not in line):
+                    fout.write(line)    
     # Append Mode Only
     with open(bashrcPath, 'a') as bashfile:
         bashfile.write("export PATH=${PATH}:"+hLocation+"/\n")
