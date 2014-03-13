@@ -42,17 +42,22 @@ function cmd_hosts_list(){
   hosts_list;
 }
 
-# Requests hosts_init inside /builtin/edition.sh
-function cmd_apply_host(){ 
-	apply_host; 
+# Requests hosts_apply inside /builtin/host_actions.sh
+function cmd_hosts_apply(){
+  hosts_apply;
 }
 
-# Requests edit_host inside /builtin/edition.sh
+# Requests apply_host inside /builtin/host_actions.sh
+function cmd_apply_host(){ 
+	apply_host $@; 
+}
+
+# Requests cmd_edit_host inside /builtin/host_actions.sh
 function cmd_edit_host(){
   edit_host $@;
 }
 
-# Requests hosts_edit inside /builtin/edition.sh
+# Requests cmd_hosts_edit inside /builtin/host_actions.sh
 function cmd_hosts_edit(){
 	hosts_edit;
 }
@@ -93,6 +98,7 @@ function cmd_execute_options(){
       cmd_host_add;
     ;;
     APPLY)
+      cmd_hosts_apply;
     ;;
     EDIT)
       cmd_hosts_edit;
