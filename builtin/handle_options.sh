@@ -23,6 +23,7 @@ function handle_main_options(){
         # Apply one environment
         apply)
           COMMAND="APPLY";
+          cmd_apply_host $@;
           break;
         ;; 
 

@@ -12,6 +12,7 @@
 
 source $(dirname $0)/commands.sh
 
+HOST_PATH="/private/etc";
 HOST_DEFAULT_FOLDER=".hosts";
 
 cmd_define_defaults "sublime" "/private/etc/" "Hosts" "Wi-Fi"
