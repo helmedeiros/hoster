@@ -42,9 +42,14 @@ function cmd_hosts_list(){
   hosts_list;
 }
 
-# Requests hosts_init inside /builtin/edition.sh
+# Requests cmd_hosts_apply inside /builtin/edition.sh
+function cmd_hosts_apply(){
+  hosts_apply;
+}
+
+# Requests cmd_apply_host inside /builtin/edition.sh
 function cmd_apply_host(){ 
-	apply_host; 
+	apply_host $@; 
 }
 
 # Requests edit_host inside /builtin/edition.sh
@@ -93,6 +98,7 @@ function cmd_execute_options(){
       cmd_host_add;
     ;;
     APPLY)
+      cmd_hosts_apply;
     ;;
     EDIT)
       cmd_hosts_edit;
