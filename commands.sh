@@ -132,7 +132,7 @@ function cmd_set_environment(){
 
         # Set localhost's host file
         lcl)
-          FILE="hosts.lch";
+          FILE="hosts.lcl";
         ;;
 
         # Set production's host file

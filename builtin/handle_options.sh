@@ -92,29 +92,33 @@ function handle_env_options(){
 
         # Set development's host file
         -d|--dev)
-          ENVIRONMENT="dev"; 
+          ENVIRONMENT="dev";
+          break;
         ;;
 
         # Set homolagtion's host file
         -h|--hlg)
           ENVIRONMENT="hlg";
+          break;
         ;;
 
         # Set localhost's host file
         -l|--lcl)
           ENVIRONMENT="lcl";
+          break;
         ;;
 
         # Set production's host file
         -p|--prod)  
           ENVIRONMENT="prod";
+          break;
         ;;
 
         *)
           ENVIRONMENT="all";
+          break;
         ;;
       esac
-
       cmd_close_when_no_parameters $@;
     done
 }

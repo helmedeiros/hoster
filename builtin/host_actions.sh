@@ -22,12 +22,15 @@ function list_host(){
 
 
 function hosts_list(){
-	if [ $ENVIRONMENT == "all" ]; then
-		for environment in "${environments[@]}"; do
-			ACTUAL_ENVIRONMENT="$environment"
+	case $ENVIRONMENT in
+      "all")  for environment in "${environments[@]}"; do
+				ACTUAL_ENVIRONMENT="$environment";
+				list;
+			  done
+       ;;
+       *) ACTUAL_ENVIRONMENT="$ENVIRONMENT";
 			list;
-		done
-	fi	
+    esac
 }
 
 function list(){
@@ -44,7 +47,7 @@ function hosts_init(){
 
 	echo "Initialized empty Hosts repository in $HOSTS_FOLDER" >&2
 	run_cmd "mkdir $HOSTS_FOLDER" "silent";
-	run_cmd "touch $HOSTS_FOLDER/hosts.lch $HOSTS_FOLDER/hosts.dev $HOSTS_FOLDER/hosts.hml $HOSTS_FOLDER/hosts.prd" "silent";	
+	run_cmd "touch $HOSTS_FOLDER/hosts.lcl $HOSTS_FOLDER/hosts.dev $HOSTS_FOLDER/hosts.hml $HOSTS_FOLDER/hosts.prd" "silent";	
 }
 
 function apply_host(){
