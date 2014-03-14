@@ -31,7 +31,7 @@ function hosts_list(){
 }
 
 function list(){
-	printf "################### $ACTUAL_ENVIRONMENT ################### \n";
+	printf 	"################### $ACTUAL_ENVIRONMENT ################### \n";
 	cmd_set_environment $ACTUAL_ENVIRONMENT;
 	cmd_top_level;
 	run_cmd "cat $TOP_LEVEL_FOLDER/$FILE" "silent";
