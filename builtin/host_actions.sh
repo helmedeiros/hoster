@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 #
 
+environments=(lcl dev hlg prod);
+
 function add_host(){
 	ADD_IP="$2";
 	ADD_HOST="$3";
@@ -20,9 +22,20 @@ function list_host(){
 
 
 function hosts_list(){
-	cmd_set_environment $ENVIRONMENT;
+	if [ $ENVIRONMENT == "all" ]; then
+		for environment in "${environments[@]}"; do
+			ACTUAL_ENVIRONMENT="$environment"
+			list;
+		done
+	fi	
+}
+
+function list(){
+	printf "################### $ACTUAL_ENVIRONMENT ################### \n";
+	cmd_set_environment $ACTUAL_ENVIRONMENT;
 	cmd_top_level;
 	run_cmd "cat $TOP_LEVEL_FOLDER/$FILE" "silent";
+	printf "\n"
 }
 
 function hosts_init(){

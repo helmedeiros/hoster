@@ -110,6 +110,9 @@ function handle_env_options(){
           ENVIRONMENT="prod";
         ;;
 
+        *)
+          ENVIRONMENT="all";
+        ;;
       esac
 
       cmd_close_when_no_parameters $@;
