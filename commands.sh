@@ -42,12 +42,12 @@ function cmd_hosts_list(){
   hosts_list;
 }
 
-# Requests hosts_apply inside /builtin/host_actions.sh
+# Requests hosts_apply inside /builtin/host_apply.sh
 function cmd_hosts_apply(){
   hosts_apply;
 }
 
-# Requests apply_host inside /builtin/host_actions.sh
+# Requests apply_host inside /builtin/host_apply.sh
 function cmd_apply_host(){ 
 	apply_host $@; 
 }

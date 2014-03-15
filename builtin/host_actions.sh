@@ -50,18 +50,6 @@ function hosts_init(){
 	run_cmd "touch $HOSTS_FOLDER/hosts.lcl $HOSTS_FOLDER/hosts.dev $HOSTS_FOLDER/hosts.hml $HOSTS_FOLDER/hosts.prd" "silent";	
 }
 
-function apply_host(){
-	handle_env_options $2;
-}
-
-function hosts_apply(){	
-	cmd_set_environment $ENVIRONMENT;
-	cmd_top_level;	
-	
-	HOST_FILE_TO_APPEND="$TOP_LEVEL_FOLDER/$FILE";
-	cmd_append_hosts $HOST_FILE_TO_APPEND;
-}
-
 function edit_host(){
 	handle_env_options $2;
 }
