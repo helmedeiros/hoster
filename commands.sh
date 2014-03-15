@@ -10,14 +10,14 @@ source $(dirname $0)/builtin/paths.sh
 
 function run_cmd(){
 	if [ $# -eq 1 ]; then
-    echo "Running: $1"
+    echo "Running: $1";
   fi
 
-  $1
+  $1;
   
 	if [ "$?" -ne "0" ]; then
-	  echo "command failed: $1"
-	  exit 1
+	  echo "command failed: $1";
+	  exit 1;
 	fi
 }
 
