@@ -4,6 +4,7 @@ source $(dirname $0)/help.sh
 source $(dirname $0)/builtin/defaults.sh
 source $(dirname $0)/builtin/handle_options.sh
 source $(dirname $0)/builtin/host_actions.sh
+source $(dirname $0)/builtin/host_apply.sh
 source $(dirname $0)/builtin/paths.sh
 
 
@@ -41,14 +42,19 @@ function cmd_hosts_list(){
   hosts_list;
 }
 
-# Requests hosts_apply inside /builtin/host_actions.sh
+# Requests hosts_apply inside /builtin/host_apply.sh
 function cmd_hosts_apply(){
   hosts_apply;
 }
 
-# Requests apply_host inside /builtin/host_actions.sh
+# Requests apply_host inside /builtin/host_apply.sh
 function cmd_apply_host(){ 
 	apply_host $@; 
+}
+
+# Requests append_host inside /builtin/host_apply.sh
+function cmd_append_hosts(){
+  append_host $@;
 }
 
 # Requests cmd_edit_host inside /builtin/host_actions.sh
