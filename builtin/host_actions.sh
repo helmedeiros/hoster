@@ -57,7 +57,9 @@ function apply_host(){
 function hosts_apply(){	
 	cmd_set_environment $ENVIRONMENT;
 	cmd_top_level;	
-	run_cmd "sudo cp $TOP_LEVEL_FOLDER/$FILE $HOST_PATH/Hosts"
+	
+	HOST_FILE_TO_APPEND="$TOP_LEVEL_FOLDER/$FILE";
+	cmd_append_hosts $HOST_FILE_TO_APPEND;
 }
 
 function edit_host(){
