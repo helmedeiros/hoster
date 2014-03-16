@@ -12,7 +12,6 @@ function add_host(){
 
 function host_add(){
 	cmd_set_environment $ENVIRONMENT;
-	cmd_top_level;
 	echo "$ADD_IP $ADD_HOST" >> "$TOP_LEVEL_FOLDER/$FILE";
 }
 
@@ -36,7 +35,6 @@ function hosts_list(){
 function list(){
 	printf 	"################### $ACTUAL_ENVIRONMENT ################### \n";
 	cmd_set_environment $ACTUAL_ENVIRONMENT;
-	cmd_top_level;
 	run_cmd "cat $TOP_LEVEL_FOLDER/$FILE" "silent";
 	printf "\n"
 }
@@ -56,6 +54,5 @@ function edit_host(){
 
 function hosts_edit(){
 	cmd_set_environment $ENVIRONMENT;
-	cmd_top_level;
 	run_cmd "$DEFAULT_IDE $TOP_LEVEL_FOLDER/$FILE" "silent";
 }
