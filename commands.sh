@@ -161,5 +161,10 @@ function cmd_top_level(){
   fi
 }
 
+function cmd_project_name(){
+  PROJECT_NAME="${TOP_LEVEL_FOLDER%/*}";
+  PROJECT_NAME="${PROJECT_NAME##/*/}";
+}
+
 # Custom die function.
 function die() { echo >&2 -e "\nERROR: $@\n"; exit 1; }
