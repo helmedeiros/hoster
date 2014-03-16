@@ -15,16 +15,15 @@ function hosts_apply(){
 function append_host(){
 	TEMP_APPLY_FILE="$TOP_LEVEL_FOLDER/Hosts.apply.tmp";
 	
-	find_occurrence $ENVIRONMENT;
+	find_occurrence;
 
 	if [ "$found" == "true" ]; then
-		remove_occurrence $ENVIRONMENT;
+		remove_occurrence;
 	else
 		run_cmd "sudo cp $HOST_FILE $TEMP_APPLY_FILE" "silent";
 		run_cmd "sudo chmod 777 $TEMP_APPLY_FILE" "silent";
 	fi
-
-	echo "" >> $TEMP_APPLY_FILE;
+	
 	echo "##<$PROJECT_NAME-$ENVIRONMENT>##" >> $TEMP_APPLY_FILE;
 	cat $1 >> $TEMP_APPLY_FILE;
 	echo "##</$PROJECT_NAME-$ENVIRONMENT>##" >> $TEMP_APPLY_FILE;	
@@ -38,7 +37,7 @@ function find_occurrence(){
 	found="false";
 	TMP_OCCURRENCE_FILE="Hosts.out.tmp";	
 
-	sudo sed "/<$PROJECT_NAME-$1/,/<\/$PROJECT_NAME-$1>/!d" $HOST_FILE > $TMP_OCCURRENCE_FILE;
+	sudo sed "/<$PROJECT_NAME/,/<\/$PROJECT_NAME>/!d" $HOST_FILE > $TMP_OCCURRENCE_FILE;
 
 	if [[ -s $TMP_OCCURRENCE_FILE ]] ; then
 		echo "HOST for $ENVIRONMENT of project->$PROJECT_NAME found.";
@@ -53,7 +52,7 @@ function find_occurrence(){
 }
 
 function remove_occurrence(){
-	sudo sed "/<$PROJECT_NAME-$1/,/<\/$PROJECT_NAME-$1>/d" $HOST_FILE > $TEMP_APPLY_FILE;
+	sudo sed "/<$PROJECT_NAME/,/<\/$PROJECT_NAME>/d" $HOST_FILE > $TEMP_APPLY_FILE;
 }
 
 
