@@ -23,6 +23,8 @@ function handle_main_options(){
         # Apply one environment
         apply)
           COMMAND="APPLY";
+          cmd_top_level;
+          cmd_project_name;
           cmd_apply_host $@;
           break;
         ;; 
@@ -30,6 +32,8 @@ function handle_main_options(){
         # Add a host to the project
         add)
           COMMAND="ADD";
+          cmd_top_level;
+          cmd_project_name;
           cmd_add_host $@;
           break;
         ;; 
@@ -37,6 +41,8 @@ function handle_main_options(){
         # Start editing one environment
         edit)
           COMMAND="EDIT";
+          cmd_top_level;
+          cmd_project_name;
           cmd_edit_host $@;
           break;
         ;;
@@ -55,6 +61,8 @@ function handle_main_options(){
 
         list)
           COMMAND="LIST";
+          cmd_top_level;
+          cmd_project_name;
           cmd_list_host $@;
           break;
         ;;

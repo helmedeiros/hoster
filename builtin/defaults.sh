@@ -11,7 +11,4 @@ function define_defaults(){
     HOST_PATH="/private/etc";
 	HOST_FILE="$HOST_PATH/Hosts";
 	HOST_DEFAULT_FOLDER=".hosts";
-
-	cmd_top_level;
-	cmd_project_name;
 }

@@ -20,8 +20,8 @@ function append_host(){
 	if [ "$found" == "true" ]; then
 		remove_occurrence $ENVIRONMENT;
 	else
-		run_cmd "sudo cp $HOST_FILE $TEMP_APPLY_FILE";
-		run_cmd "sudo chmod 777 $TEMP_APPLY_FILE";
+		run_cmd "sudo cp $HOST_FILE $TEMP_APPLY_FILE" "silent";
+		run_cmd "sudo chmod 777 $TEMP_APPLY_FILE" "silent";
 	fi
 
 	echo "" >> $TEMP_APPLY_FILE;
