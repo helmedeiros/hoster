@@ -4,10 +4,20 @@
 environments=(lcl dev hlg prod);
 
 function add_host(){
-	ADD_IP="$2";
 	ADD_HOST="$3";
 
+	define_ip $2;
+
 	handle_env_options $4;
+}
+
+function define_ip(){
+	ADD_IP="$1";
+
+	if valid_ip $ADD_IP; then stat='good'; else stat='bad'; fi
+	printf "%-20s: %s\n" "$ADD_IP" "$stat";
+
+	if [ $stat == "bad" ]; then die "INVALID IP"; fi
 }
 
 function host_add(){
@@ -55,4 +65,20 @@ function edit_host(){
 function hosts_edit(){
 	cmd_set_environment $ENVIRONMENT;
 	run_cmd "$DEFAULT_IDE $TOP_LEVEL_FOLDER/$FILE" "silent";
+}
+
+function valid_ip(){
+    local  ip=$1
+    local  stat=1
+
+    if [[ $ip =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
+        OIFS=$IFS
+        IFS='.'
+        ip=($ip)
+        IFS=$OIFS
+        [[ ${ip[0]} -le 255 && ${ip[1]} -le 255 \
+            && ${ip[2]} -le 255 && ${ip[3]} -le 255 ]]
+        stat=$?
+    fi
+    return $stat
 }
