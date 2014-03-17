@@ -37,7 +37,7 @@ function find_occurrence(){
 	found="false";
 	TMP_OCCURRENCE_FILE="Hosts.out.tmp";	
 
-	sudo sed "/<$PROJECT_NAME/,/<\/$PROJECT_NAME>/!d" $HOST_FILE > $TMP_OCCURRENCE_FILE;
+	sudo sed "/<$PROJECT_NAME/,/<\/$PROJECT_NAME/!d" $HOST_FILE > $TMP_OCCURRENCE_FILE;
 
 	if [[ -s $TMP_OCCURRENCE_FILE ]] ; then
 		echo "HOST for $ENVIRONMENT of project->$PROJECT_NAME found.";
@@ -52,7 +52,7 @@ function find_occurrence(){
 }
 
 function remove_occurrence(){
-	sudo sed "/<$PROJECT_NAME/,/<\/$PROJECT_NAME>/d" $HOST_FILE > $TEMP_APPLY_FILE;
+	sudo sed "/<$PROJECT_NAME/,/<\/$PROJECT_NAME/d" $HOST_FILE > $TEMP_APPLY_FILE;
 }
 
 
