@@ -53,10 +53,15 @@ function hosts_init(){
 	FOLDER=$(pwd);
 	HOSTS_FOLDER="$FOLDER/$HOST_DEFAULT_FOLDER";
 
+	initialize_hosts $HOSTS_FOLDER;	
+}
+
+function initialize_hosts(){
 	echo "Initialized empty Hosts repository in $HOSTS_FOLDER" >&2
 	run_cmd "mkdir $HOSTS_FOLDER" "silent";
 	run_cmd "touch $HOSTS_FOLDER/hosts.lcl $HOSTS_FOLDER/hosts.dev $HOSTS_FOLDER/hosts.hml $HOSTS_FOLDER/hosts.prd" "silent";	
 }
+
 
 function edit_host(){
 	handle_env_options $2;
