@@ -52,8 +52,6 @@ There are different ways to use the hoster to create and keep your applications'
 
     ```$ hoster add 10.1.0.5 www.github.com --dev```
 
-    ```$ hoster add ~/Projetos/project1/myHostFile.txt --dev```
-
 3. A project needs to list the configured hosts.
 
     ```$ hoster list```
