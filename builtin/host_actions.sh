@@ -53,7 +53,11 @@ function hosts_init(){
 	FOLDER=$(pwd);
 	HOSTS_FOLDER="$FOLDER/$HOST_DEFAULT_FOLDER";
 
-	initialize_hosts $HOSTS_FOLDER;	
+	if [ ! -d "$HOSTS_FOLDER" ]; then
+		initialize_hosts $HOSTS_FOLDER;	
+	else
+		reinitialize_hosts $HOSTS_FOLDER;	
+	fi
 }
 
 function initialize_hosts(){
@@ -62,6 +66,9 @@ function initialize_hosts(){
 	run_cmd "touch $HOSTS_FOLDER/hosts.lcl $HOSTS_FOLDER/hosts.dev $HOSTS_FOLDER/hosts.hml $HOSTS_FOLDER/hosts.prd" "silent";	
 }
 
+function reinitialize_hosts(){
+	echo "Reinitialized Hosts repository in $HOSTS_FOLDER" >&2
+}
 
 function edit_host(){
 	handle_env_options $2;
