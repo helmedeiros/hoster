@@ -1,4 +1,4 @@
-#!/usr/bin/ruby
+#!/usr/bin/env ruby
 
 require 'version.rb'
 require 'help.rb'
@@ -8,17 +8,15 @@ require 'help.rb'
 #require './builtin/host_apply.rb'
 #require './builtin/paths.rb'
 
-class Launcher
+class Commands
 
-  def initialize app_map
-    #@app_map = app_map
+  def showHelp
+    help = Help.new
+    help.list_commands
   end
 
-  def initialize
-    help = help.new
-    #@app_map = app_map
+  def parseArgs
+    
   end
 
 end
-
-launcher = Launcher.new

@@ -1,21 +1,20 @@
-#!/usr/bin/ruby
+#!/usr/bin/env ruby
 #
 # hoster helps messages.
-class help
+class Help
 
-  hoster_usage_string="$progname [--help] [--version] <command> [<args>]";
+  @@hoster_usage_string=PROGNAME + " [--help] [--version] <command> [<args>]\n";
 
   def list_commands
-    printf "usage: %s\n\n" "$hoster_usage_string";
-    list_common_cmds_help
+    print "usage: ".concat(PROGNAME)+"\n\n".concat(@@hoster_usage_string)+" \n\n"
+    self.list_common_cmds_help
   end
 
-
   def list_common_cmds_help
-    print "The most commonly used `basename $0` commands are";
-    print "    add 	Add a new HOST to current repository into a specific environment.";
-    print "    edit	Open the host file defined to be used.";
-    print "    init	Create an empty host repository in the current folder.";
-    print "    list	List all hosts for a specific project.";
+    print "The most commonly used `basename $0` commands are\n";
+    print "    add 	Add a new HOST to current repository into a specific environment.\n";
+    print "    edit	Open the host file defined to be used.\n";
+    print "    init	Create an empty host repository in the current folder.\n";
+    print "    list	List all hosts for a specific project.\n";
   end
 end

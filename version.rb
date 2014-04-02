@@ -6,6 +6,5 @@
 #  Version and help.
 def version()
   version  = File.read("hoster.version")
-  progname = File.basename('./hoster')
   puts progname + " version " + version
 end
