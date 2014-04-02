@@ -11,10 +11,10 @@ Build
 =====
 The project use the maven assembly plugin to gather scripts and organize the package. First you need to have maven installed on the system and then to build just follow the steps:
 
-1. 
+1.
 	```$ mvn clean```
-	
-2. 
+
+2.
 	```$ mvn package```
 
 Ignore the target folder, it's just trash left behind by maven.
@@ -22,7 +22,7 @@ Ignore the target folder, it's just trash left behind by maven.
 
 Install
 =====
-1. First, clone down the repository:	
+1. First, clone down the repository:
 
     ```$ git clone https://github.com/helmedeiros/hoster```
 
@@ -42,9 +42,9 @@ Install
 Usage
 =====
 
-There are different ways to use the hoster to create and keep your applications' hosts running and beeing applied. 
+There are different ways to use the hoster to create and keep your applications' hosts running and beeing applied.
 
-1. A project needs to know that it will start to run in hoster's standard: 
+1. A project needs to know that it will start to run in hoster's standard:
 
     ```$ hoster init```
 
