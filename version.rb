@@ -4,7 +4,8 @@
 #Altering to read from hoster.version
 
 #  Version and help.
-def version()
-  version  = File.read("hoster.version")
-  puts progname + " version " + version
+def version
+  p
+  version  = File.read(HOSTER_PATH+"/hoster.version")
+  puts PROGNAME + " version " + version
 end
