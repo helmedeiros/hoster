@@ -16,7 +16,24 @@ class HostManager
   def initRepository
     currDir = Dir.pwd
     workdir = getWorkingDir unless nil
-    puts workdir
+    if(workdir != nil)
+      puts ".#{PROGNAME} is already initialized and located at #{workdir}"
+    else
+      #.hoster not located, so initialize the repository
+      if(@verbose)
+        puts ".Initializing #{PROGNAME} repository"
+      end
+      hDir = currDir+"/.hoster"
+      Dir.mkdir(hDir)
+      File.open(hDir+"/Hosts", "w"){ |f|
+          f.write("#Auto-generated file, do not manualy alter.");
+      }
+      puts "Initialized empty Hosts repository in #{currDir}"
+      if(@verbose)
+        puts ".Done"
+      end
+    end
+    #puts workdir
   end
 
 
@@ -43,7 +60,6 @@ class HostManager
   #return working dir from hoster
   def getWorkingDir
     currDir = Dir.pwd
-
     dr = ""
     currDir.split("/").each{ |entry|
       dr = dr+entry+"/"
