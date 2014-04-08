@@ -12,6 +12,7 @@ class Hoster < Formula
 
   depends_on :python
   depends_on 'tree'
+  depends_on 'subcommand'
 
   def install
     ENV.deparallelize
