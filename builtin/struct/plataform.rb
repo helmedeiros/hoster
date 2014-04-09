@@ -22,6 +22,7 @@ class Plataform
     return true
   end
 
+  #remove by key
   def rem(host)
     @hosts.delete(host)
   end

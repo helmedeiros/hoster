@@ -98,6 +98,24 @@ class Commands
 
       end
 
+      #subcommand REMOVE
+      opts.cmd_on("remove", "Remove the host entry from the plataform.") do |cmd|
+        options[:remove] = true
+
+        opts.separator ""
+        opts.separator "Remove Options:"
+
+        opts.on("--domain HOST", String, "set the HOST address") do |op|
+          options[:host] = op
+        end
+
+        opts.on("--pl [PLATAFORM]", String, "set the PLATAFORM name, default dev") do |op|
+          options[:plat] = op
+        end
+
+      end
+
+      #subcommand LIST
       opts.cmd_on("list", "List all hosts for a specific project.") do |cmd|
         options[:list] = true
       end
@@ -172,9 +190,15 @@ class Commands
       @hostManager.add(@options[:host],@options[:ip],@options[:plat])
     end
 
+    if(@options[:remove])
+      @hostManager.remove(@options[:host],@options[:plat])
+    end
+
     if(@options[:list])
       @hostManager.show!
     end
+
+
 
 
     @hostManager.persistData!

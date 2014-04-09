@@ -136,4 +136,9 @@ class HostManager
   end
 
 
+  def remove(host, plataform)
+    @plataforms[plataform].rem(host)
+  end
+
+
 end
