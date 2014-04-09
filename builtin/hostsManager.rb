@@ -3,6 +3,7 @@
 #External Libary
 require "yaml"
 
+require 'os'
 
 class HostManager
 
@@ -39,6 +40,27 @@ class HostManager
       f.write("###########\n")
       f.write(plataform.toString)
     }
+  end
+
+  def getHostFile
+    hostFile = nil
+    if(OS.windows?)
+      hostFile = "c:\\windwos\system32\drivers\etc\hosts"
+    end
+
+    if(OS.mac?)
+      hostFile = "/etc/hosts"
+    end
+
+    if(OS.linux?)
+      hostFile = "/etc/hosts"
+    end
+
+    if(hostFile == nil)
+      puts 'Hosts file not found.'
+    end
+
+    hostFile
   end
 
 
@@ -158,6 +180,38 @@ class HostManager
   #remove HOST form the respective plataform
   def remove(host, plataform)
     @plataforms[plataform].rem(host)
+  end
+
+  def apply plataform
+    host = getHostFile
+
+    if(! (@plataforms.keys.include? plataform))
+      puts 'Plataform not included'
+      return
+    end
+
+    text = File.read(host)
+    if(text.index(/##<#{plataform}>##/) == nil)
+      hsText = text + @plataforms[plataform].toString
+    else
+      hsText = text.gsub(/##<#{plataform}>##(.|\n)*##<\/#{plataform}>##/, @plataforms[plataform].toString)
+    end
+    File.open(host, "w") {|file| file.puts hsText}
+
+  end
+
+  def clean plataform
+    host = getHostFile
+
+    if(! (@plataforms.keys.include? plataform))
+      puts 'Plataform not included'
+      return
+    end
+
+    text = File.read(host)
+    hsText = text.gsub(/##<#{plataform}>##(.|\n)*##<\/#{plataform}>##/, '')
+    File.open(host, "w") {|file| file.puts hsText}
+
   end
 
 

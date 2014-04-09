@@ -58,6 +58,7 @@ class Commands
     options[:list   ] = false
 
     options[:apply  ] = false
+    options[:clean  ] = false
 
     #subcommands
     #https://gist.github.com/rkumar/445735
@@ -140,6 +141,32 @@ class Commands
         options[:list] = true
       end
 
+      #subcommand LIST
+      opts.cmd_on("apply", "Apply the plataform to HOSTs file.") do |cmd|
+        options[:apply] = true
+
+        opts.separator ""
+        opts.separator "Apply Options:"
+
+        opts.on("--pl [PLATAFORM]", String, "set the PLATAFORM name, default dev") do |op|
+          options[:plat] = op
+        end
+
+      end
+
+      #subcommand LIST
+      opts.cmd_on("clean", "Remove the plataform from HOSTs file.") do |cmd|
+        options[:clean] = true
+
+        opts.separator ""
+        opts.separator "Clean Options:"
+
+        opts.on("--pl [PLATAFORM]", String, "set the PLATAFORM name, default dev") do |op|
+          options[:plat] = op
+        end
+
+      end
+
 
       opts.separator ""
       opts.separator "Global Arguments:"
@@ -217,6 +244,15 @@ class Commands
     if(@options[:remove])
       @hostManager.remove(@options[:host],@options[:plat])
     end
+
+    if(@options[:apply])
+      @hostManager.apply(@options[:plat])
+    end
+
+    if(@options[:clean])
+      @hostManager.clean(@options[:plat])
+    end
+
 
     if(@options[:list])
       @hostManager.show!
