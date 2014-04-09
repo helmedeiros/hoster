@@ -19,14 +19,6 @@ require 'builtin/commandParser.rb'
 #require './builtin/host_apply.rb'
 #require './builtin/paths.rb'
 
-# pl = Plataform.new
-# pl.add(Host.new('127.0.0.1', 'local.pense.com.br', pl))
-# pl.add(Host.new('127.0.0.1', 'www.teste.com.br', pl))
-# puts YAML::dump(pl)
-# puts Marshal::dump(pl)
-# print pl.toString()
-
-
 
 #Main Class that parse commands and
 class Commands
@@ -68,7 +60,11 @@ class Commands
     options[:edit   ] = false
     options[:apply  ] = false
 
-
+    #subcommands
+    #https://gist.github.com/rkumar/445735
+    #http://stackoverflow.com/questions/2732894/using-rubys-optionparser-to-parse-sub-commands
+    #https://github.com/bjeanes/optparse-subcommand
+  
     opt = SubcommandParser.new do |opts|
 
       @help.setOpts(opts)
@@ -81,23 +77,28 @@ class Commands
       #subcommand INIT
       opts.cmd_on("init", "Create an empty host repository in the current folder.") do |cmd|
         options[:init] = true
+        puts '--- WEEE INIT'
       end
 
       #sucommand ADD
       opts.cmd_on("add", "Add a new HOST to current repository into a specific environment.") do |cmd|
+        puts '--- WEEE ADD'
         puts cmd
         options[:add] = true
-        cmd.on("[-ip IP]", string, "set the IP address, default is 127.0.0.1") do |op|
+
+        opts.separator ""
+        opts.separator "Add Options:"
+
+        opts.on("-ip [IP]", String, "set the IP address, default is 127.0.0.1") do |op|
           options[:ip] = op
         end
-        cmd.on("-host HOST", string, "set the HOST address") do |op|
+        opts.on("-host HOST", String, "set the HOST address") do |op|
           options[:host] = op
         end
 
-        cmd.on("-pl PLATAFORM", string, "set the PLATAFORM name, default dev") do |op|
+        opts.on("-pl [PLATAFORM]", String, "set the PLATAFORM name, default dev") do |op|
           options[:plat] = op
         end
-
 
       end
 
@@ -119,36 +120,10 @@ class Commands
       end
     end
 
-    #subcommands
-    #https://gist.github.com/rkumar/445735
-    #http://stackoverflow.com/questions/2732894/using-rubys-optionparser-to-parse-sub-commands
-    #https://github.com/bjeanes/optparse-subcommand
-    #
-    subcommands = {
-
-    # 'add' => OptionParser.new do |opts|
-    #
-    #         #completion example https://github.com/rhysd/vim-optparse
-    #         #mark to initialize hoster repository
-    #         opts.on("Add a new HOST to current repository into a specific environment. \n --domain test.com \n [--ip] default 127.0.0.1 \n [--plataform] default DEV") do |arg|
-    #           puts "peee weee"
-    #           options[:add] = true
-    #         end
-    #
-    #         #mark to initialize hoster repository
-    #         opts.on("-i","--init", "Create an empty host repository in the current folder.") do
-    #           options[:init] = true
-    #         end
-    #
-    #
-    #   end
-    }
 
     #start parsin the commands
     begin
       opt.parse!(args)
-      #opt.order!(args)
-      puts args
 
       if(args.length == 1 && args[0] == "init")
         options[:init] = true

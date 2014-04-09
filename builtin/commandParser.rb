@@ -9,20 +9,25 @@ require 'pp'
 class SubcommandParser < OptionParser
 
 
-
   def initialize
+    @subcommands = Hash.new
+    @subcommandsBlock = Hash.new
     super
-    @commands = Array.new
-
   end
 
   def cmd_on(*cmds, &block)
-    puts cmds
-    puts '----'
-    puts block
-    puts '####'
-    #define(command, block)
+    @subcommands[cmds[0]] = cmds
+    @subcommandsBlock[cmds[0]] = block
     self
+  end
+
+  #override
+  def parse!(*args)
+    if(@subcommands.keys.include? args[0][0])
+      @subcommandsBlock[args[0][0]].call(self)
+    end
+    puts args[0][0]
+    super
   end
 
 end
