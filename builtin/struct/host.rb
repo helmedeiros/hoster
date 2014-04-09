@@ -12,6 +12,18 @@ class Host
     @plataform = plataform
   end
 
+  def getIp
+    @ip
+  end
+
+  def getDomain
+    @domain
+  end
+
+  def getPlataform
+    @plataform
+  end
+
   def toString
     return "\t"+@ip+"\t"+@domain+"  # --"+@plataform.getName()
   end

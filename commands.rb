@@ -23,9 +23,6 @@ require 'builtin/commandParser.rb'
 #Main Class that parse commands and
 class Commands
 
-  CODES = %w[iso-2022-jp shift_jis euc-jp utf8 binary]
-  CODE_ALIASES = { "jis" => "iso-2022-jp", "sjis" => "shift_jis" }
-
   def initialize(args)
     @help = Help.new
     @command = nil
@@ -51,12 +48,15 @@ class Commands
     options[:verbose] = false
 
     options[:add     ] = false
+    options[:edit    ] = false
     options[:ip      ] = '127.0.0.1'
     options[:host    ] = nil
     options[:plat    ] = "dev"
 
+    options[:remove  ] = false
+
     options[:list   ] = false
-    options[:edit   ] = false
+
     options[:apply  ] = false
 
     #subcommands
@@ -96,6 +96,10 @@ class Commands
           options[:plat] = op
         end
 
+      end
+
+      opts.cmd_on("list", "List all hosts for a specific project.") do |cmd|
+        options[:list] = true
       end
 
 
@@ -143,6 +147,11 @@ class Commands
 
   #run commands
   def run!
+    #intialize repository, after that we can begin load and persisting data
+    @hostManager.setVerbosity(@options[:verbose])
+    if(@options[:init])
+      @hostManager.initRepository()
+    end
 
     #loadData from persistence file
     if(!@hostManager.loadData!)
@@ -159,14 +168,14 @@ class Commands
       version()
     end
 
-    @hostManager.setVerbosity(@options[:verbose])
-    if(@options[:init])
-      @hostManager.initRepository()
+    if(@options[:add])
+      @hostManager.add(@options[:host],@options[:ip],@options[:plat])
     end
 
-    if(@options[:add])
-      @hostManager.add(@options[:ip],@options[:host],@options[:plat])
+    if(@options[:list])
+      @hostManager.show!
     end
+
 
     @hostManager.persistData!
 
