@@ -135,7 +135,27 @@ class HostManager
 
   end
 
+  #add the HOST to the respective plataform
+  def edit(host, ip, plataform)
+    #verify if we have the plataform name initialized
+    if(! (@plataforms.keys.include? plataform))
+        add(host,ip,plataform)
+    else
+      #replace the old with the new host
+      if( @plataforms[plataform].edit(Host.new(ip, host, @plataforms[plataform])) )
+        puts "Edited succefully."
+      end
+    end
 
+    if(@verbosity)
+      puts "Generating Files ..."
+    end
+
+    generateFiles! @plataforms[plataform]
+
+  end
+
+  #remove HOST form the respective plataform
   def remove(host, plataform)
     @plataforms[plataform].rem(host)
   end

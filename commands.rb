@@ -98,6 +98,26 @@ class Commands
 
       end
 
+      #sucommand EDIT
+      opts.cmd_on("edit", "Edit an HOST inside the current repository into a specific environment.") do |cmd|
+        options[:edit] = true
+
+        opts.separator ""
+        opts.separator "Edit Options:"
+
+        opts.on("--new-ip [IP]", String, "set the IP address, default is 127.0.0.1") do |op|
+          options[:ip] = op
+        end
+        opts.on("--domain HOST", String, "set the HOST address") do |op|
+          options[:host] = op
+        end
+
+        opts.on("--pl [PLATAFORM]", String, "set the PLATAFORM name, default dev") do |op|
+          options[:plat] = op
+        end
+
+      end
+
       #subcommand REMOVE
       opts.cmd_on("remove", "Remove the host entry from the plataform.") do |cmd|
         options[:remove] = true
@@ -190,6 +210,10 @@ class Commands
       @hostManager.add(@options[:host],@options[:ip],@options[:plat])
     end
 
+    if(@options[:edit])
+      @hostManager.edit(@options[:host],@options[:ip],@options[:plat])
+    end
+
     if(@options[:remove])
       @hostManager.remove(@options[:host],@options[:plat])
     end
@@ -197,9 +221,6 @@ class Commands
     if(@options[:list])
       @hostManager.show!
     end
-
-
-
 
     @hostManager.persistData!
 

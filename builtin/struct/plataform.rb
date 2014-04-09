@@ -22,6 +22,14 @@ class Plataform
     return true
   end
 
+  def edit(host)
+    if(@hosts.keys.include? host.getDomain)
+      puts "#{host.getDomain} already exists inside the plataform #{host.getPlataform.getName}, updating registry"
+    end
+    @hosts[host.getDomain] = host
+    return true
+  end
+
   #remove by key
   def rem(host)
     @hosts.delete(host)
