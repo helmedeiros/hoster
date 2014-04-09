@@ -26,7 +26,6 @@ class SubcommandParser < OptionParser
     if(@subcommands.keys.include? args[0][0])
       @subcommandsBlock[args[0][0]].call(self)
     end
-    puts args[0][0]
     super
   end
 

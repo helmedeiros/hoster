@@ -6,6 +6,10 @@ class Help
   @@hoster_usage_string=PROGNAME + " <command> [<args>]\n";
   @opts = nil
 
+  def repositoryError
+    puts "Repository #{PROGNAME} not initialized"
+  end
+
   def invalidOption
     puts "Invalid Option detected, you should use #{PROGNAME} as showed bellow"
   end

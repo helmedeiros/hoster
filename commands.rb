@@ -56,7 +56,6 @@ class Commands
     options[:plat    ] = "dev"
 
     options[:list   ] = false
-
     options[:edit   ] = false
     options[:apply  ] = false
 
@@ -64,7 +63,7 @@ class Commands
     #https://gist.github.com/rkumar/445735
     #http://stackoverflow.com/questions/2732894/using-rubys-optionparser-to-parse-sub-commands
     #https://github.com/bjeanes/optparse-subcommand
-  
+
     opt = SubcommandParser.new do |opts|
 
       @help.setOpts(opts)
@@ -77,26 +76,23 @@ class Commands
       #subcommand INIT
       opts.cmd_on("init", "Create an empty host repository in the current folder.") do |cmd|
         options[:init] = true
-        puts '--- WEEE INIT'
       end
 
       #sucommand ADD
       opts.cmd_on("add", "Add a new HOST to current repository into a specific environment.") do |cmd|
-        puts '--- WEEE ADD'
-        puts cmd
         options[:add] = true
 
         opts.separator ""
         opts.separator "Add Options:"
 
-        opts.on("-ip [IP]", String, "set the IP address, default is 127.0.0.1") do |op|
+        opts.on("--ip [IP]", String, "set the IP address, default is 127.0.0.1") do |op|
           options[:ip] = op
         end
-        opts.on("-host HOST", String, "set the HOST address") do |op|
+        opts.on("--domain HOST", String, "set the HOST address") do |op|
           options[:host] = op
         end
 
-        opts.on("-pl [PLATAFORM]", String, "set the PLATAFORM name, default dev") do |op|
+        opts.on("--pl [PLATAFORM]", String, "set the PLATAFORM name, default dev") do |op|
           options[:plat] = op
         end
 
@@ -141,10 +137,19 @@ class Commands
         showHelp()
     end
     #end Parsing
+    #puts options
     options
   end
 
+  #run commands
   def run!
+
+    #loadData from persistence file
+    if(!@hostManager.loadData!)
+      @help.repositoryError
+      showHelp()
+      exit 1
+    end
 
     if(@options[:help])
       showHelp()
@@ -154,12 +159,18 @@ class Commands
       version()
     end
 
+    @hostManager.setVerbosity(@options[:verbose])
     if(@options[:init])
-      @hostManager.setVerbosity(@options[:verbose])
       @hostManager.initRepository()
     end
 
+    if(@options[:add])
+      @hostManager.add(@options[:ip],@options[:host],@options[:plat])
+    end
 
+    @hostManager.persistData!
+
+    self
   end
 
 end
