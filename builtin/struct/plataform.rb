@@ -3,9 +3,17 @@
 
 class Plataform
 
-  def initialize( name = "dev" )
+  private
+  def getExpression
+    /##<#{@project}(.)*>##(.|\n)*##<\/#{@project}(.)*>##/
+  end
+
+
+  public
+  def initialize( name = "dev", project = 'no-name' )
     @name = name
     @hosts = Hash.new
+    @project = project
   end
 
   def getName()
@@ -40,12 +48,31 @@ class Plataform
   end
 
   def toString
-    block = "##<"+@name+">##\n";
+    block = "##<"+@project+'-'+@name+">##\n";
     @hosts.each{|key, host| block += host.toString() + "\n" }
-    block += "##</"+@name+">##\n";
+    block += "##</"+@project+'-'+@name+">##\n";
     return block;
   end
 
+
+
+
+  def apply!(hostFile)
+    text = File.read(hostFile)
+    if(text.index(/##<#{@project}(.)*>##/) == nil)
+      hsText = text + toString
+    else
+      hsText = text.gsub(getExpression, toString)
+    end
+    File.open(hostFile, "w") {|file| file.puts hsText}
+  end
+
+
+  def clean!(hostFile)
+    text = File.read(hostFile)
+    hsText = text.gsub(getExpression, '')
+    File.open(hostFile, "w") {|file| file.puts hsText}
+  end
 
 
 end

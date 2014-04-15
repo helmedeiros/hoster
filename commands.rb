@@ -148,7 +148,7 @@ class Commands
         opts.separator ""
         opts.separator "Apply Options:"
 
-        opts.on("--pl [PLATAFORM]", String, "set the PLATAFORM name, default dev") do |op|
+        opts.on("--pl [PLATAFORM]", Array, "set the PLATAFORM name, default dev") do |op|
           options[:plat] = op
         end
 
@@ -161,7 +161,7 @@ class Commands
         opts.separator ""
         opts.separator "Clean Options:"
 
-        opts.on("--pl [PLATAFORM]", String, "set the PLATAFORM name, default dev") do |op|
+        opts.on("--pl [PLATAFORM]", Array, "set the PLATAFORM name, default dev") do |op|
           options[:plat] = op
         end
 
@@ -227,10 +227,12 @@ class Commands
 
     if(@options[:help])
       showHelp()
+      exit 0
     end
 
     if(@options[:version])
       version()
+      exit 0
     end
 
     if(@options[:add])

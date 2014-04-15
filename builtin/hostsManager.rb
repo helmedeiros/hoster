@@ -27,6 +27,10 @@ class HostManager
     @workingDir
   end
 
+  def projectName
+    getWorkingDir.split('/').pop(2)[0]
+  end
+
   def validateWorkingDir!
     dir = getWorkingDir
     return File.exist? (dir == nil ? "" : dir) +'/data.host'
@@ -123,15 +127,6 @@ class HostManager
   #Methods from Apply, Remove, Add
 
 
-  #remove plataform form HOST File
-  def remove plataform
-  end
-
-  #aply (add|update) a plataform inside hosts file
-  def apply plataform
-
-  end
-
   def show!
     puts 'Current Hosts:'
     @plataforms.each do |key, plataform|
@@ -143,9 +138,9 @@ class HostManager
   def add(host, ip, plataform)
     #verify if we have the plataform name initialized
     if(! (@plataforms.keys.include? plataform))
-        @plataforms[plataform] = Plataform.new(plataform);
+        @plataforms[plataform] = Plataform.new(plataform, projectName);
     end
-    if( @plataforms[plataform].add(Host.new(ip, host, @plataforms[plataform])) )
+    if( @plataforms[plataform].add(Host.new(ip, host, @plataforms[plataform])))
       puts "Added succefully."
     end
 
@@ -182,35 +177,29 @@ class HostManager
     @plataforms[plataform].rem(host)
   end
 
-  def apply plataform
+  def apply pl
     host = getHostFile
-
-    if(! (@plataforms.keys.include? plataform))
-      puts 'Plataform not included'
-      return
-    end
-
-    text = File.read(host)
-    if(text.index(/##<#{plataform}>##/) == nil)
-      hsText = text + @plataforms[plataform].toString
-    else
-      hsText = text.gsub(/##<#{plataform}>##(.|\n)*##<\/#{plataform}>##/, @plataforms[plataform].toString)
-    end
-    File.open(host, "w") {|file| file.puts hsText}
+    pl.each { |plataform|
+      if(! (@plataforms.keys.include? plataform))
+        puts 'Plataform not found, these are the plataforms avaliable'
+        show!
+        return
+      end
+      @plataforms[plataform].apply! host
+    }
 
   end
 
-  def clean plataform
+  def clean pl
     host = getHostFile
 
-    if(! (@plataforms.keys.include? plataform))
-      puts 'Plataform not included'
-      return
-    end
-
-    text = File.read(host)
-    hsText = text.gsub(/##<#{plataform}>##(.|\n)*##<\/#{plataform}>##/, '')
-    File.open(host, "w") {|file| file.puts hsText}
+    pl.each { |plataform|
+      if(! (@plataforms.keys.include? plataform))
+        puts 'Plataform not included'
+        return
+      end
+      @plataforms[plataform].clean! host
+    }
 
   end
 
