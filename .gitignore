@@ -1,0 +1,24 @@
+# Maven
+target/
+bin/
+*.tar.gz
+*.checksum
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Test outputs
+.bats-tmp/
+coverage/
+
+# Local
+Hosts.apply.tmp
+Hosts.out.tmp
