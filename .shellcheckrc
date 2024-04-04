@@ -1,0 +1,22 @@
+# Baseline configuration for shellcheck on the hoster bash codebase.
+#
+# Codes disabled here are pre-existing issues that will be cleaned up
+# incrementally in dedicated commits. Each fix removes the corresponding
+# entry from this file. The goal is an empty disable list.
+#
+# SC2086 - Double quote to prevent globbing and word splitting
+# SC2068 - Double quote array expansions to avoid re-splitting
+# SC2046 - Quote $(...) to prevent word splitting
+# SC2034 - Variable appears unused (cross-file sourcing)
+# SC2154 - Variable referenced but not assigned (cross-file sourcing)
+# SC2145 - Argument mixes string and array
+# SC2104 - In functions, use return instead of break
+# SC2024 - sudo does not affect redirects
+# SC2006 - Use $(...) notation instead of legacy backticked `...`
+# SC2206 - Quote to prevent word splitting when assigning to array
+# SC2181 - Check exit code directly with 'if !', not indirectly with $?
+# SC2153 - Possible misspelling of variable name
+# SC2129 - Consider using { cmd1; cmd2; } >> file
+# SC2088 - Tilde does not expand in quotes
+# SC2059 - Do not use variables in printf format string
+disable=SC2086,SC2068,SC2046,SC2034,SC2154,SC2145,SC2104,SC2024,SC2006,SC2206,SC2181,SC2153,SC2129,SC2088,SC2059
