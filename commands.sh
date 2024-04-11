@@ -24,7 +24,7 @@ function run_cmd(){
 
 # Requests add_host inside /builtin/host_actions.sh
 function cmd_add_host(){
-  add_host $@;
+  add_host "$@";
 }
 
 # Requests host_add inside /builtin/host_actions.sh
@@ -34,7 +34,7 @@ function cmd_host_add(){
 
 # Requests list_host inside /builtin/host_actions.sh
 function cmd_list_host(){
-  list_host $@;
+  list_host "$@";
 }
 
 # Requests hosts_list inside /builtin/host_actions.sh
@@ -49,17 +49,17 @@ function cmd_hosts_apply(){
 
 # Requests apply_host inside /builtin/host_apply.sh
 function cmd_apply_host(){ 
-	apply_host $@; 
+	apply_host "$@";
 }
 
 # Requests append_host inside /builtin/host_apply.sh
 function cmd_append_hosts(){
-  append_host $@;
+  append_host "$@";
 }
 
 # Requests cmd_edit_host inside /builtin/host_actions.sh
 function cmd_edit_host(){
-  edit_host $@;
+  edit_host "$@";
 }
 
 # Requests cmd_hosts_edit inside /builtin/host_actions.sh
@@ -74,12 +74,12 @@ function cmd_hosts_init(){
 
 # Requests define_defaults inside /builtin/defaults.sh
 function cmd_define_defaults(){
-	define_defaults $@;
+	define_defaults "$@";
 } 
 
 # Requests handle_options inside /builtin/handle_options.sh
 function cmd_handle_options(){
-	handle_options $@;
+	handle_options "$@";
 } 
 
 function cmd_list_help_commands(){
