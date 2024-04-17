@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
-source "$(dirname "$0")/version.sh"
-source "$(dirname "$0")/help.sh"
-source "$(dirname "$0")/builtin/defaults.sh"
-source "$(dirname "$0")/builtin/handle_options.sh"
-source "$(dirname "$0")/builtin/host_actions.sh"
-source "$(dirname "$0")/builtin/host_apply.sh"
-source "$(dirname "$0")/builtin/paths.sh"
+HOSTER_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+source "$HOSTER_DIR/version.sh"
+source "$HOSTER_DIR/help.sh"
+source "$HOSTER_DIR/builtin/defaults.sh"
+source "$HOSTER_DIR/builtin/handle_options.sh"
+source "$HOSTER_DIR/builtin/host_actions.sh"
+source "$HOSTER_DIR/builtin/host_apply.sh"
+source "$HOSTER_DIR/builtin/paths.sh"
 
 
 

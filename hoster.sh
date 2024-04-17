@@ -10,7 +10,7 @@
 #     # Edit an specific environment file (localhost -l; development -d; homologation -h; production -p)
 #      hoster -p -e
 
-source "$(dirname "$0")/commands.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/commands.sh"
 
 cmd_define_defaults "sublime" "/private/etc/" "Hosts" "Wi-Fi"
 cmd_handle_options "$@";
