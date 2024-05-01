@@ -6,7 +6,7 @@ function handle_options(){
   if [ $# = 0 ]; then
     list_commands;
   else 
-    handle_main_options $@;
+    handle_main_options "$@";
   fi
 }
 
@@ -25,7 +25,7 @@ function handle_main_options(){
           COMMAND="APPLY";
           cmd_top_level;
           cmd_project_name;
-          cmd_apply_host $@;
+          cmd_apply_host "$@";
           break;
         ;; 
 
@@ -34,7 +34,7 @@ function handle_main_options(){
           COMMAND="ADD";
           cmd_top_level;
           cmd_project_name;
-          cmd_add_host $@;
+          cmd_add_host "$@";
           break;
         ;; 
 
@@ -43,7 +43,7 @@ function handle_main_options(){
           COMMAND="EDIT";
           cmd_top_level;
           cmd_project_name;
-          cmd_edit_host $@;
+          cmd_edit_host "$@";
           break;
         ;;
 
@@ -63,7 +63,7 @@ function handle_main_options(){
           COMMAND="LIST";
           cmd_top_level;
           cmd_project_name;
-          cmd_list_host $@;
+          cmd_list_host "$@";
           break;
         ;;
 
@@ -79,7 +79,7 @@ function handle_main_options(){
         ;; 
       esac
 
-      cmd_close_when_no_parameters $@;
+      cmd_close_when_no_parameters "$@";
     done
 }
 
@@ -127,6 +127,6 @@ function handle_env_options(){
           break;
         ;;
       esac
-      cmd_close_when_no_parameters $@;
+      cmd_close_when_no_parameters "$@";
     done
 }
