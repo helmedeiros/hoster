@@ -14,24 +14,24 @@ function add_host(){
 function define_ip(){
 	ADD_IP="$1";
 
-	if valid_ip $ADD_IP; then stat='good'; else stat='bad'; fi
+	if valid_ip "$ADD_IP"; then stat='good'; else stat='bad'; fi
 	printf "%-20s: %s\n" "$ADD_IP" "$stat";
 
-	if [ $stat == "bad" ]; then die "INVALID IP"; fi
+	if [ "$stat" == "bad" ]; then die "INVALID IP"; fi
 }
 
 function host_add(){
-	cmd_set_environment $ENVIRONMENT;
+	cmd_set_environment "$ENVIRONMENT";
 	echo "$ADD_IP $ADD_HOST" >> "$TOP_LEVEL_FOLDER/$FILE";
 }
 
 function list_host(){
-	handle_env_options $2;	
+	handle_env_options "$2";
 }
 
 
 function hosts_list(){
-	case $ENVIRONMENT in
+	case "$ENVIRONMENT" in
       "all")  for environment in "${environments[@]}"; do
 				ACTUAL_ENVIRONMENT="$environment";
 				list;
