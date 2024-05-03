@@ -11,7 +11,7 @@ function list_commands(){
 
 
 function list_common_cmds_help(){
-	echo "The most commonly used `basename $0` commands are";
+	echo "The most commonly used $(basename "$0") commands are";
 	echo "    add 	Add a new HOST to current repository into a specific environment.";
 	echo "    edit	Open the host file defined to be used.";
 	echo "    init	Create an empty host repository in the current folder.";
