@@ -78,8 +78,6 @@ function handle_main_options(){
           break;        
         ;; 
       esac
-
-      cmd_close_when_no_parameters "$@";
     done
 }
 
@@ -127,6 +125,5 @@ function handle_env_options(){
           break;
         ;;
       esac
-      cmd_close_when_no_parameters "$@";
     done
 }

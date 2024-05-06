@@ -93,12 +93,6 @@ function cmd_show_version(){
   version;
 } 
 
-function cmd_close_when_no_parameters(){
-	if [ -z "$1" ]; then
-        break;
-      fi
-}
-
 function cmd_execute_options(){
   case "$COMMAND" in
     ADD)
