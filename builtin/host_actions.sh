@@ -44,7 +44,7 @@ function hosts_list(){
 
 function list(){
 	printf 	"################### $ACTUAL_ENVIRONMENT ################### \n";
-	cmd_set_environment $ACTUAL_ENVIRONMENT;
+	cmd_set_environment "$ACTUAL_ENVIRONMENT";
 	run_cmd "cat $TOP_LEVEL_FOLDER/$FILE" "silent";
 	printf "\n"
 }
@@ -54,9 +54,9 @@ function hosts_init(){
 	HOSTS_FOLDER="$FOLDER/$HOST_DEFAULT_FOLDER";
 
 	if [ ! -d "$HOSTS_FOLDER" ]; then
-		initialize_hosts $HOSTS_FOLDER;	
+		initialize_hosts "$HOSTS_FOLDER";
 	else
-		reinitialize_hosts $HOSTS_FOLDER;	
+		reinitialize_hosts "$HOSTS_FOLDER";
 	fi
 }
 
@@ -71,11 +71,11 @@ function reinitialize_hosts(){
 }
 
 function edit_host(){
-	handle_env_options $2;
+	handle_env_options "$2";
 }
 
 function hosts_edit(){
-	cmd_set_environment $ENVIRONMENT;
+	cmd_set_environment "$ENVIRONMENT";
 	run_cmd "$DEFAULT_IDE $TOP_LEVEL_FOLDER/$FILE" "silent";
 }
 
