@@ -14,7 +14,7 @@ function hosts_apply(){
 
 function append_host(){
 	TEMP_APPLY_FILE="$TOP_LEVEL_FOLDER/Hosts.apply.tmp";
-	
+
 	find_occurrence;
 
 	if [ "$found" == "true" ]; then
@@ -23,11 +23,13 @@ function append_host(){
 		run_cmd "sudo cp $HOST_FILE $TEMP_APPLY_FILE" "silent";
 		run_cmd "sudo chmod 777 $TEMP_APPLY_FILE" "silent";
 	fi
-	
-	echo "##<$PROJECT_NAME-$ENVIRONMENT>##" >> $TEMP_APPLY_FILE;
-	cat $1 >> $TEMP_APPLY_FILE;
-	echo "##</$PROJECT_NAME-$ENVIRONMENT>##" >> $TEMP_APPLY_FILE;	
-	
+
+	{
+		echo "##<$PROJECT_NAME-$ENVIRONMENT>##"
+		cat "$1"
+		echo "##</$PROJECT_NAME-$ENVIRONMENT>##"
+	} >> "$TEMP_APPLY_FILE"
+
 	run_cmd "sudo cp $TEMP_APPLY_FILE $HOST_FILE" "silent";
 	run_cmd "rm -f $TEMP_APPLY_FILE" "silent";
 }
