@@ -37,24 +37,24 @@ function append_host(){
 
 function find_occurrence(){
 	found="false";
-	TMP_OCCURRENCE_FILE="Hosts.out.tmp";	
+	TMP_OCCURRENCE_FILE="Hosts.out.tmp";
 
-	sudo sed "/<$PROJECT_NAME/,/<\/$PROJECT_NAME/!d" $HOST_FILE > $TMP_OCCURRENCE_FILE;
+	sudo sed "/<$PROJECT_NAME/,/<\/$PROJECT_NAME/!d" "$HOST_FILE" | tee "$TMP_OCCURRENCE_FILE" > /dev/null;
 
-	if [[ -s $TMP_OCCURRENCE_FILE ]] ; then
+	if [[ -s "$TMP_OCCURRENCE_FILE" ]] ; then
 		echo "HOST for $ENVIRONMENT of project->$PROJECT_NAME found.";
 		echo "They are:"
-		run_cmd "cat $TMP_OCCURRENCE_FILE" "silent";	
+		run_cmd "cat $TMP_OCCURRENCE_FILE" "silent";
 		found="true";
 	else
 		echo "HOST for $ENVIRONMENT of project->$PROJECT_NAME wasn't found.";
 	fi
-	
+
 	run_cmd "rm -f $TMP_OCCURRENCE_FILE" "silent";
 }
 
 function remove_occurrence(){
-	sudo sed "/<$PROJECT_NAME/,/<\/$PROJECT_NAME/d" $HOST_FILE > $TEMP_APPLY_FILE;
+	sudo sed "/<$PROJECT_NAME/,/<\/$PROJECT_NAME/d" "$HOST_FILE" | tee "$TEMP_APPLY_FILE" > /dev/null;
 }
 
 
