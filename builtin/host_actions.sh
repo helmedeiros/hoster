@@ -6,9 +6,9 @@ environments=(lcl dev hlg prod);
 function add_host(){
 	ADD_HOST="$3";
 
-	define_ip $2;
+	define_ip "$2";
 
-	handle_env_options $4;
+	handle_env_options "$4";
 }
 
 function define_ip(){
