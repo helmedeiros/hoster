@@ -43,23 +43,35 @@
             </plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>shell-maven-plugin</artifactId>
-				<version>1.0-beta-1</version>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>3.5.0</version>
 				<executions>
 					<execution>
-						<id>assembly</id>
+						<id>write-version</id>
 						<phase>package</phase>
 						<goals>
-							<goal>shell</goal>
+							<goal>exec</goal>
 						</goals>
 						<configuration>
-							<workDir>${workDir}../../</workDir>
-							<chmod>true</chmod>
-							<keepScriptFile>false</keepScriptFile>
-							<script>
-								echo "${project.version}" > hoster.version
-								openssl sha1 ./bin/${project.artifactId}-${project.version}-as.tar.gz > ./bin/${project.artifactId}-${project.version}.checksum
-							</script>
+							<executable>bash</executable>
+							<arguments>
+								<argument>-c</argument>
+								<argument>echo "${project.version}" > hoster.version</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>compute-checksum</id>
+						<phase>package</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>bash</executable>
+							<arguments>
+								<argument>-c</argument>
+								<argument>openssl sha256 ./bin/${project.artifactId}-${project.version}-as.tar.gz > ./bin/${project.artifactId}-${project.version}.checksum</argument>
+							</arguments>
 						</configuration>
 					</execution>
 				</executions>
