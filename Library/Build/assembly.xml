@@ -1,28 +1,28 @@
-<assembly>
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.2.0
+                              http://maven.apache.org/xsd/assembly-2.2.0.xsd">
     <id>as</id>
     <formats>
         <format>tar.gz</format>
     </formats>
-    <dependencySets>
-        <dependencySet>
-            <useProjectArtifact>false</useProjectArtifact>
-            <outputDirectory>lib</outputDirectory>
-            <unpack>false</unpack>
-        </dependencySet>
-    </dependencySets>
+    <includeBaseDirectory>false</includeBaseDirectory>
 
     <fileSets>
         <fileSet>
-            <directory>./</directory>
+            <directory>${project.basedir}</directory>
+            <outputDirectory>/</outputDirectory>
             <includes>
-                <include>./**.sh</include>
-				<include>./Library/Setup/**.py</include>
-				<include>builtin/**</include>
-				<include>./**.version</include>
-				<include>share/**</include>
-				<include>README.md</include>
+                <include>*.sh</include>
+                <include>builtin/**</include>
+                <include>Library/Setup/**.py</include>
+                <include>*.version</include>
+                <include>README.md</include>
+                <include>LICENSE</include>
+                <include>CHANGELOG.md</include>
             </includes>
-			<fileMode>0755</fileMode>
+            <fileMode>0755</fileMode>
         </fileSet>
     </fileSets>
 </assembly>
