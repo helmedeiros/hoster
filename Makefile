@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-SH_FILES := $(wildcard *.sh) $(wildcard builtin/*.sh)
+SH_FILES := $(wildcard *.sh) $(wildcard builtin/*.sh) $(wildcard scripts/*.sh)
 
 .PHONY: help lint test all clean
 
