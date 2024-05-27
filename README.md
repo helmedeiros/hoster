@@ -1,65 +1,77 @@
-About
-=====
+# hoster
 
-**hoster** is a new auxiliary project pattern to control and keep closer to new application all its host configrations.
+[![Lint](https://github.com/helmedeiros/hoster/actions/workflows/lint.yml/badge.svg)](https://github.com/helmedeiros/hoster/actions/workflows/lint.yml)
+[![Test](https://github.com/helmedeiros/hoster/actions/workflows/test.yml/badge.svg)](https://github.com/helmedeiros/hoster/actions/workflows/test.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-It is not always easy to discover the hosts needed for an application to run. This project helps you to mantain developers updated in a central point, about all addresses used and needed for it to work.
+**hoster** keeps a project's `/etc/hosts` entries inside the repository, scoped per environment (local, dev, hlg, prod), and applies them on demand.
 
-Using this pattern will be possible to you and your company to keep local, development, homologation and production specific pairs of hostnames and ip addresses versioned into your code repository, applying one of these into your main Host file.
+It is not always easy to discover the hosts an application needs. With hoster, every contributor sees the same `lcl/dev/hml/prd` host pairs alongside the code, and can swap them in and out of the system hosts file with one command.
 
-Build
-=====
+## Table of contents
 
-The project use the maven assembly plugin to gather scripts and organize the package. First you need to have maven installed on the system and then to build just follow the steps:
+- [Install](#install)
+- [Usage](#usage)
+- [Development](#development)
+- [Build](#build)
+- [License](#license)
 
-1.	`$ mvn clean`
+## Install
 
-2.	`$ mvn package`
+Clone, make the entrypoint executable, and add it to `PATH`:
 
-Ignore the target folder, it's just trash left behind by maven.
+```sh
+git clone https://github.com/helmedeiros/hoster
+cd hoster
+chmod +x hoster
+echo "export PATH=\"\$PATH:$(pwd)\"" >> ~/.zshrc   # or ~/.bashrc
+source ~/.zshrc
+```
 
-Install
-=======
+## Usage
 
-1.	First, clone down the repository:
+```sh
+# Initialise an empty .hosts repository in the current project
+hoster init
 
-	`$ git clone https://github.com/helmedeiros/hoster`
+# Add an entry to a specific environment
+hoster add 10.1.0.5 www.example.com --dev
 
-2.	Next, you need to make the command executable:
+# List entries (all environments, or one)
+hoster list
+hoster list --dev
 
-	`$ chmod +x hoster`
+# Open an environment file in your editor
+hoster edit --dev
 
-3.	To make sure my shell knows where to find hoster you will need to add the addres from where you've cloned the project to your .bashrc file's PATH variable. Here's how mine looks:
+# Apply an environment to /etc/hosts
+hoster apply --dev
+```
 
-	`$ export PATH=${PATH}:/Users/helmed/Projects/workspaceShell/hoster/`
+Run `hoster --help` for the full command list and `hoster --version` to check the installed version.
 
-4.	Make sure you reload your shell with:
+## Development
 
-	`$ source ~/.bashrc`
+Local quality checks go through `make`:
 
-Usage
-=====
+```sh
+make lint    # shellcheck on all *.sh
+make test    # bats test suite
+make all     # lint + test
+```
 
-There are different ways to use the hoster to create and keep your applications' hosts running and beeing applied.
+Both targets run in CI on every push and pull request.
 
-1.	A project needs to know that it will start to run in hoster's standard:
+## Build
 
-	`$ hoster init`
+The Maven assembly produces a release tarball:
 
-2.	After defining the use of the default, you must add Hosts into a specific environment:
+```sh
+mvn clean package
+```
 
-	`$ hoster add 10.1.0.5 www.github.com --dev`
+The build requires Maven 3.8+ and Java 11+ (enforced by `maven-enforcer-plugin`).
 
-3.	A project needs to list the configured hosts.
+## License
 
-	`$ hoster list`
-
-	`$ hoster list --dev`
-
-4.	It may be more efficient to use an editor to work on adding and removing hosts.
-
-	`$ hoster edit --dev --tool sublime`
-
-5.	After setup is complete the host should be applied..
-
-	`$ hoster apply --dev`
+[MIT](LICENSE) © Helio de Medeiros.
