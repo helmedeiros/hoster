@@ -3,6 +3,7 @@ HOSTER_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 source "$HOSTER_DIR/version.sh"
 source "$HOSTER_DIR/help.sh"
+source "$HOSTER_DIR/builtin/os.sh"
 source "$HOSTER_DIR/builtin/defaults.sh"
 source "$HOSTER_DIR/builtin/handle_options.sh"
 source "$HOSTER_DIR/builtin/host_actions.sh"

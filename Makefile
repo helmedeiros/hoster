@@ -12,7 +12,7 @@ help:
 	@echo "  clean  - remove build artifacts"
 
 lint:
-	shellcheck $(SH_FILES)
+	shellcheck -x $(SH_FILES)
 
 test:
 	bats tests/

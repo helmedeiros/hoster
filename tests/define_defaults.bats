@@ -19,9 +19,17 @@ setup() {
   [ "$network" = "Wi-Fi" ]
 }
 
-@test "define_defaults sets HOST_PATH/HOST_FILE/HOST_DEFAULT_FOLDER constants" {
+@test "define_defaults resolves HOST_FILE from os.sh and HOST_PATH from it" {
+  OSTYPE="linux-gnu"
   define_defaults "vim" "/etc/" "hosts" "eth0"
-  [ "$HOST_PATH" = "/private/etc" ]
-  [ "$HOST_FILE" = "/private/etc/Hosts" ]
+  [ "$HOST_FILE" = "/etc/hosts" ]
+  [ "$HOST_PATH" = "/etc" ]
   [ "$HOST_DEFAULT_FOLDER" = ".hosts" ]
+}
+
+@test "define_defaults resolves HOST_FILE on macOS" {
+  OSTYPE="darwin22.0"
+  define_defaults "vim" "/etc/" "hosts" "eth0"
+  [ "$HOST_FILE" = "/private/etc/hosts" ]
+  [ "$HOST_PATH" = "/private/etc" ]
 }

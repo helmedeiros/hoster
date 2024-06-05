@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 #
+# shellcheck source=builtin/os.sh
+source "$(dirname "${BASH_SOURCE[0]}")/os.sh"
+
 function define_defaults(){
     DEFAULT_IDE=$1;
 
@@ -8,7 +11,7 @@ function define_defaults(){
 
     network=$4;
 
-    HOST_PATH="/private/etc";
-	HOST_FILE="$HOST_PATH/Hosts";
-	HOST_DEFAULT_FOLDER=".hosts";
+    HOST_FILE="$(hoster_os_host_file)";
+    HOST_PATH="$(dirname "$HOST_FILE")";
+    HOST_DEFAULT_FOLDER=".hosts";
 }
