@@ -8,6 +8,8 @@
 
 It is not always easy to discover the hosts an application needs. With hoster, every contributor sees the same `lcl/dev/hml/prd` host pairs alongside the code, and can swap them in and out of the system hosts file with one command.
 
+**Supported platforms:** macOS (`/private/etc/hosts`), Linux (`/etc/hosts`), and Git Bash / MSYS / MinGW on Windows (`/c/Windows/System32/drivers/etc/hosts`). The system file is resolved at runtime via `$OSTYPE`.
+
 ## Table of contents
 
 - [Install](#install)
