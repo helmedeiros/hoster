@@ -27,7 +27,16 @@ function handle_main_options(){
           cmd_project_name;
           cmd_apply_host "$@";
           break;
-        ;; 
+        ;;
+
+        # Clean one environment from the system hosts file
+        clean)
+          COMMAND="CLEAN";
+          cmd_top_level;
+          cmd_project_name;
+          cmd_clean_host "$@";
+          break;
+        ;;
 
         # Add a host to the project
         add)
