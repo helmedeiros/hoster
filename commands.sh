@@ -51,8 +51,18 @@ function cmd_hosts_apply(){
 }
 
 # Requests apply_host inside /builtin/host_apply.sh
-function cmd_apply_host(){ 
+function cmd_apply_host(){
 	apply_host "$@";
+}
+
+# Requests clean_host inside /builtin/host_apply.sh
+function cmd_clean_host(){
+	clean_host "$@";
+}
+
+# Requests hosts_clean inside /builtin/host_apply.sh
+function cmd_hosts_clean(){
+	hosts_clean;
 }
 
 # Requests append_host inside /builtin/host_apply.sh
@@ -101,6 +111,9 @@ function cmd_execute_options(){
     ;;
     APPLY)
       cmd_hosts_apply;
+    ;;
+    CLEAN)
+      cmd_hosts_clean;
     ;;
     EDIT)
       cmd_hosts_edit;
