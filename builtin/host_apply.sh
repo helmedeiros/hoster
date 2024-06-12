@@ -12,6 +12,30 @@ function hosts_apply(){
 	cmd_append_hosts "$HOST_FILE_TO_APPEND";
 }
 
+function clean_host(){
+	handle_env_options "$2";
+}
+
+function hosts_clean(){
+	cmd_set_environment "$ENVIRONMENT";
+
+	TEMP_APPLY_FILE="$TOP_LEVEL_FOLDER/Hosts.apply.tmp";
+
+	find_occurrence;
+
+	if [ "$found" != "true" ]; then
+		echo "Nothing to clean for $ENVIRONMENT of $PROJECT_NAME.";
+		return 0;
+	fi
+
+	remove_occurrence;
+
+	run_cmd "sudo cp $TEMP_APPLY_FILE $HOST_FILE" "silent";
+	run_cmd "rm -f $TEMP_APPLY_FILE" "silent";
+
+	echo "Cleaned $ENVIRONMENT of $PROJECT_NAME from $HOST_FILE.";
+}
+
 function append_host(){
 	TEMP_APPLY_FILE="$TOP_LEVEL_FOLDER/Hosts.apply.tmp";
 
