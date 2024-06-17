@@ -10,6 +10,8 @@ load test_helper
 @test "hoster --help lists the common commands" {
   run_hoster --help
   [[ "$output" == *"add"* ]]
+  [[ "$output" == *"apply"* ]]
+  [[ "$output" == *"clean"* ]]
   [[ "$output" == *"edit"* ]]
   [[ "$output" == *"init"* ]]
   [[ "$output" == *"list"* ]]
