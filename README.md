@@ -48,6 +48,9 @@ hoster edit --dev
 
 # Apply an environment to /etc/hosts
 hoster apply --dev
+
+# Remove this project's entries from the system hosts file
+hoster clean --dev
 ```
 
 Run `hoster --help` for the full command list and `hoster --version` to check the installed version.
