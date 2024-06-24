@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 #
 
-environments=(lcl dev hlg prod);
-
 function add_host(){
 	ADD_HOST="$3";
 

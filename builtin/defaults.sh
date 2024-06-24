@@ -3,6 +3,9 @@
 # shellcheck source=builtin/os.sh
 source "$(dirname "${BASH_SOURCE[0]}")/os.sh"
 
+# Supported environment identifiers, in display order.
+environments=(lcl dev hlg prod);
+
 function define_defaults(){
     DEFAULT_IDE=$1;
 
