@@ -42,6 +42,17 @@ The suite follows a pyramid:
 
 New behaviour needs a new test. New tests for existing behaviour are welcome on their own.
 
+### Adding a new subcommand
+
+A new subcommand typically touches four places. Use the existing `clean` work as a template:
+
+1. **Route the keyword** in `builtin/handle_options.sh` (add a `case` branch that sets `COMMAND` and calls a `cmd_<name>_host` wrapper).
+2. **Add wrappers** in `commands.sh` (`cmd_<name>_host` and `cmd_hosts_<name>`) and a branch in `cmd_execute_options`.
+3. **Implement** the actual work in `builtin/host_actions.sh` or `builtin/host_apply.sh`.
+4. **Test it**: a unit suite (`tests/<name>.bats`) that stubs `sudo` and overrides `HOST_FILE` to a temp file, plus an entry in `tests/integration_help.bats` so the public command list stays in sync.
+
+The unit suite should not touch the real `/etc/hosts` -- always point `HOST_FILE` at a tempdir.
+
 ## Reporting issues
 
 Use the [issue tracker](https://github.com/helmedeiros/hoster/issues). For security concerns please follow [SECURITY.md](SECURITY.md) instead of opening a public issue.
