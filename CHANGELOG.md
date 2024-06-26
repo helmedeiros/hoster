@@ -9,6 +9,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `clean` subcommand. Reverse of `apply`: removes the current project's
+  block from the system hosts file. Implemented in
+  `builtin/host_apply.sh` (`clean_host` / `hosts_clean`) on top of
+  the existing `find_occurrence` / `remove_occurrence` primitives,
+  with unit tests covering the no-op path, the matching-block
+  removal and the "do not touch other-project blocks" guarantee.
+- `builtin/os.sh` exposing `hoster_os_is_macos` /
+  `hoster_os_is_linux` / `hoster_os_is_windows` and a
+  `hoster_os_host_file` resolver, ported in concept from the
+  abandoned ruby branch. `define_defaults` now sources os.sh and
+  derives `HOST_FILE` and `HOST_PATH` from it, so hoster works on
+  Linux (`/etc/hosts`) and Git Bash / MSYS / MinGW
+  (`/c/Windows/System32/drivers/etc/hosts`).
+- Test suite grew from 50 to 75 cases; new unit suites for
+  `hoster_os_*`, `find_occurrence`, `hosts_clean`, and a
+  `tests/integration_os.bats` exercising the full source chain.
+
+### Changed
+
+- `environments` array moved from `builtin/host_actions.sh` to
+  `builtin/defaults.sh` (configuration belongs with constants).
+- Makefile lint target now runs `shellcheck -x` so the
+  `# shellcheck source=…` directives are followed.
+- `help.sh` lists `apply` and `clean` alongside the original
+  add / edit / init / list commands.
+
+### Initial
+
 - `.gitignore` covering Maven build outputs and OS files.
 - MIT `LICENSE`.
 - `.editorconfig` codifying indent and newline conventions.
