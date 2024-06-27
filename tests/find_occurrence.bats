@@ -5,6 +5,7 @@ load test_helper
 setup() {
   # shellcheck source=../commands.sh
   source "$PROJECT_ROOT/commands.sh"
+  cmd_define_defaults "sublime" "/private/etc/" "Hosts" "Wi-Fi"
   TMPDIR_TEST="$(mktemp -d)"
   HOST_FILE="$TMPDIR_TEST/etc-hosts"
   PROJECT_NAME="bats-project"
@@ -45,5 +46,5 @@ teardown() {
 @test "find_occurrence cleans up its temp file" {
   : > "$HOST_FILE"
   find_occurrence
-  [ ! -f "Hosts.out.tmp" ]
+  [ ! -f "$OCCURRENCE_TMP_NAME" ]
 }

@@ -17,4 +17,7 @@ function define_defaults(){
     HOST_FILE="$(hoster_os_host_file)";
     HOST_PATH="$(dirname "$HOST_FILE")";
     HOST_DEFAULT_FOLDER=".hosts";
+
+    APPLY_TMP_NAME="Hosts.apply.tmp";
+    OCCURRENCE_TMP_NAME="Hosts.out.tmp";
 }

@@ -19,7 +19,7 @@ function clean_host(){
 function hosts_clean(){
 	cmd_set_environment "$ENVIRONMENT";
 
-	TEMP_APPLY_FILE="$TOP_LEVEL_FOLDER/Hosts.apply.tmp";
+	TEMP_APPLY_FILE="$TOP_LEVEL_FOLDER/$APPLY_TMP_NAME";
 
 	find_occurrence;
 
@@ -37,7 +37,7 @@ function hosts_clean(){
 }
 
 function append_host(){
-	TEMP_APPLY_FILE="$TOP_LEVEL_FOLDER/Hosts.apply.tmp";
+	TEMP_APPLY_FILE="$TOP_LEVEL_FOLDER/$APPLY_TMP_NAME";
 
 	find_occurrence;
 
@@ -61,7 +61,7 @@ function append_host(){
 
 function find_occurrence(){
 	found="false";
-	TMP_OCCURRENCE_FILE="Hosts.out.tmp";
+	TMP_OCCURRENCE_FILE="$OCCURRENCE_TMP_NAME";
 
 	sudo sed "/<$PROJECT_NAME/,/<\/$PROJECT_NAME/!d" "$HOST_FILE" | tee "$TMP_OCCURRENCE_FILE" > /dev/null;
 
