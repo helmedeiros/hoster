@@ -78,10 +78,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - README rewritten with badges, table of contents and modern install
   steps.
 
+## [1.9.0-SNAPSHOT] - 2024-06-28
+
+Snapshot capturing the June work: OS abstraction, `clean`
+subcommand, the lift of temp-file basenames into defaults, and 25
+new tests bringing the suite to 75 cases.
+
 ## [1.8.0-SNAPSHOT] - 2024-05-31
 
-Snapshot capturing the work above. Next tagged release will cut from
-here.
+Snapshot capturing the April-May work. Next tagged release will cut
+from here.
 
 ## [1.7.2-IURI] - 2014-12-02
 
@@ -90,5 +96,7 @@ here.
 - Logic to reinitialize an existing host repository.
 - `hoster init` for empty host repositories.
 
-[Unreleased]: https://github.com/helmedeiros/hoster/compare/v1.7.2-IURI...HEAD
+[Unreleased]: https://github.com/helmedeiros/hoster/compare/v1.9.0-SNAPSHOT...HEAD
+[1.9.0-SNAPSHOT]: https://github.com/helmedeiros/hoster/compare/v1.8.0-SNAPSHOT...v1.9.0-SNAPSHOT
+[1.8.0-SNAPSHOT]: https://github.com/helmedeiros/hoster/compare/v1.7.2-IURI...v1.8.0-SNAPSHOT
 [1.7.2-IURI]: https://github.com/helmedeiros/hoster/releases/tag/v1.7.2-IURI
