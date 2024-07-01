@@ -45,7 +45,16 @@ function handle_main_options(){
           cmd_project_name;
           cmd_add_host "$@";
           break;
-        ;; 
+        ;;
+
+        # Remove a host from the project
+        remove|rm)
+          COMMAND="REMOVE";
+          cmd_top_level;
+          cmd_project_name;
+          cmd_remove_host "$@";
+          break;
+        ;;
 
         # Start editing one environment
         edit)
