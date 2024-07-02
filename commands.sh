@@ -35,6 +35,16 @@ function cmd_host_add(){
   host_add;
 }
 
+# Requests remove_host inside /builtin/host_actions.sh
+function cmd_remove_host(){
+  remove_host "$@";
+}
+
+# Requests host_remove inside /builtin/host_actions.sh
+function cmd_host_remove(){
+  host_remove;
+}
+
 # Requests list_host inside /builtin/host_actions.sh
 function cmd_list_host(){
   list_host "$@";
@@ -108,6 +118,9 @@ function cmd_execute_options(){
   case "$COMMAND" in
     ADD)
       cmd_host_add;
+    ;;
+    REMOVE)
+      cmd_host_remove;
     ;;
     APPLY)
       cmd_hosts_apply;
