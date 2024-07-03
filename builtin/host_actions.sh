@@ -23,6 +23,31 @@ function host_add(){
 	echo "$ADD_IP $ADD_HOST" >> "$TOP_LEVEL_FOLDER/$FILE";
 }
 
+function remove_host(){
+	REMOVE_HOST="$2";
+	handle_env_options "$3";
+}
+
+function host_remove(){
+	cmd_set_environment "$ENVIRONMENT";
+	TARGET="$TOP_LEVEL_FOLDER/$FILE";
+
+	if [ ! -f "$TARGET" ]; then
+		echo "No $ENVIRONMENT host file at $TARGET.";
+		return 0;
+	fi
+
+	if ! grep -q "[[:space:]]${REMOVE_HOST}\$\|[[:space:]]${REMOVE_HOST}[[:space:]]" "$TARGET"; then
+		echo "$REMOVE_HOST not found in $ENVIRONMENT.";
+		return 0;
+	fi
+
+	tmp="$TARGET.tmp";
+	grep -v "[[:space:]]${REMOVE_HOST}\$\|[[:space:]]${REMOVE_HOST}[[:space:]]" "$TARGET" > "$tmp";
+	mv "$tmp" "$TARGET";
+	echo "Removed $REMOVE_HOST from $ENVIRONMENT.";
+}
+
 function list_host(){
 	handle_env_options "$2";
 }
