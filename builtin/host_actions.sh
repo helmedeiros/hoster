@@ -37,13 +37,15 @@ function host_remove(){
 		return 0;
 	fi
 
-	if ! grep -q "[[:space:]]${REMOVE_HOST}\$\|[[:space:]]${REMOVE_HOST}[[:space:]]" "$TARGET"; then
+	pattern="[[:space:]]${REMOVE_HOST}\$|[[:space:]]${REMOVE_HOST}[[:space:]]";
+
+	if ! grep -Eq "$pattern" "$TARGET"; then
 		echo "$REMOVE_HOST not found in $ENVIRONMENT.";
 		return 0;
 	fi
 
 	tmp="$TARGET.tmp";
-	grep -v "[[:space:]]${REMOVE_HOST}\$\|[[:space:]]${REMOVE_HOST}[[:space:]]" "$TARGET" > "$tmp";
+	grep -Ev "$pattern" "$TARGET" > "$tmp";
 	mv "$tmp" "$TARGET";
 	echo "Removed $REMOVE_HOST from $ENVIRONMENT.";
 }
