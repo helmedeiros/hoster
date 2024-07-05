@@ -39,6 +39,9 @@ hoster init
 # Add an entry to a specific environment
 hoster add 10.1.0.5 www.example.com --dev
 
+# Remove an entry by hostname
+hoster remove www.example.com --dev
+
 # List entries (all environments, or one)
 hoster list
 hoster list --dev

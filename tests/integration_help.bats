@@ -15,6 +15,7 @@ load test_helper
   [[ "$output" == *"edit"* ]]
   [[ "$output" == *"init"* ]]
   [[ "$output" == *"list"* ]]
+  [[ "$output" == *"remove"* ]]
 }
 
 @test "hoster --H is an alias for --help" {
