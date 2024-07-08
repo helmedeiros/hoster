@@ -12,13 +12,21 @@ function handle_options(){
 
 
 function handle_main_options(){
-  COMMAND="";  
+  COMMAND="";
+  VERBOSE="${VERBOSE:-false}";
 
    # Parse user options
    while [ $# -gt 0 ]; do
       OPT=$1;
 
       case "$OPT" in
+
+        # Verbose mode -- consumed in place, loop continues.
+        --verbose|-v)
+          VERBOSE="true";
+          shift;
+          continue;
+        ;;
 
         # Apply one environment
         apply)
