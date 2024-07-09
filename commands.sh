@@ -12,6 +12,12 @@ source "$HOSTER_DIR/builtin/paths.sh"
 
 
 
+function hoster_log(){
+	if [ "${VERBOSE:-false}" = "true" ]; then
+		echo "$@" >&2;
+	fi
+}
+
 function run_cmd(){
 	if [ $# -eq 1 ]; then
     echo "Running: $1";
