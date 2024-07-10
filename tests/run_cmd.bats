@@ -12,12 +12,20 @@ setup() {
   [ "$status" -eq 0 ]
 }
 
-@test "run_cmd echoes the command name when run with a single argument" {
+@test "run_cmd echoes the command name when verbose and called with one arg" {
+  VERBOSE="true"
   run run_cmd "true"
   [[ "$output" == *"Running: true"* ]]
 }
 
+@test "run_cmd is silent by default with one arg" {
+  VERBOSE="false"
+  run run_cmd "true"
+  [[ "$output" != *"Running: true"* ]]
+}
+
 @test "run_cmd suppresses the banner when called with a second argument" {
+  VERBOSE="true"
   run run_cmd "true" "silent"
   [[ "$output" != *"Running: true"* ]]
 }

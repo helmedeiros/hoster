@@ -20,14 +20,12 @@ function hoster_log(){
 
 function run_cmd(){
 	if [ $# -eq 1 ]; then
-    echo "Running: $1";
-  fi
+		hoster_log "Running: $1";
+	fi
 
-  $1;
-  
-	if [ "$?" -ne "0" ]; then
-	  echo "command failed: $1";
-	  exit 1;
+	if ! $1; then
+		echo "command failed: $1";
+		exit 1;
 	fi
 }
 
