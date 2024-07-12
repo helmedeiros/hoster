@@ -56,7 +56,7 @@ hoster apply --dev
 hoster clean --dev
 ```
 
-Run `hoster --help` for the full command list and `hoster --version` to check the installed version.
+Run `hoster --help` for the full command list and `hoster --version` to check the installed version. Pass `--verbose` (or `-v`) before any subcommand to surface the internal `run_cmd` invocations -- useful when debugging an `apply` or `clean` that does not seem to take effect.
 
 ## Development
 
