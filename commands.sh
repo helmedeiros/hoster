@@ -12,6 +12,14 @@ source "$HOSTER_DIR/builtin/paths.sh"
 
 
 
+# parse_env_arg scans all forwarded arguments for the environment flag
+# (--dev/-d, --hlg/-h, --lcl/-l, --prod/-p) and sets ENVIRONMENT. Use it
+# as the position-agnostic replacement for the older
+# "handle_env_options \"\$2\"" pattern.
+function parse_env_arg(){
+	handle_env_options "$@";
+}
+
 function hoster_log(){
 	if [ "${VERBOSE:-false}" = "true" ]; then
 		echo "$@" >&2;
