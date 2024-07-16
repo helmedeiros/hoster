@@ -2,7 +2,7 @@
 
 
 function apply_host(){
-	handle_env_options "$2";
+	parse_env_arg "$@";
 }
 
 function hosts_apply(){
@@ -13,7 +13,7 @@ function hosts_apply(){
 }
 
 function clean_host(){
-	handle_env_options "$2";
+	parse_env_arg "$@";
 }
 
 function hosts_clean(){

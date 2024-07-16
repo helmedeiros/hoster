@@ -6,7 +6,7 @@ function add_host(){
 
 	define_ip "$2";
 
-	handle_env_options "$4";
+	parse_env_arg "$@";
 }
 
 function define_ip(){
@@ -25,7 +25,7 @@ function host_add(){
 
 function remove_host(){
 	REMOVE_HOST="$2";
-	handle_env_options "$3";
+	parse_env_arg "$@";
 }
 
 function host_remove(){
@@ -51,7 +51,7 @@ function host_remove(){
 }
 
 function list_host(){
-	handle_env_options "$2";
+	parse_env_arg "$@";
 }
 
 
@@ -96,7 +96,7 @@ function reinitialize_hosts(){
 }
 
 function edit_host(){
-	handle_env_options "$2";
+	parse_env_arg "$@";
 }
 
 function hosts_edit(){
