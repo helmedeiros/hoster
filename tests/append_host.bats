@@ -55,3 +55,39 @@ teardown() {
   append_host "$PROJECT_HOSTS"
   [ ! -f "$TOP_LEVEL_FOLDER/$APPLY_TMP_NAME" ]
 }
+
+@test "append_host replaces an existing block instead of duplicating" {
+  # First apply.
+  append_host "$PROJECT_HOSTS"
+
+  # Mutate the source and re-apply.
+  cat > "$PROJECT_HOSTS" <<EOF
+10.0.0.99 newly-added.dev.example.com
+EOF
+  append_host "$PROJECT_HOSTS"
+
+  # Only one open/close marker pair should remain.
+  opens=$(grep -c "##<bats-project-dev>##" "$HOST_FILE")
+  closes=$(grep -c "##</bats-project-dev>##" "$HOST_FILE")
+  [ "$opens" = "1" ]
+  [ "$closes" = "1" ]
+
+  # New entry present, old removed.
+  run cat "$HOST_FILE"
+  [[ "$output" == *"newly-added.dev.example.com"* ]]
+  [[ "$output" != *"api.dev.example.com"* ]]
+}
+
+@test "append_host does not touch other-project blocks" {
+  {
+    echo "##<other-project-dev>##"
+    echo "10.0.0.50 theirs.local"
+    echo "##</other-project-dev>##"
+  } > "$HOST_FILE"
+
+  append_host "$PROJECT_HOSTS"
+
+  run cat "$HOST_FILE"
+  [[ "$output" == *"other-project-dev"* ]]
+  [[ "$output" == *"theirs.local"* ]]
+}
