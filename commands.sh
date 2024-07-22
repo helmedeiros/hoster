@@ -87,6 +87,11 @@ function cmd_hosts_clean(){
 	hosts_clean;
 }
 
+# Requests hosts_status inside /builtin/host_apply.sh
+function cmd_hosts_status(){
+	hosts_status;
+}
+
 # Requests append_host inside /builtin/host_apply.sh
 function cmd_append_hosts(){
   append_host "$@";
@@ -139,6 +144,9 @@ function cmd_execute_options(){
     ;;
     CLEAN)
       cmd_hosts_clean;
+    ;;
+    STATUS)
+      cmd_hosts_status;
     ;;
     EDIT)
       cmd_hosts_edit;

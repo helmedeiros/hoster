@@ -93,11 +93,19 @@ function handle_main_options(){
           break;
         ;;
 
+        # Show which environment, if any, is currently applied.
+        status)
+          COMMAND="STATUS";
+          cmd_top_level;
+          cmd_project_name;
+          break;
+        ;;
+
         # Show the version
         --V|--version)
           COMMAND="VERSION";
           break;
-        ;; 
+        ;;
 
         *)
           echo "$progname: '$OPT' is not a $progname command. See '$progname --help'."  

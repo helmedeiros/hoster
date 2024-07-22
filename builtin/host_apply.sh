@@ -16,6 +16,16 @@ function clean_host(){
 	parse_env_arg "$@";
 }
 
+function hosts_status(){
+	if ! grep -Eq "##<$PROJECT_NAME-[a-z]+>##" "$HOST_FILE"; then
+		echo "No $PROJECT_NAME block applied to $HOST_FILE.";
+		return 0;
+	fi
+
+	applied=$(grep -Eo "##<$PROJECT_NAME-[a-z]+>##" "$HOST_FILE" | sed -E "s/##<$PROJECT_NAME-([a-z]+)>##/\\1/");
+	echo "$PROJECT_NAME applied environments: $(echo "$applied" | tr '\n' ' ')";
+}
+
 function hosts_clean(){
 	cmd_set_environment "$ENVIRONMENT";
 
