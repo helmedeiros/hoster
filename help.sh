@@ -19,4 +19,5 @@ function list_common_cmds_help(){
 	echo "    init  	Create an empty host repository in the current folder.";
 	echo "    list  	List all hosts for a specific project.";
 	echo "    remove	Remove a host from a specific environment.";
+	echo "    status	Show which environments of the current project are applied.";
 }

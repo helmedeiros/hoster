@@ -2,14 +2,18 @@ SHELL := /bin/bash
 
 SH_FILES := $(wildcard *.sh) $(wildcard builtin/*.sh) $(wildcard scripts/*.sh) $(wildcard scripts/*.bash)
 
-.PHONY: help lint test all clean
+COMPLETION_DIR ?= $(if $(shell test -d /opt/homebrew/etc/bash_completion.d && echo yes),/opt/homebrew/etc/bash_completion.d,/etc/bash_completion.d)
+
+.PHONY: help lint test all clean install-completion
 
 help:
 	@echo "Targets:"
-	@echo "  lint   - run shellcheck on all shell scripts"
-	@echo "  test   - run bats test suite"
-	@echo "  all    - lint + test"
-	@echo "  clean  - remove build artifacts"
+	@echo "  lint                - run shellcheck on all shell scripts"
+	@echo "  test                - run bats test suite"
+	@echo "  all                 - lint + test"
+	@echo "  clean               - remove build artifacts"
+	@echo "  install-completion  - install scripts/completion.bash into \$$COMPLETION_DIR"
+	@echo "                        (default: $(COMPLETION_DIR))"
 
 lint:
 	shellcheck -x $(SH_FILES)
@@ -21,3 +25,9 @@ all: lint test
 
 clean:
 	rm -rf target/ bin/
+
+install-completion:
+	install -d "$(COMPLETION_DIR)"
+	install -m 0644 scripts/completion.bash "$(COMPLETION_DIR)/hoster"
+	@echo "Installed completion to $(COMPLETION_DIR)/hoster"
+	@echo "Open a new shell or source the file to activate."
