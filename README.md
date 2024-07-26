@@ -52,8 +52,27 @@ hoster edit --dev
 # Apply an environment to /etc/hosts
 hoster apply --dev
 
+# Show which environments are currently applied to the system hosts file
+hoster status
+
 # Remove this project's entries from the system hosts file
 hoster clean --dev
+```
+
+### Shell completion
+
+A bash completion script lives at `scripts/completion.bash`. Install it with:
+
+```sh
+make install-completion           # /opt/homebrew/etc/bash_completion.d (macOS)
+                                  # or /etc/bash_completion.d (Linux)
+make install-completion COMPLETION_DIR=$HOME/.local/share/bash-completion/completions
+```
+
+Or source it directly from the repo for ad-hoc use:
+
+```sh
+source scripts/completion.bash
 ```
 
 Run `hoster --help` for the full command list and `hoster --version` to check the installed version. Pass `--verbose` (or `-v`) before any subcommand to surface the internal `run_cmd` invocations -- useful when debugging an `apply` or `clean` that does not seem to take effect.
