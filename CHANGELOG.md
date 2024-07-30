@@ -9,6 +9,42 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `remove` subcommand (and `rm` alias) to delete a single host by
+  name from one environment's host file. Uses anchored matching so
+  a hostname that is a prefix of another (e.g. `www.example.com`
+  vs `www.example.com.staging`) is not over-deleted.
+- `status` subcommand: scans the system hosts file for the current
+  project's marker blocks and lists the environments currently
+  applied.
+- `--verbose` / `-v` global flag. Consumed by `handle_main_options`
+  ahead of any subcommand and exposed through a new `hoster_log`
+  helper. `run_cmd`'s "Running: ..." banner is now gated on this
+  flag; default output is quiet.
+- `parse_env_arg` helper that scans all forwarded arguments for the
+  environment flag, so users can write `hoster add --dev 10.0.0.1
+  host` or `hoster add 10.0.0.1 host --dev` interchangeably.
+- Bash completion script at `scripts/completion.bash` plus
+  `make install-completion` (Homebrew or system path, overridable).
+- 29 new tests bringing the suite to 104 cases: `host_remove`,
+  `hoster_log`, `append_host` (write path + idempotency +
+  other-project isolation), `hosts_list`, `hosts_status`, and
+  `--verbose` integration.
+- `versions-maven-plugin` so plugin/dependency audits are one
+  command away.
+
+### Changed
+
+- `run_cmd` rewritten to check the exit status directly with
+  `if ! $1` (drops SC2181 from the shellcheck baseline) and to
+  route the per-call banner through `hoster_log`.
+- `add_host`, `remove_host`, `list_host`, `edit_host`, `apply_host`
+  and `clean_host` now call `parse_env_arg "$@"` instead of
+  picking a positional slot, so the environment flag works in
+  any position.
+- `pom.xml` gains `project.reporting.outputEncoding=UTF-8`.
+
+### [Older Unreleased entries from April-June below]
+
 - `clean` subcommand. Reverse of `apply`: removes the current project's
   block from the system hosts file. Implemented in
   `builtin/host_apply.sh` (`clean_host` / `hosts_clean`) on top of
