@@ -22,6 +22,25 @@ fi
 VERSION="$1"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
+# Reject obviously wrong version strings early.
+if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[A-Za-z0-9.+-]+)?$ ]]; then
+  echo "Invalid version: '$VERSION' (expected X.Y.Z or X.Y.Z-LABEL)" >&2
+  exit 1
+fi
+
+# Refuse to release with uncommitted changes -- the commit at the end
+# would otherwise pick up unrelated work.
+if [ -n "$(git -C "$ROOT" status --porcelain)" ]; then
+  echo "Working tree has uncommitted changes. Commit or stash first." >&2
+  exit 1
+fi
+
+# Refuse to release if the tag already exists.
+if git -C "$ROOT" rev-parse "v$VERSION" >/dev/null 2>&1; then
+  echo "Tag v$VERSION already exists." >&2
+  exit 1
+fi
+
 echo "$VERSION" > "$ROOT/hoster.version"
 
 # Update <version>X</version> inside the top-level <project> block.
