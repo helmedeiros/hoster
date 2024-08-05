@@ -4,7 +4,7 @@
 
     <groupId>hoster</groupId>
     <artifactId>hoster</artifactId>
-    <version>1.10.0-SNAPSHOT</version>
+    <version>1.10.0</version>
 
     <name>Hoster</name>
     <url>https://github.com/helmedeiros/hoster</url>
