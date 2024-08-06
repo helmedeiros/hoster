@@ -1,7 +1,7 @@
 class Hoster < Formula
   desc "Project-scoped /etc/hosts management for local, dev, hlg and prod environments"
   homepage "https://github.com/helmedeiros/hoster"
-  url "https://github.com/helmedeiros/hoster/releases/download/1.7.2-IURI/hoster-1.7.2-IURI-as.tar.gz"
+  url "https://github.com/helmedeiros/hoster/releases/download/v1.10.0/hoster-1.10.0-as.tar.gz"
   sha256 "0000000000000000000000000000000000000000000000000000000000000000"
   license "MIT"
   head "https://github.com/helmedeiros/hoster.git", branch: "master"
