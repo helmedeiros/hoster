@@ -1,0 +1,28 @@
+.TH HOSTER 1 "August 2024" "hoster 1.10.0" "User Commands"
+.SH NAME
+hoster \- project-scoped /etc/hosts management
+.SH SYNOPSIS
+.B hoster
+.RI [ --verbose | -v ]
+.RI [ --help ]
+.RI [ --version ]
+.IR command
+.RI [ args... ]
+.SH DESCRIPTION
+.B hoster
+keeps a project's
+.I /etc/hosts
+entries inside the repository, scoped per environment
+.RB ( lcl ", " dev ", " hlg ", " prd ),
+and applies them on demand. Every contributor sees the same host pairs
+alongside the code and can swap them in and out of the system hosts
+file with one command.
+.PP
+The system hosts file is resolved at runtime from
+.B $OSTYPE:
+.I /private/etc/hosts
+on macOS,
+.I /etc/hosts
+on Linux,
+.I /c/Windows/System32/drivers/etc/hosts
+under Git Bash / MSYS / MinGW.
