@@ -26,3 +26,53 @@ on macOS,
 on Linux,
 .I /c/Windows/System32/drivers/etc/hosts
 under Git Bash / MSYS / MinGW.
+.SH COMMANDS
+.TP
+.B init
+Create an empty
+.I .hosts
+repository in the current folder, populated with empty
+.IR hosts.lcl ", " hosts.dev ", " hosts.hml ", " hosts.prd .
+.TP
+.B add \fIIP HOSTNAME \fR[\fI--ENV\fR]
+Append an entry to the named environment's host file. If the IP is
+malformed
+.B hoster
+exits non-zero with an
+.B INVALID IP
+message.
+.TP
+.B remove \fIHOSTNAME \fR[\fI--ENV\fR]
+Delete a matching entry from the environment's host file. Matching is
+anchored on whitespace, so
+.I www.example.com
+will not over-delete
+.IR www.example.com.staging .
+Has
+.B rm
+as an alias.
+.TP
+.B list \fR[\fI--ENV\fR]
+Print the entries for one environment, or for all four if no flag is
+given. Each block is preceded by a banner with the environment name.
+.TP
+.B edit \fR[\fI--ENV\fR]
+Open the environment's host file in the configured editor.
+.TP
+.B apply \fI--ENV\fR
+Insert the environment's block into the system hosts file. If the
+project already has a block applied, it is replaced atomically through
+a temp file. Requires
+.BR sudo .
+.TP
+.B clean \fI--ENV\fR
+Reverse of
+.BR apply :
+remove the project's block from the system hosts file. A no-op with a
+message when nothing is applied. Requires
+.BR sudo .
+.TP
+.B status
+Scan the system hosts file for the current project's marker blocks
+and print the list of environments currently applied.
+
