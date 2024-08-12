@@ -75,4 +75,69 @@ message when nothing is applied. Requires
 .B status
 Scan the system hosts file for the current project's marker blocks
 and print the list of environments currently applied.
+.SH OPTIONS
+.TP
+.B --verbose, -v
+Surface internal
+.B run_cmd
+invocations on stderr. Consumed in place before the subcommand,
+so it can appear anywhere on the line.
+.TP
+.B --help, --H
+Print the common-commands help and exit.
+.TP
+.B --version, --V
+Print the installed version (read from
+.IR hoster.version )
+and exit.
+.SH ENVIRONMENT FLAGS
+.TP
+.B --dev, -d
+Development hosts (\fIhosts.dev\fR).
+.TP
+.B --hlg, -h
+Homologation hosts (\fIhosts.hml\fR).
+.TP
+.B --lcl, -l
+Local hosts (\fIhosts.lcl\fR).
+.TP
+.B --prod, -p
+Production hosts (\fIhosts.prd\fR).
+.SH FILES
+.TP
+.I .hosts/hosts.{lcl,dev,hml,prd}
+Per-environment host entries, versioned alongside the project.
+.TP
+.I /etc/hosts
+.PD 0
+.TP
+.I /private/etc/hosts
+.TP
+.I /c/Windows/System32/drivers/etc/hosts
+.PD
+System hosts file resolved at runtime via
+.BR $OSTYPE .
+.SH EXAMPLES
+Initialise a project and apply its development hosts:
+.PP
+.RS
+.EX
+$ hoster init
+$ hoster add 10.0.0.1 api.dev.example.com --dev
+$ hoster apply --dev
+.EE
+.RE
+.PP
+List every environment, then clean up:
+.PP
+.RS
+.EX
+$ hoster list
+$ hoster status
+$ hoster clean --dev
+.EE
+.RE
+.SH SEE ALSO
+.BR hosts (5),
+.BR sudo (8)
 
