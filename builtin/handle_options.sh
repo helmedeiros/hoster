@@ -101,6 +101,15 @@ function handle_main_options(){
           break;
         ;;
 
+        # Preview what apply would change
+        diff)
+          COMMAND="DIFF";
+          cmd_top_level;
+          cmd_project_name;
+          cmd_diff_host "$@";
+          break;
+        ;;
+
         # Show the version
         --V|--version)
           COMMAND="VERSION";
