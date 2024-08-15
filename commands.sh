@@ -92,6 +92,16 @@ function cmd_hosts_status(){
 	hosts_status;
 }
 
+# Requests diff_host inside /builtin/host_apply.sh
+function cmd_diff_host(){
+	diff_host "$@";
+}
+
+# Requests hosts_diff inside /builtin/host_apply.sh
+function cmd_hosts_diff(){
+	hosts_diff;
+}
+
 # Requests append_host inside /builtin/host_apply.sh
 function cmd_append_hosts(){
   append_host "$@";
@@ -147,6 +157,9 @@ function cmd_execute_options(){
     ;;
     STATUS)
       cmd_hosts_status;
+    ;;
+    DIFF)
+      cmd_hosts_diff;
     ;;
     EDIT)
       cmd_hosts_edit;
