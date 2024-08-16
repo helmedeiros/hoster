@@ -16,6 +16,36 @@ function clean_host(){
 	parse_env_arg "$@";
 }
 
+function diff_host(){
+	parse_env_arg "$@";
+}
+
+function hosts_diff(){
+	cmd_set_environment "$ENVIRONMENT";
+	PROJECT_FILE="$TOP_LEVEL_FOLDER/$FILE";
+
+	if [ ! -f "$PROJECT_FILE" ]; then
+		echo "No $ENVIRONMENT host file at $PROJECT_FILE.";
+		return 0;
+	fi
+
+	APPLIED_TMP="$TOP_LEVEL_FOLDER/Hosts.diff.tmp";
+	sudo sed -n "/<$PROJECT_NAME-$ENVIRONMENT>/,/<\/$PROJECT_NAME-$ENVIRONMENT>/{//!p;}" "$HOST_FILE" \
+		| tee "$APPLIED_TMP" > /dev/null;
+
+	if [ ! -s "$APPLIED_TMP" ]; then
+		echo "Nothing applied for $ENVIRONMENT of $PROJECT_NAME. \"apply\" would add:";
+		cat "$PROJECT_FILE";
+		rm -f "$APPLIED_TMP";
+		return 0;
+	fi
+
+	echo "Diff between applied $ENVIRONMENT block and $PROJECT_FILE:";
+	diff -u "$APPLIED_TMP" "$PROJECT_FILE" || true;
+
+	rm -f "$APPLIED_TMP";
+}
+
 function hosts_status(){
 	if ! grep -Eq "##<$PROJECT_NAME-[a-z]+>##" "$HOST_FILE"; then
 		echo "No $PROJECT_NAME block applied to $HOST_FILE.";
