@@ -12,6 +12,7 @@ load test_helper
   [[ "$output" == *"add"* ]]
   [[ "$output" == *"apply"* ]]
   [[ "$output" == *"clean"* ]]
+  [[ "$output" == *"diff"* ]]
   [[ "$output" == *"edit"* ]]
   [[ "$output" == *"init"* ]]
   [[ "$output" == *"list"* ]]

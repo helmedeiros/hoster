@@ -15,6 +15,7 @@ function list_common_cmds_help(){
 	echo "    add   	Add a new HOST to current repository into a specific environment.";
 	echo "    apply 	Apply an environment's hosts to the system hosts file.";
 	echo "    clean 	Remove the current project's entries from the system hosts file.";
+	echo "    diff  	Preview what apply would change against the current state.";
 	echo "    edit  	Open the host file defined to be used.";
 	echo "    init  	Create an empty host repository in the current folder.";
 	echo "    list  	List all hosts for a specific project.";
