@@ -75,6 +75,15 @@ message when nothing is applied. Requires
 .B status
 Scan the system hosts file for the current project's marker blocks
 and print the list of environments currently applied.
+.TP
+.B diff \fI--ENV\fR
+Read-only preview of what
+.B apply
+would change. Extracts the currently-applied block for the named
+environment and runs
+.BR diff (1)
+against the project's environment file. If nothing is applied yet,
+prints the project file as the "would-add" preview.
 .SH OPTIONS
 .TP
 .B --verbose, -v

@@ -49,6 +49,9 @@ hoster list --dev
 # Open an environment file in your editor
 hoster edit --dev
 
+# Preview what apply would change without touching the system hosts file
+hoster diff --dev
+
 # Apply an environment to /etc/hosts
 hoster apply --dev
 
