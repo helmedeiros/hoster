@@ -1,0 +1,59 @@
+#compdef hoster hoster.sh
+#
+# Zsh completion for hoster.
+#
+# To install:
+#
+#   mkdir -p ~/.zsh/completions
+#   cp scripts/_hoster ~/.zsh/completions/_hoster
+#   echo 'fpath=(~/.zsh/completions $fpath)' >> ~/.zshrc
+#   echo 'autoload -Uz compinit && compinit' >> ~/.zshrc
+#
+# Or use the install-completion Makefile target, which writes to the
+# detected Homebrew site-functions or /usr/local equivalent.
+
+_hoster() {
+  local -a subcommands envflags globals
+  subcommands=(
+    'add:Add a host to an environment'
+    'apply:Apply an environment to the system hosts file'
+    'clean:Remove this project from the system hosts file'
+    'diff:Preview what apply would change'
+    'edit:Open an environment file in the editor'
+    'init:Create an empty .hosts repository'
+    'list:List entries in one or all environments'
+    'remove:Remove a host from an environment'
+    'rm:Alias for remove'
+    'status:Show which environments are currently applied'
+  )
+  envflags=(
+    '--dev[Development hosts]'
+    '--hlg[Homologation hosts]'
+    '--lcl[Local hosts]'
+    '--prod[Production hosts]'
+    '-d[Development hosts]'
+    '-h[Homologation hosts]'
+    '-l[Local hosts]'
+    '-p[Production hosts]'
+  )
+  globals=(
+    '--help[Show command help]'
+    '--version[Show version]'
+    '--verbose[Verbose output]'
+    '-v[Verbose output]'
+  )
+
+  if (( CURRENT == 2 )); then
+    _describe -t commands 'hoster subcommands' subcommands
+    _values 'global flags' "${globals[@]}"
+    return
+  fi
+
+  case "${words[2]}" in
+    add|apply|clean|diff|edit|list|remove|rm)
+      _values 'environment' "${envflags[@]}"
+      ;;
+  esac
+}
+
+_hoster "$@"
