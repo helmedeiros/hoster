@@ -3,20 +3,23 @@ SHELL := /bin/bash
 SH_FILES := $(wildcard *.sh) $(wildcard builtin/*.sh) $(wildcard scripts/*.sh) $(wildcard scripts/*.bash)
 
 COMPLETION_DIR ?= $(if $(shell test -d /opt/homebrew/etc/bash_completion.d && echo yes),/opt/homebrew/etc/bash_completion.d,/etc/bash_completion.d)
+ZSH_COMPLETION_DIR ?= $(if $(shell test -d /opt/homebrew/share/zsh/site-functions && echo yes),/opt/homebrew/share/zsh/site-functions,/usr/local/share/zsh/site-functions)
 MAN_DIR ?= $(if $(shell test -d /opt/homebrew/share/man/man1 && echo yes),/opt/homebrew/share/man/man1,/usr/local/share/man/man1)
 
-.PHONY: help lint test all clean install-completion install-man
+.PHONY: help lint test all clean install-completion install-zsh-completion install-man
 
 help:
 	@echo "Targets:"
-	@echo "  lint                - run shellcheck on all shell scripts"
-	@echo "  test                - run bats test suite"
-	@echo "  all                 - lint + test"
-	@echo "  clean               - remove build artifacts"
-	@echo "  install-completion  - install scripts/completion.bash into \$$COMPLETION_DIR"
-	@echo "                        (default: $(COMPLETION_DIR))"
-	@echo "  install-man         - install man/hoster.1 into \$$MAN_DIR"
-	@echo "                        (default: $(MAN_DIR))"
+	@echo "  lint                    - run shellcheck on all shell scripts"
+	@echo "  test                    - run bats test suite"
+	@echo "  all                     - lint + test"
+	@echo "  clean                   - remove build artifacts"
+	@echo "  install-completion      - install scripts/completion.bash into \$$COMPLETION_DIR"
+	@echo "                            (default: $(COMPLETION_DIR))"
+	@echo "  install-zsh-completion  - install scripts/_hoster into \$$ZSH_COMPLETION_DIR"
+	@echo "                            (default: $(ZSH_COMPLETION_DIR))"
+	@echo "  install-man             - install man/hoster.1 into \$$MAN_DIR"
+	@echo "                            (default: $(MAN_DIR))"
 
 lint:
 	shellcheck -x $(SH_FILES)
@@ -32,8 +35,14 @@ clean:
 install-completion:
 	install -d "$(COMPLETION_DIR)"
 	install -m 0644 scripts/completion.bash "$(COMPLETION_DIR)/hoster"
-	@echo "Installed completion to $(COMPLETION_DIR)/hoster"
+	@echo "Installed bash completion to $(COMPLETION_DIR)/hoster"
 	@echo "Open a new shell or source the file to activate."
+
+install-zsh-completion:
+	install -d "$(ZSH_COMPLETION_DIR)"
+	install -m 0644 scripts/_hoster "$(ZSH_COMPLETION_DIR)/_hoster"
+	@echo "Installed zsh completion to $(ZSH_COMPLETION_DIR)/_hoster"
+	@echo "Reload your shell or run: autoload -Uz compinit && compinit"
 
 install-man:
 	install -d "$(MAN_DIR)"
