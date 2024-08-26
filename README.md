@@ -64,7 +64,7 @@ hoster clean --dev
 
 ### Shell completion
 
-A bash completion script lives at `scripts/completion.bash`. Install it with:
+**Bash** — `scripts/completion.bash`:
 
 ```sh
 make install-completion           # /opt/homebrew/etc/bash_completion.d (macOS)
@@ -77,6 +77,25 @@ Or source it directly from the repo for ad-hoc use:
 ```sh
 source scripts/completion.bash
 ```
+
+**Zsh** — `scripts/_hoster` (native, includes descriptions in the menu UI):
+
+```sh
+make install-zsh-completion       # /opt/homebrew/share/zsh/site-functions (macOS)
+                                  # or /usr/local/share/zsh/site-functions (Linux)
+make install-zsh-completion ZSH_COMPLETION_DIR=$HOME/.zsh/completions
+```
+
+After install, reload the shell or run `autoload -Uz compinit && compinit`.
+
+### Man page
+
+```sh
+make install-man                  # /opt/homebrew/share/man/man1 or /usr/local equivalent
+make install-man MAN_DIR=$HOME/.local/share/man/man1
+```
+
+Then `man hoster`.
 
 Run `hoster --help` for the full command list and `hoster --version` to check the installed version. Pass `--verbose` (or `-v`) before any subcommand to surface the internal `run_cmd` invocations -- useful when debugging an `apply` or `clean` that does not seem to take effect.
 
