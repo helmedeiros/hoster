@@ -44,12 +44,15 @@ New behaviour needs a new test. New tests for existing behaviour are welcome on 
 
 ### Adding a new subcommand
 
-A new subcommand typically touches four places. Use the existing `clean` work as a template:
+A new subcommand typically touches **seven** places. Use the existing `clean` and `diff` work as templates:
 
 1. **Route the keyword** in `builtin/handle_options.sh` (add a `case` branch that sets `COMMAND` and calls a `cmd_<name>_host` wrapper).
 2. **Add wrappers** in `commands.sh` (`cmd_<name>_host` and `cmd_hosts_<name>`) and a branch in `cmd_execute_options`.
 3. **Implement** the actual work in `builtin/host_actions.sh` or `builtin/host_apply.sh`.
-4. **Test it**: a unit suite (`tests/<name>.bats`) that stubs `sudo` and overrides `HOST_FILE` to a temp file, plus an entry in `tests/integration_help.bats` so the public command list stays in sync.
+4. **Unit test it**: `tests/<name>.bats` that stubs `sudo` and overrides `HOST_FILE` to a temp file.
+5. **Wire it into `help.sh`** so `hoster --help` lists it.
+6. **Document it** in `man/hoster.1` under COMMANDS (and re-render with `man man/hoster.1` to sanity-check the formatting).
+7. **Update completions**: add the keyword to `scripts/completion.bash` (both the `subcommands` variable and the env-flag dispatch case) and `scripts/_hoster` (the `subcommands` array). `tests/completion_sync.bats` will catch you if you miss one.
 
 The unit suite should not touch the real `/etc/hosts` -- always point `HOST_FILE` at a tempdir.
 
