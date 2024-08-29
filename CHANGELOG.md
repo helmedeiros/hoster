@@ -9,6 +9,50 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `diff` subcommand: read-only preview of what `apply` would change.
+  Extracts the project's currently-applied block (if any) and runs
+  `diff -u` against the project's env file; falls back to printing
+  the project file as a "would-add" view when nothing is applied.
+- `man/hoster.1` man page covering all ten subcommands, the global
+  flags, the four environment flags, the per-platform host file
+  paths, two worked examples, and a SEE ALSO line for `hosts(5)`
+  and `sudo(8)`.
+- Native zsh completion at `scripts/_hoster` with descriptions in
+  the menu-select UI.
+- `make install-zsh-completion` and `make install-man` targets,
+  both with Homebrew / Linux defaults and a `*_DIR` override knob.
+- `.github/workflows/release.yml` builds the Maven assembly on
+  every `v*` tag push and publishes the tarball + checksum as a
+  GitHub release.
+- `--dry-run` / `-n` flag and three precondition guards (version
+  format, dirty working tree, tag-exists) in `scripts/release.sh`.
+- `tests/completion_sync.bats` pins the routed-subcommand list in
+  `handle_options.sh` against `completion.bash`, `_hoster`,
+  `man/hoster.1` and `help.sh` so the four docs surfaces cannot
+  drift.
+
+### Changed
+
+- CONTRIBUTING.md subcommand recipe expanded from four steps to
+  seven (help, man page, both completions).
+
+## [1.10.0] - 2024-08-05
+
+First tagged release since `1.7.2-IURI` (2014-12-02). Includes the
+full April–July modernisation: testing infrastructure (104 bats
+cases across unit, integration and smoke), shellcheck baseline
+shrunk from 15 codes to 6, OS abstraction for macOS/Linux/Windows
+host file resolution, the `clean`, `remove`, `status` subcommands,
+`--verbose` flag, `parse_env_arg` position-agnostic environment
+parsing, bash completion, hardened `scripts/release.sh`, and the
+build modernisation under Maven 3.8+ / Java 11+.
+
+See the `[1.10.0-SNAPSHOT]` / `[1.9.0-SNAPSHOT]` /
+`[1.8.0-SNAPSHOT]` sections for the detailed diff against
+1.7.2-IURI.
+
+### Older diff (carried over from 1.10.0-SNAPSHOT)
+
 - `remove` subcommand (and `rm` alias) to delete a single host by
   name from one environment's host file. Uses anchored matching so
   a hostname that is a prefix of another (e.g. `www.example.com`
