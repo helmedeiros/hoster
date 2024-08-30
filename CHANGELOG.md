@@ -36,6 +36,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CONTRIBUTING.md subcommand recipe expanded from four steps to
   seven (help, man page, both completions).
 
+## [1.11.0-SNAPSHOT] - 2024-08-30
+
+Snapshot capturing the August work: `diff` subcommand, `man/hoster.1`
+man page, native zsh completion, `install-zsh-completion` and
+`install-man` Make targets, release CI workflow on `v*` tags,
+hardened `scripts/release.sh` with `--dry-run` + three precondition
+guards, and `tests/completion_sync.bats` pinning the routed-
+subcommand list across all four docs surfaces. Next tag will cut
+from here.
+
 ## [1.10.0] - 2024-08-05
 
 First tagged release since `1.7.2-IURI` (2014-12-02). Includes the
@@ -158,20 +168,6 @@ See the `[1.10.0-SNAPSHOT]` / `[1.9.0-SNAPSHOT]` /
 - README rewritten with badges, table of contents and modern install
   steps.
 
-## [1.10.0] - 2024-08-05
-
-First tagged release since `1.7.2-IURI` (2014-12-02). Includes the
-full April–July modernisation: testing infrastructure (104 bats
-cases across unit, integration and smoke), shellcheck baseline
-shrunk from 15 codes to 6, OS abstraction for macOS/Linux/Windows
-host file resolution, the `clean`, `remove`, `status` subcommands,
-`--verbose` flag, `parse_env_arg` position-agnostic environment
-parsing, bash completion, hardened `scripts/release.sh`, and the
-build modernisation under Maven 3.8+ / Java 11+.
-
-See the `Unreleased` and `[1.10.0-SNAPSHOT]` / `[1.9.0-SNAPSHOT]` /
-`[1.8.0-SNAPSHOT]` sections for the detailed diff.
-
 ## [1.10.0-SNAPSHOT] - 2024-07-31
 
 Snapshot capturing the July work: `remove` and `status` subcommands,
@@ -197,7 +193,8 @@ from here.
 - Logic to reinitialize an existing host repository.
 - `hoster init` for empty host repositories.
 
-[Unreleased]: https://github.com/helmedeiros/hoster/compare/v1.10.0...HEAD
+[Unreleased]: https://github.com/helmedeiros/hoster/compare/v1.11.0-SNAPSHOT...HEAD
+[1.11.0-SNAPSHOT]: https://github.com/helmedeiros/hoster/compare/v1.10.0...v1.11.0-SNAPSHOT
 [1.10.0]: https://github.com/helmedeiros/hoster/compare/v1.7.2-IURI...v1.10.0
 [1.10.0-SNAPSHOT]: https://github.com/helmedeiros/hoster/compare/v1.9.0-SNAPSHOT...v1.10.0-SNAPSHOT
 [1.9.0-SNAPSHOT]: https://github.com/helmedeiros/hoster/compare/v1.8.0-SNAPSHOT...v1.9.0-SNAPSHOT
