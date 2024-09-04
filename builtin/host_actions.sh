@@ -68,7 +68,15 @@ function hosts_list(){
 }
 
 function list(){
-	printf 	"################### $ACTUAL_ENVIRONMENT ################### \n";
+	local color
+	case "$ACTUAL_ENVIRONMENT" in
+		lcl)  color="cyan"    ;;
+		dev)  color="green"   ;;
+		hlg)  color="yellow"  ;;
+		prod) color="red"     ;;
+		*)    color="bold"    ;;
+	esac
+	hoster_color "$color" "################### $ACTUAL_ENVIRONMENT ###################"
 	cmd_set_environment "$ACTUAL_ENVIRONMENT";
 	run_cmd "cat $TOP_LEVEL_FOLDER/$FILE" "silent";
 	printf "\n"
