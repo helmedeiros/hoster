@@ -48,12 +48,23 @@ function hosts_diff(){
 
 function hosts_status(){
 	if ! grep -Eq "##<$PROJECT_NAME-[a-z]+>##" "$HOST_FILE"; then
-		echo "No $PROJECT_NAME block applied to $HOST_FILE.";
+		hoster_color dim "No $PROJECT_NAME block applied to $HOST_FILE."
 		return 0;
 	fi
 
 	applied=$(grep -Eo "##<$PROJECT_NAME-[a-z]+>##" "$HOST_FILE" | sed -E "s/##<$PROJECT_NAME-([a-z]+)>##/\\1/");
-	echo "$PROJECT_NAME applied environments: $(echo "$applied" | tr '\n' ' ')";
+
+	printf '%s applied environments:' "$(hoster_color bold "$PROJECT_NAME")"
+	while IFS= read -r env; do
+		case "$env" in
+			lcl)  printf ' %s' "$(hoster_color cyan    "$env")" ;;
+			dev)  printf ' %s' "$(hoster_color green   "$env")" ;;
+			hlg)  printf ' %s' "$(hoster_color yellow  "$env")" ;;
+			prod) printf ' %s' "$(hoster_color red     "$env")" ;;
+			*)    printf ' %s' "$env" ;;
+		esac
+	done <<< "$applied"
+	echo
 }
 
 function hosts_clean(){
