@@ -25,7 +25,7 @@ function hosts_diff(){
 	PROJECT_FILE="$TOP_LEVEL_FOLDER/$FILE";
 
 	if [ ! -f "$PROJECT_FILE" ]; then
-		echo "No $ENVIRONMENT host file at $PROJECT_FILE.";
+		hoster_color dim "No $ENVIRONMENT host file at $PROJECT_FILE."
 		return 0;
 	fi
 
@@ -34,14 +34,25 @@ function hosts_diff(){
 		| tee "$APPLIED_TMP" > /dev/null;
 
 	if [ ! -s "$APPLIED_TMP" ]; then
-		echo "Nothing applied for $ENVIRONMENT of $PROJECT_NAME. \"apply\" would add:";
+		hoster_color yellow "Nothing applied for $ENVIRONMENT of $PROJECT_NAME. \"apply\" would add:"
 		cat "$PROJECT_FILE";
 		rm -f "$APPLIED_TMP";
 		return 0;
 	fi
 
-	echo "Diff between applied $ENVIRONMENT block and $PROJECT_FILE:";
-	diff -u "$APPLIED_TMP" "$PROJECT_FILE" || true;
+	hoster_color bold "Diff between applied $ENVIRONMENT block and $PROJECT_FILE:"
+	# Colorize the unified diff: + lines green, - lines red, @@ headers cyan.
+	if [ -t 1 ] && [ -z "${NO_COLOR-}" ]; then
+		diff -u "$APPLIED_TMP" "$PROJECT_FILE" \
+			| awk '
+				/^[+][^+]/ { printf "\033[32m%s\033[0m\n", $0; next }
+				/^[-][^-]/ { printf "\033[31m%s\033[0m\n", $0; next }
+				/^@@/      { printf "\033[36m%s\033[0m\n", $0; next }
+				{ print }
+			' || true
+	else
+		diff -u "$APPLIED_TMP" "$PROJECT_FILE" || true
+	fi
 
 	rm -f "$APPLIED_TMP";
 }
