@@ -110,6 +110,14 @@ function handle_main_options(){
           break;
         ;;
 
+        # Dump all environments as JSON
+        export)
+          COMMAND="EXPORT";
+          cmd_top_level;
+          cmd_project_name;
+          break;
+        ;;
+
         # Show the version
         --V|--version)
           COMMAND="VERSION";
