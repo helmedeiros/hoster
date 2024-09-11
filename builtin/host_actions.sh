@@ -82,6 +82,53 @@ function list(){
 	printf "\n"
 }
 
+function hosts_export(){
+	# Emit a JSON document mapping each environment to its host entries.
+	# Format:
+	#   {
+	#     "project": "<name>",
+	#     "environments": {
+	#       "lcl": [{"ip":"...","host":"..."}, ...],
+	#       ...
+	#     }
+	#   }
+
+	# JSON-escape a single value (quotes and backslashes only -- host
+	# files cannot legitimately contain control characters).
+	_json_escape() {
+		local s="$1"
+		s="${s//\\/\\\\}"
+		s="${s//\"/\\\"}"
+		printf '%s' "$s"
+	}
+
+	printf '{\n  "project": "%s",\n  "environments": {' "$(_json_escape "$PROJECT_NAME")"
+
+	local first_env=true
+	for env in "${environments[@]}"; do
+		cmd_set_environment "$env"
+		local target="$TOP_LEVEL_FOLDER/$FILE"
+		if [ "$first_env" = false ]; then printf ','; fi
+		first_env=false
+		printf '\n    "%s": [' "$env"
+
+		if [ -s "$target" ]; then
+			local first=true
+			while IFS=$' \t' read -r ip host _; do
+				[ -z "$ip" ] && continue
+				if [ "$first" = false ]; then printf ','; fi
+				first=false
+				printf '\n      {"ip": "%s", "host": "%s"}' \
+					"$(_json_escape "$ip")" "$(_json_escape "$host")"
+			done < "$target"
+			printf '\n    '
+		fi
+		printf ']'
+	done
+
+	printf '\n  }\n}\n'
+}
+
 function hosts_init(){
 	FOLDER=$(pwd);
 	HOSTS_FOLDER="$FOLDER/$HOST_DEFAULT_FOLDER";
