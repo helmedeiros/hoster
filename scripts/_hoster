@@ -20,6 +20,7 @@ _hoster() {
     'clean:Remove this project from the system hosts file'
     'diff:Preview what apply would change'
     'edit:Open an environment file in the editor'
+    'export:Dump every environment as JSON to stdout'
     'init:Create an empty .hosts repository'
     'list:List entries in one or all environments'
     'remove:Remove a host from an environment'
