@@ -118,6 +118,15 @@ function handle_main_options(){
           break;
         ;;
 
+        # Load environments from a JSON file produced by export
+        import)
+          COMMAND="IMPORT";
+          cmd_top_level;
+          cmd_project_name;
+          IMPORT_FILE="$2";
+          break;
+        ;;
+
         # Show the version
         --V|--version)
           COMMAND="VERSION";
