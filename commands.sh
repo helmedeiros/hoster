@@ -138,6 +138,11 @@ function cmd_hosts_export(){
 	hosts_export;
 }
 
+# Requests hosts_import inside /builtin/host_actions.sh
+function cmd_hosts_import(){
+	hosts_import;
+}
+
 # Requests append_host inside /builtin/host_apply.sh
 function cmd_append_hosts(){
   append_host "$@";
@@ -199,6 +204,9 @@ function cmd_execute_options(){
     ;;
     EXPORT)
       cmd_hosts_export;
+    ;;
+    IMPORT)
+      cmd_hosts_import;
     ;;
     EDIT)
       cmd_hosts_edit;
