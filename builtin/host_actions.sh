@@ -129,6 +129,49 @@ function hosts_export(){
 	printf '\n  }\n}\n'
 }
 
+function hosts_import(){
+	# Read a JSON document produced by hosts_export and overwrite the
+	# four environment files with its contents. Requires jq for parsing.
+
+	if [ -z "${IMPORT_FILE:-}" ]; then
+		echo "Usage: hoster import <file.json>" >&2
+		return 1
+	fi
+
+	if [ ! -f "$IMPORT_FILE" ]; then
+		echo "Import file not found: $IMPORT_FILE" >&2
+		return 1
+	fi
+
+	if ! command -v jq >/dev/null; then
+		echo "jq is required for import. Install via brew install jq." >&2
+		return 1
+	fi
+
+	if ! jq -e . "$IMPORT_FILE" >/dev/null 2>&1; then
+		echo "Import file is not valid JSON: $IMPORT_FILE" >&2
+		return 1
+	fi
+
+	if ! jq -e '.environments' "$IMPORT_FILE" >/dev/null 2>&1; then
+		echo "Import file missing .environments key: $IMPORT_FILE" >&2
+		return 1
+	fi
+
+	for env in "${environments[@]}"; do
+		cmd_set_environment "$env"
+		local target="$TOP_LEVEL_FOLDER/$FILE"
+		jq -r --arg env "$env" '
+			.environments[$env] // []
+			| map("\(.ip) \(.host)")
+			| .[]
+		' "$IMPORT_FILE" > "$target"
+		hoster_log "Wrote $(wc -l < "$target" | tr -d ' ') entries to $target"
+	done
+
+	echo "Imported $IMPORT_FILE into $TOP_LEVEL_FOLDER."
+}
+
 function hosts_init(){
 	FOLDER=$(pwd);
 	HOSTS_FOLDER="$FOLDER/$HOST_DEFAULT_FOLDER";
