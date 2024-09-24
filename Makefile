@@ -6,7 +6,7 @@ COMPLETION_DIR ?= $(if $(shell test -d /opt/homebrew/etc/bash_completion.d && ec
 ZSH_COMPLETION_DIR ?= $(if $(shell test -d /opt/homebrew/share/zsh/site-functions && echo yes),/opt/homebrew/share/zsh/site-functions,/usr/local/share/zsh/site-functions)
 MAN_DIR ?= $(if $(shell test -d /opt/homebrew/share/man/man1 && echo yes),/opt/homebrew/share/man/man1,/usr/local/share/man/man1)
 
-.PHONY: help lint test all clean install-completion install-zsh-completion install-man
+.PHONY: help lint test all clean install-completion install-zsh-completion install-man install-hooks
 
 help:
 	@echo "Targets:"
@@ -20,6 +20,8 @@ help:
 	@echo "                            (default: $(ZSH_COMPLETION_DIR))"
 	@echo "  install-man             - install man/hoster.1 into \$$MAN_DIR"
 	@echo "                            (default: $(MAN_DIR))"
+	@echo "  install-hooks           - install scripts/install-hooks.sh's pre-commit"
+	@echo "                            hook into .git/hooks (runs make all on commit)"
 
 lint:
 	shellcheck -x $(SH_FILES)
@@ -49,3 +51,6 @@ install-man:
 	install -m 0644 man/hoster.1 "$(MAN_DIR)/hoster.1"
 	@echo "Installed man page to $(MAN_DIR)/hoster.1"
 	@echo "Try: man hoster"
+
+install-hooks:
+	scripts/install-hooks.sh

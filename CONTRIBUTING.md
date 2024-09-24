@@ -7,9 +7,10 @@ Thanks for considering a contribution. The project is small and the bar for what
 ```sh
 git clone https://github.com/helmedeiros/hoster
 cd hoster
-make lint    # shellcheck
-make test    # bats
-make all     # both
+make lint            # shellcheck
+make test            # bats
+make all             # both
+make install-hooks   # optional: pre-commit hook runs make all on every commit
 ```
 
 Tools you'll want installed:
