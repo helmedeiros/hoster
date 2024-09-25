@@ -82,6 +82,16 @@ four environments to stdout. Suitable for pipe into
 .BR jq (1)
 or for backup. The format is documented under EXPORT FORMAT below.
 .TP
+.B import \fIFILE\fR
+Read a JSON file produced by
+.B export
+and overwrite the four environment host files. Requires
+.BR jq (1).
+Refuses to write anything if the file is missing, malformed, or has
+no
+.I .environments
+key.
+.TP
 .B diff \fI--ENV\fR
 Read-only preview of what
 .B apply
@@ -152,7 +162,33 @@ $ hoster status
 $ hoster clean --dev
 .EE
 .RE
+.SH EXPORT FORMAT
+.B export
+emits and
+.B import
+expects this shape:
+.PP
+.RS
+.EX
+{
+  "project": "name",
+  "environments": {
+    "lcl":  [{"ip": "...", "host": "..."}],
+    "dev":  [{"ip": "...", "host": "..."}],
+    "hlg":  [{"ip": "...", "host": "..."}],
+    "prod": [{"ip": "...", "host": "..."}]
+  }
+}
+.EE
+.RE
+.PP
+Round-trip is byte-identical: feeding the output of
+.B export
+back through
+.B import
+on an empty project reproduces the original host files exactly.
 .SH SEE ALSO
 .BR hosts (5),
+.BR jq (1),
 .BR sudo (8)
 
