@@ -14,7 +14,7 @@ _hoster_complete() {
 	cur="${COMP_WORDS[COMP_CWORD]}"
 	prev="${COMP_WORDS[COMP_CWORD-1]}"
 
-	local subcommands="add apply clean diff edit export init list remove rm status"
+	local subcommands="add apply clean diff edit export import init list remove rm status"
 	local env_flags="--dev --hlg --lcl --prod -d -h -l -p"
 	local globals="--help --version --verbose -v"
 
@@ -33,6 +33,11 @@ _hoster_complete() {
 				COMPREPLY=( $(compgen -W "$env_flags" -- "$cur") )
 				return 0
 			fi
+			;;
+		import)
+			# shellcheck disable=SC2207
+			COMPREPLY=( $(compgen -f -- "$cur") )
+			return 0
 			;;
 	esac
 

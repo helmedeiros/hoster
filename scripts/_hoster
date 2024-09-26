@@ -21,6 +21,7 @@ _hoster() {
     'diff:Preview what apply would change'
     'edit:Open an environment file in the editor'
     'export:Dump every environment as JSON to stdout'
+    'import:Load every environment from a JSON file'
     'init:Create an empty .hosts repository'
     'list:List entries in one or all environments'
     'remove:Remove a host from an environment'
@@ -53,6 +54,9 @@ _hoster() {
   case "${words[2]}" in
     add|apply|clean|diff|edit|list|remove|rm)
       _values 'environment' "${envflags[@]}"
+      ;;
+    import)
+      _files
       ;;
   esac
 }

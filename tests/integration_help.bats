@@ -15,6 +15,7 @@ load test_helper
   [[ "$output" == *"diff"* ]]
   [[ "$output" == *"edit"* ]]
   [[ "$output" == *"export"* ]]
+  [[ "$output" == *"import"* ]]
   [[ "$output" == *"init"* ]]
   [[ "$output" == *"list"* ]]
   [[ "$output" == *"remove"* ]]

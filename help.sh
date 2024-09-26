@@ -18,6 +18,7 @@ function list_common_cmds_help(){
 	echo "    diff  	Preview what apply would change against the current state.";
 	echo "    edit  	Open the host file defined to be used.";
 	echo "    export	Dump every environment as JSON (stdout).";
+	echo "    import	Load every environment from a JSON file produced by export.";
 	echo "    init  	Create an empty host repository in the current folder.";
 	echo "    list  	List all hosts for a specific project.";
 	echo "    remove	Remove a host from a specific environment.";
