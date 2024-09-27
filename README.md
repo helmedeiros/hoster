@@ -60,7 +60,16 @@ hoster status
 
 # Remove this project's entries from the system hosts file
 hoster clean --dev
+
+# Dump every environment as JSON (stdout) -- pipe into jq, redirect to a file, etc.
+hoster export > backup.json
+
+# Re-create the env files from a JSON backup
+hoster import backup.json
 ```
+
+`import` requires `jq`. Round-trip is byte-identical:
+`hoster export | tee dump.json && rm -rf .hosts/* && hoster import dump.json` reproduces the original files exactly.
 
 ### Shell completion
 
