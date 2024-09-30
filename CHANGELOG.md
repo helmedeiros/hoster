@@ -36,15 +36,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CONTRIBUTING.md subcommand recipe expanded from four steps to
   seven (help, man page, both completions).
 
-## [1.11.0-SNAPSHOT] - 2024-08-30
+## [1.11.0] - 2024-09-30
 
-Snapshot capturing the August work: `diff` subcommand, `man/hoster.1`
-man page, native zsh completion, `install-zsh-completion` and
-`install-man` Make targets, release CI workflow on `v*` tags,
-hardened `scripts/release.sh` with `--dry-run` + three precondition
-guards, and `tests/completion_sync.bats` pinning the routed-
-subcommand list across all four docs surfaces. Next tag will cut
-from here.
+Second tagged release. Builds on the 1.10.0 surface with the
+August + September work:
+
+- `diff` subcommand (read-only preview of what `apply` would change).
+- `export` / `import` for byte-identical JSON round-trip of all
+  four environments. `export` is hand-rolled (no deps); `import`
+  uses `jq`.
+- Colored output for `list`, `status`, and `diff` -- gated on isatty
+  and `NO_COLOR` so pipes and CI stay plain.
+- `man/hoster.1` man page covering every subcommand, the EXPORT
+  FORMAT section, and worked examples.
+- Native zsh completion at `scripts/_hoster` plus the existing bash
+  completion at `scripts/completion.bash`. File-path completion
+  after `import`.
+- `install-completion`, `install-zsh-completion`, `install-man`,
+  `install-hooks` Make targets.
+- `release.sh` hardened with `--dry-run` and three precondition
+  guards. Release CI on `v*` tags publishes the tarball + checksum.
+- `tests/completion_sync.bats` pins the routed-subcommand list
+  against `completion.bash`, `_hoster`, `man/hoster.1`, `help.sh`.
+- Test suite now 132 cases.
 
 ## [1.10.0] - 2024-08-05
 
@@ -193,8 +207,8 @@ from here.
 - Logic to reinitialize an existing host repository.
 - `hoster init` for empty host repositories.
 
-[Unreleased]: https://github.com/helmedeiros/hoster/compare/v1.11.0-SNAPSHOT...HEAD
-[1.11.0-SNAPSHOT]: https://github.com/helmedeiros/hoster/compare/v1.10.0...v1.11.0-SNAPSHOT
+[Unreleased]: https://github.com/helmedeiros/hoster/compare/v1.11.0...HEAD
+[1.11.0]: https://github.com/helmedeiros/hoster/compare/v1.10.0...v1.11.0
 [1.10.0]: https://github.com/helmedeiros/hoster/compare/v1.7.2-IURI...v1.10.0
 [1.10.0-SNAPSHOT]: https://github.com/helmedeiros/hoster/compare/v1.9.0-SNAPSHOT...v1.10.0-SNAPSHOT
 [1.9.0-SNAPSHOT]: https://github.com/helmedeiros/hoster/compare/v1.8.0-SNAPSHOT...v1.9.0-SNAPSHOT
