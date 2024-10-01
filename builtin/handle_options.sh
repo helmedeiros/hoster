@@ -127,6 +127,14 @@ function handle_main_options(){
           break;
         ;;
 
+        # Sanity-check the project's env files
+        validate)
+          COMMAND="VALIDATE";
+          cmd_top_level;
+          cmd_project_name;
+          break;
+        ;;
+
         # Show the version
         --V|--version)
           COMMAND="VERSION";
