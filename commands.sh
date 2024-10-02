@@ -143,6 +143,11 @@ function cmd_hosts_import(){
 	hosts_import;
 }
 
+# Requests hosts_validate inside /builtin/host_actions.sh
+function cmd_hosts_validate(){
+	hosts_validate;
+}
+
 # Requests append_host inside /builtin/host_apply.sh
 function cmd_append_hosts(){
   append_host "$@";
@@ -207,6 +212,9 @@ function cmd_execute_options(){
     ;;
     IMPORT)
       cmd_hosts_import;
+    ;;
+    VALIDATE)
+      cmd_hosts_validate;
     ;;
     EDIT)
       cmd_hosts_edit;
