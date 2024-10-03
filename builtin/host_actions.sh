@@ -172,6 +172,73 @@ function hosts_import(){
 	echo "Imported $IMPORT_FILE into $TOP_LEVEL_FOLDER."
 }
 
+function hosts_validate(){
+	# Scan every env file for malformed IPs and duplicate hostnames.
+	# Returns 0 if every file is clean, 1 if any error was reported.
+	# Comments (#...) and blank lines are silently skipped.
+
+	local errors=0
+	local warnings=0
+
+	for env in "${environments[@]}"; do
+		cmd_set_environment "$env"
+		local target="$TOP_LEVEL_FOLDER/$FILE"
+
+		if [ ! -f "$target" ]; then
+			continue
+		fi
+
+		# Track hostnames within this env to detect duplicates.
+		local seen_hosts=""
+		local line_no=0
+
+		while IFS= read -r line || [ -n "$line" ]; do
+			line_no=$((line_no + 1))
+			# Strip leading whitespace.
+			local trimmed="${line#"${line%%[![:space:]]*}"}"
+			# Skip blank lines and comments.
+			if [ -z "$trimmed" ] || [[ "$trimmed" == \#* ]]; then
+				continue
+			fi
+
+			# Parse "<ip> <host>"; everything past the first two fields is ignored.
+			local ip host rest
+			read -r ip host rest <<< "$trimmed"
+
+			if [ -z "$ip" ] || [ -z "$host" ]; then
+				hoster_color yellow "$env:$line_no: malformed line: $line"
+				warnings=$((warnings + 1))
+				continue
+			fi
+
+			if ! valid_ip "$ip"; then
+				hoster_color red "$env:$line_no: invalid IP '$ip' for host '$host'"
+				errors=$((errors + 1))
+			fi
+
+			if [[ "$seen_hosts" == *"|$host|"* ]]; then
+				hoster_color red "$env:$line_no: duplicate host '$host'"
+				errors=$((errors + 1))
+			else
+				seen_hosts="${seen_hosts}|$host|"
+			fi
+		done < "$target"
+	done
+
+	if [ "$errors" -gt 0 ]; then
+		hoster_color red "validate: $errors error(s), $warnings warning(s)"
+		return 1
+	fi
+
+	if [ "$warnings" -gt 0 ]; then
+		hoster_color yellow "validate: 0 errors, $warnings warning(s)"
+		return 0
+	fi
+
+	hoster_color green "validate: all environments are clean"
+	return 0
+}
+
 function hosts_init(){
 	FOLDER=$(pwd);
 	HOSTS_FOLDER="$FOLDER/$HOST_DEFAULT_FOLDER";
