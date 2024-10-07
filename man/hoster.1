@@ -76,6 +76,12 @@ message when nothing is applied. Requires
 Scan the system hosts file for the current project's marker blocks
 and print the list of environments currently applied.
 .TP
+.B validate
+Sanity-check every env file. Reports invalid IPs and duplicate
+hostnames as errors (exit 1), and malformed lines (fewer than two
+fields) as warnings (exit 0). Comments and blank lines are
+ignored.
+.TP
 .B export
 Print a JSON document with the project name and the entries of all
 four environments to stdout. Suitable for pipe into
