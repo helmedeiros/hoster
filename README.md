@@ -58,6 +58,9 @@ hoster apply --dev
 # Show which environments are currently applied to the system hosts file
 hoster status
 
+# Sanity-check every env file (malformed IPs, duplicate hostnames)
+hoster validate
+
 # Remove this project's entries from the system hosts file
 hoster clean --dev
 
