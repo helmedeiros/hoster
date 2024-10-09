@@ -6,10 +6,32 @@ function apply_host(){
 }
 
 function hosts_apply(){
+	if [ "$ENVIRONMENT" = "all" ]; then
+		hosts_apply_all
+		return
+	fi
+
 	cmd_set_environment "$ENVIRONMENT";
 
 	HOST_FILE_TO_APPEND="$TOP_LEVEL_FOLDER/$FILE";
 	cmd_append_hosts "$HOST_FILE_TO_APPEND";
+}
+
+function hosts_apply_all(){
+	local applied=0
+	for env in "${environments[@]}"; do
+		ENVIRONMENT="$env"
+		cmd_set_environment "$env"
+		local target="$TOP_LEVEL_FOLDER/$FILE"
+		if [ ! -s "$target" ]; then
+			hoster_log "Skipping $env (empty)"
+			continue
+		fi
+		hoster_color bold "Applying $env..."
+		cmd_append_hosts "$target"
+		applied=$((applied + 1))
+	done
+	echo "Applied $applied environment(s)."
 }
 
 function clean_host(){
