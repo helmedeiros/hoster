@@ -55,6 +55,9 @@ hoster diff --dev
 # Apply an environment to /etc/hosts
 hoster apply --dev
 
+# Or apply every populated environment in one pass
+hoster apply
+
 # Show which environments are currently applied to the system hosts file
 hoster status
 

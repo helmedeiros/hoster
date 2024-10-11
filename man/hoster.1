@@ -59,11 +59,16 @@ given. Each block is preceded by a banner with the environment name.
 .B edit \fR[\fI--ENV\fR]
 Open the environment's host file in the configured editor.
 .TP
-.B apply \fI--ENV\fR
-Insert the environment's block into the system hosts file. If the
-project already has a block applied, it is replaced atomically through
-a temp file. Requires
+.B apply \fR[\fI--ENV\fR]
+Insert the named environment's block into the system hosts file. If
+the project already has a block applied for that environment, it is
+replaced atomically through a temp file. Requires
 .BR sudo .
+With no environment flag,
+.B apply
+walks every populated environment in order
+.RI ( lcl ", " dev ", " hlg ", " prod )
+and applies each.
 .TP
 .B clean \fI--ENV\fR
 Reverse of
