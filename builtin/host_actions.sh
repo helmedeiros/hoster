@@ -83,12 +83,17 @@ function list(){
 }
 
 function hosts_export(){
-	# Emit a JSON document mapping each environment to its host entries.
-	# Format:
+	# Emit a JSON document mapping each environment to a list of typed
+	# items so order, comments and blank lines all survive the
+	# round-trip through import. Format:
 	#   {
 	#     "project": "<name>",
 	#     "environments": {
-	#       "lcl": [{"ip":"...","host":"..."}, ...],
+	#       "lcl": [
+	#         {"type": "entry",   "ip": "...", "host": "..."},
+	#         {"type": "comment", "value": "# section header"},
+	#         {"type": "blank"}
+	#       ],
 	#       ...
 	#     }
 	#   }
@@ -114,12 +119,22 @@ function hosts_export(){
 
 		if [ -s "$target" ]; then
 			local first=true
-			while IFS=$' \t' read -r ip host _; do
-				[ -z "$ip" ] && continue
+			while IFS= read -r line || [ -n "$line" ]; do
 				if [ "$first" = false ]; then printf ','; fi
 				first=false
-				printf '\n      {"ip": "%s", "host": "%s"}' \
-					"$(_json_escape "$ip")" "$(_json_escape "$host")"
+
+				local trimmed="${line#"${line%%[![:space:]]*}"}"
+				if [ -z "$trimmed" ]; then
+					printf '\n      {"type": "blank"}'
+				elif [[ "$trimmed" == \#* ]]; then
+					printf '\n      {"type": "comment", "value": "%s"}' \
+						"$(_json_escape "$line")"
+				else
+					local ip host
+					read -r ip host _ <<< "$trimmed"
+					printf '\n      {"type": "entry", "ip": "%s", "host": "%s"}' \
+						"$(_json_escape "$ip")" "$(_json_escape "$host")"
+				fi
 			done < "$target"
 			printf '\n    '
 		fi

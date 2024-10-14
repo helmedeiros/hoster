@@ -43,6 +43,7 @@ teardown() {
   echo "127.0.0.1 lcl.example.com"    > "$TMPDIR_TEST/hosts.lcl"
 
   run hosts_export
+  [[ "$output" == *'"type": "entry"'* ]]
   [[ "$output" == *'"ip": "10.0.0.1"'* ]]
   [[ "$output" == *'"host": "api.dev.example.com"'* ]]
   [[ "$output" == *'"ip": "127.0.0.1"'* ]]
@@ -57,7 +58,7 @@ teardown() {
   fi
 
   hosts_export > "$TMPDIR_TEST/out.json"
-  run jq -e '.environments.dev[0].ip == "10.0.0.1"' "$TMPDIR_TEST/out.json"
+  run jq -e '.environments.dev[0].type == "entry" and .environments.dev[0].ip == "10.0.0.1"' "$TMPDIR_TEST/out.json"
   [ "$status" -eq 0 ]
 }
 
