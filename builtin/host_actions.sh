@@ -176,12 +176,20 @@ function hosts_import(){
 	for env in "${environments[@]}"; do
 		cmd_set_environment "$env"
 		local target="$TOP_LEVEL_FOLDER/$FILE"
+		# Accepts both the typed schema (entry/comment/blank) and the
+		# legacy flat schema where each item is an {ip, host} object.
 		jq -r --arg env "$env" '
 			.environments[$env] // []
-			| map("\(.ip) \(.host)")
+			| map(
+				if .type == "comment" then .value
+				elif .type == "blank"   then ""
+				elif .type == "entry"   then "\(.ip) \(.host)"
+				else "\(.ip) \(.host)"
+				end
+			)
 			| .[]
 		' "$IMPORT_FILE" > "$target"
-		hoster_log "Wrote $(wc -l < "$target" | tr -d ' ') entries to $target"
+		hoster_log "Wrote $(wc -l < "$target" | tr -d ' ') lines to $target"
 	done
 
 	echo "Imported $IMPORT_FILE into $TOP_LEVEL_FOLDER."
