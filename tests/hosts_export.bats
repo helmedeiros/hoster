@@ -68,3 +68,36 @@ teardown() {
   run hosts_export
   [[ "$output" == *'host\"with\\quotes.com'* ]]
 }
+
+@test "hosts_export tags comment lines as type=comment" {
+  echo "# section header" > "$TMPDIR_TEST/hosts.dev"
+
+  run hosts_export
+  [[ "$output" == *'"type": "comment"'* ]]
+  [[ "$output" == *'"value": "# section header"'* ]]
+  [[ "$output" != *'"ip": "#"'* ]]
+}
+
+@test "hosts_export tags blank lines as type=blank" {
+  printf '10.0.0.1 dev.example.com\n\n10.0.0.2 api.dev.example.com\n' > "$TMPDIR_TEST/hosts.dev"
+
+  run hosts_export
+  [[ "$output" == *'"type": "blank"'* ]]
+}
+
+@test "hosts_export preserves order of comments, blanks and entries" {
+  if ! command -v jq >/dev/null; then
+    skip "jq not installed"
+  fi
+  cat > "$TMPDIR_TEST/hosts.dev" <<'EOF'
+# api hosts
+10.0.0.1 api.dev.example.com
+
+# auth
+10.0.0.2 auth.dev.example.com
+EOF
+
+  hosts_export > "$TMPDIR_TEST/out.json"
+  types=$(jq -r '.environments.dev | map(.type) | join(",")' "$TMPDIR_TEST/out.json")
+  [ "$types" = "comment,entry,blank,comment,entry" ]
+}
