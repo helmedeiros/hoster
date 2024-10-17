@@ -68,3 +68,46 @@ teardown() {
 
   diff "$TMPDIR_TEST/dump1.json" "$TMPDIR_TEST/dump2.json"
 }
+
+@test "export then import preserves comments and blank lines" {
+  cat > "$TMPDIR_TEST/hosts.dev" <<'EOF'
+# api hosts
+10.0.0.1 api.dev.example.com
+
+# auth
+10.0.0.2 auth.dev.example.com
+EOF
+  cp "$TMPDIR_TEST/hosts.dev" "$TMPDIR_TEST/orig.dev"
+
+  hosts_export > "$TMPDIR_TEST/dump.json"
+
+  : > "$TMPDIR_TEST/hosts.lcl"
+  : > "$TMPDIR_TEST/hosts.dev"
+  : > "$TMPDIR_TEST/hosts.hml"
+  : > "$TMPDIR_TEST/hosts.prd"
+
+  IMPORT_FILE="$TMPDIR_TEST/dump.json"
+  hosts_import
+
+  diff "$TMPDIR_TEST/orig.dev" "$TMPDIR_TEST/hosts.dev"
+}
+
+@test "hosts_import accepts the legacy flat schema" {
+  cat > "$TMPDIR_TEST/legacy.json" <<'EOF'
+{
+  "project": "bats-project",
+  "environments": {
+    "lcl": [],
+    "dev": [{"ip": "10.0.0.1", "host": "dev.example.com"}],
+    "hlg": [],
+    "prod": []
+  }
+}
+EOF
+
+  IMPORT_FILE="$TMPDIR_TEST/legacy.json"
+  hosts_import
+
+  run cat "$TMPDIR_TEST/hosts.dev"
+  [[ "$output" == "10.0.0.1 dev.example.com" ]]
+}
