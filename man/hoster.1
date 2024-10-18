@@ -184,20 +184,56 @@ expects this shape:
 {
   "project": "name",
   "environments": {
-    "lcl":  [{"ip": "...", "host": "..."}],
-    "dev":  [{"ip": "...", "host": "..."}],
-    "hlg":  [{"ip": "...", "host": "..."}],
-    "prod": [{"ip": "...", "host": "..."}]
+    "lcl": [
+      {"type": "comment", "value": "# section header"},
+      {"type": "blank"},
+      {"type": "entry",   "ip": "127.0.0.1", "host": "..."}
+    ],
+    "dev":  [ ... ],
+    "hlg":  [ ... ],
+    "prod": [ ... ]
   }
 }
 .EE
 .RE
 .PP
+Each environment is an ordered list of typed items:
+.IP \[bu] 2
+.B entry
+\(em a host file row with
+.I ip
+and
+.I host
+fields.
+.IP \[bu] 2
+.B comment
+\(em a line starting with
+.B #
+in the source file. The
+.I value
+field carries the original line verbatim, including the leading
+.B # .
+.IP \[bu] 2
+.B blank
+\(em an empty separator line.
+.PP
 Round-trip is byte-identical: feeding the output of
 .B export
 back through
 .B import
-on an empty project reproduces the original host files exactly.
+on an empty project reproduces the original host files exactly,
+comments and blank lines included.
+.PP
+.B import
+also accepts the legacy flat schema produced by hoster
+.B 1.10
+and
+.B 1.11
+(an environment is a list of
+.IR {ip,\ host}
+objects with no
+.I type
+field). Imports from those versions continue to work unchanged.
 .SH SEE ALSO
 .BR hosts (5),
 .BR jq (1),
