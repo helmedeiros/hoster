@@ -135,6 +135,12 @@ function handle_main_options(){
           break;
         ;;
 
+        # Diagnose the hoster environment (deps, paths, perms)
+        doctor)
+          COMMAND="DOCTOR";
+          break;
+        ;;
+
         # Show the version
         --V|--version)
           COMMAND="VERSION";
