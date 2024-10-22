@@ -148,6 +148,11 @@ function cmd_hosts_validate(){
 	hosts_validate;
 }
 
+# Requests hosts_doctor inside /builtin/host_actions.sh
+function cmd_hosts_doctor(){
+	hosts_doctor;
+}
+
 # Requests append_host inside /builtin/host_apply.sh
 function cmd_append_hosts(){
   append_host "$@";
@@ -215,6 +220,9 @@ function cmd_execute_options(){
     ;;
     VALIDATE)
       cmd_hosts_validate;
+    ;;
+    DOCTOR)
+      cmd_hosts_doctor;
     ;;
     EDIT)
       cmd_hosts_edit;
