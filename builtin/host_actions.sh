@@ -262,6 +262,77 @@ function hosts_validate(){
 	return 0
 }
 
+function hosts_doctor(){
+	# Diagnose the hoster install: bash version, dependency presence,
+	# host file resolution, and PATH. Prints a checklist; returns
+	# non-zero if a required tool is missing.
+
+	local missing=0
+
+	# $1=ok? (already evaluated), $2=label, $3=hint, $4=severity (req|opt).
+	_doctor_report() {
+		if [ "$1" = "ok" ]; then
+			hoster_color green "  ok  $2"
+		elif [ "${4:-req}" = "opt" ]; then
+			hoster_color yellow "  --  $2 ($3)"
+		else
+			hoster_color red   "  !!  $2 ($3)"
+			missing=$((missing + 1))
+		fi
+	}
+
+	hoster_color bold "hoster doctor"
+
+	local host_file
+	host_file="$(hoster_os_host_file)"
+
+	echo "Runtime:"
+	if [ "${BASH_VERSINFO[0]}" -ge 4 ]; then
+		_doctor_report ok "bash >= 4"
+	else
+		_doctor_report fail "bash >= 4" "current: $BASH_VERSION" opt
+	fi
+	if [ -r "$host_file" ]; then
+		_doctor_report ok "host file readable"
+	else
+		_doctor_report fail "host file readable" "expected: $host_file"
+	fi
+
+	echo "Dependencies:"
+	for dep in jq shellcheck bats; do
+		if command -v "$dep" >/dev/null; then
+			_doctor_report ok "$dep"
+		else
+			case "$dep" in
+				jq)         hint="brew install jq"          ;;
+				shellcheck) hint="brew install shellcheck"  ;;
+				bats)       hint="brew install bats-core"   ;;
+			esac
+			_doctor_report fail "$dep" "$hint" opt
+		fi
+	done
+
+	echo "Install:"
+	if command -v hoster >/dev/null || command -v hoster.sh >/dev/null; then
+		_doctor_report ok "hoster on PATH"
+	else
+		_doctor_report fail "hoster on PATH" "add the repo dir to PATH"
+	fi
+	if [ -r "$HOSTER_DIR/hoster.version" ]; then
+		_doctor_report ok "hoster.version readable"
+	else
+		_doctor_report fail "hoster.version readable" "expected at: $HOSTER_DIR/hoster.version"
+	fi
+
+	echo
+	if [ "$missing" -gt 0 ]; then
+		hoster_color red "doctor: $missing required check(s) failed"
+		return 1
+	fi
+	hoster_color green "doctor: all required checks passed"
+	return 0
+}
+
 function hosts_init(){
 	FOLDER=$(pwd);
 	HOSTS_FOLDER="$FOLDER/$HOST_DEFAULT_FOLDER";
