@@ -87,6 +87,17 @@ hostnames as errors (exit 1), and malformed lines (fewer than two
 fields) as warnings (exit 0). Comments and blank lines are
 ignored.
 .TP
+.B doctor
+Diagnose the hoster install: bash version, host file readability,
+optional tool presence
+.RB ( jq ,
+.BR shellcheck ,
+.BR bats ),
+PATH wiring, and
+.I hoster.version
+readability. Exits non-zero only if a required check fails.
+Run from any directory -- does not need a project.
+.TP
 .B export
 Print a JSON document with the project name and the entries of all
 four environments to stdout. Suitable for pipe into

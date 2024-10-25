@@ -64,6 +64,9 @@ hoster status
 # Sanity-check every env file (malformed IPs, duplicate hostnames)
 hoster validate
 
+# Diagnose the hoster install (deps, PATH, host file)
+hoster doctor
+
 # Remove this project's entries from the system hosts file
 hoster clean --dev
 

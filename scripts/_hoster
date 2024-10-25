@@ -28,6 +28,7 @@ _hoster() {
     'rm:Alias for remove'
     'status:Show which environments are currently applied'
     'validate:Sanity-check the project files for malformed IPs and duplicates'
+    'doctor:Diagnose the hoster install (deps, PATH, host file)'
   )
   envflags=(
     '--dev[Development hosts]'
