@@ -1,0 +1,6 @@
+# Public API
+10.0.0.1 api.dev.example.com
+10.0.0.2 auth.dev.example.com
+
+# Internal admin
+10.0.0.10 admin.dev.example.com
