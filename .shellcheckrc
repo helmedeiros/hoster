@@ -7,8 +7,6 @@
 # SC2046 - Quote $(...) to prevent word splitting
 # SC2034 - Variable appears unused (cross-file sourcing)
 # SC2154 - Variable referenced but not assigned (cross-file sourcing)
-# SC2145 - Argument mixes string and array
-# SC2206 - Quote to prevent word splitting when assigning to array
 # SC2153 - Possible misspelling of variable name
 # SC2059 - Do not use variables in printf format string
-disable=SC2034,SC2154,SC2145,SC2206,SC2153,SC2059
+disable=SC2034,SC2154,SC2153,SC2059

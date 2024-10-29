@@ -286,4 +286,4 @@ function cmd_project_name(){
 }
 
 # Custom die function.
-function die() { echo >&2 -e "\nERROR: $@\n"; exit 1; }
+function die() { echo >&2 -e "\nERROR: $*\n"; exit 1; }
