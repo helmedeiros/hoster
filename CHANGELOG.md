@@ -9,6 +9,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `validate` subcommand: scans every env file and reports
+  invalid IPs and duplicate hostnames as errors (exit 1) and
+  malformed lines as warnings (exit 0). Comments and blank
+  lines are ignored.
+- `doctor` subcommand: diagnoses the hoster install (bash
+  version, host file readability, `jq` / `shellcheck` / `bats`
+  presence, PATH wiring, `hoster.version` readability) and
+  exits non-zero only when a required check fails.
+- `apply` with no environment flag walks every populated
+  environment in order; empty files are skipped.
+- Comment and blank-line preservation through `export`/`import`.
+  The JSON schema is now typed (`entry`/`comment`/`blank`);
+  `import` also accepts the legacy 1.10/1.11 flat shape so
+  earlier dumps still load.
+- `examples/sample-project` ready-to-run fixture.
+- 24 new tests (suite at 156): hosts_validate (9), hosts_doctor
+  (6), hosts_apply_all (4), typed export (3), comment-aware
+  round-trip (2).
+
+### Changed
+
+- `die` uses `$*` instead of `$@` when building the error
+  message; `valid_ip` uses `IFS=. read -r -a octets <<< "$ip"`
+  instead of the OIFS/IFS dance. Both close out the last
+  pair of fixable shellcheck warnings (SC2145, SC2206);
+  baseline disable list shrinks to four cross-file codes.
+
+### Initial release line
+
 - `diff` subcommand: read-only preview of what `apply` would change.
   Extracts the project's currently-applied block (if any) and runs
   `diff -u` against the project's env file; falls back to printing
