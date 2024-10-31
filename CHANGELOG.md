@@ -65,6 +65,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CONTRIBUTING.md subcommand recipe expanded from four steps to
   seven (help, man page, both completions).
 
+## [1.12.0-SNAPSHOT] - 2024-10-31
+
+Snapshot capturing the October work: validate + doctor
+subcommands, `apply` with no flag walks every populated env,
+comment + blank preservation through export/import with a legacy
+1.10/1.11 fallback path, sample-project fixture, and 24 new tests
+bringing the suite to 156. Baseline shellcheck disable list is
+down to four cross-file false positives. Next tag will cut from
+here.
+
 ## [1.11.0] - 2024-09-30
 
 Second tagged release. Builds on the 1.10.0 surface with the
@@ -236,7 +246,8 @@ from here.
 - Logic to reinitialize an existing host repository.
 - `hoster init` for empty host repositories.
 
-[Unreleased]: https://github.com/helmedeiros/hoster/compare/v1.11.0...HEAD
+[Unreleased]: https://github.com/helmedeiros/hoster/compare/v1.12.0-SNAPSHOT...HEAD
+[1.12.0-SNAPSHOT]: https://github.com/helmedeiros/hoster/compare/v1.11.0...v1.12.0-SNAPSHOT
 [1.11.0]: https://github.com/helmedeiros/hoster/compare/v1.10.0...v1.11.0
 [1.10.0]: https://github.com/helmedeiros/hoster/compare/v1.7.2-IURI...v1.10.0
 [1.10.0-SNAPSHOT]: https://github.com/helmedeiros/hoster/compare/v1.9.0-SNAPSHOT...v1.10.0-SNAPSHOT
