@@ -65,15 +65,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CONTRIBUTING.md subcommand recipe expanded from four steps to
   seven (help, man page, both completions).
 
-## [1.12.0-SNAPSHOT] - 2024-10-31
+## [1.12.0] - 2024-11-01
 
-Snapshot capturing the October work: validate + doctor
-subcommands, `apply` with no flag walks every populated env,
-comment + blank preservation through export/import with a legacy
-1.10/1.11 fallback path, sample-project fixture, and 24 new tests
-bringing the suite to 156. Baseline shellcheck disable list is
-down to four cross-file false positives. Next tag will cut from
-here.
+Third tagged release. Builds on 1.11.0 with the October work:
+
+- `validate` subcommand for IP and duplicate-host checks.
+- `doctor` subcommand for diagnosing the install.
+- `apply` with no flag walks every populated environment.
+- Comment + blank-line preservation through `export` / `import`
+  via a new typed JSON schema; the legacy 1.10/1.11 flat shape
+  still imports.
+- `examples/sample-project/` fixture demonstrating a realistic
+  layout with comments.
+- Lint fixes (`die` `$*`, `valid_ip` `read -r -a`) shrink the
+  shellcheck baseline to four cross-file codes.
+- Suite at 156 tests.
 
 ## [1.11.0] - 2024-09-30
 
@@ -246,8 +252,8 @@ from here.
 - Logic to reinitialize an existing host repository.
 - `hoster init` for empty host repositories.
 
-[Unreleased]: https://github.com/helmedeiros/hoster/compare/v1.12.0-SNAPSHOT...HEAD
-[1.12.0-SNAPSHOT]: https://github.com/helmedeiros/hoster/compare/v1.11.0...v1.12.0-SNAPSHOT
+[Unreleased]: https://github.com/helmedeiros/hoster/compare/v1.12.0...HEAD
+[1.12.0]: https://github.com/helmedeiros/hoster/compare/v1.11.0...v1.12.0
 [1.11.0]: https://github.com/helmedeiros/hoster/compare/v1.10.0...v1.11.0
 [1.10.0]: https://github.com/helmedeiros/hoster/compare/v1.7.2-IURI...v1.10.0
 [1.10.0-SNAPSHOT]: https://github.com/helmedeiros/hoster/compare/v1.9.0-SNAPSHOT...v1.10.0-SNAPSHOT
