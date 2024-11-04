@@ -20,4 +20,9 @@ function define_defaults(){
 
     APPLY_TMP_NAME="Hosts.apply.tmp";
     OCCURRENCE_TMP_NAME="Hosts.out.tmp";
+
+    # Where atomic backups of the system hosts file are stored before
+    # any apply/clean mutation. Relative to the project root so each
+    # project carries its own history.
+    HOST_BACKUP_DIR=".hosts/backup";
 }
