@@ -78,6 +78,24 @@ EOF
   [[ "$output" != *"api.dev.example.com"* ]]
 }
 
+@test "append_host writes a backup of the system hosts file" {
+  echo "127.0.0.1 localhost" > "$HOST_FILE"
+  before="$(cat "$HOST_FILE")"
+
+  append_host "$PROJECT_HOSTS"
+
+  # One backup file under .hosts/backup/ named *-apply-dev.hosts
+  shopt -s nullglob
+  backups=( "$TOP_LEVEL_FOLDER/$HOST_BACKUP_DIR"/*-apply-dev.hosts )
+  shopt -u nullglob
+  [ "${#backups[@]}" -ge 1 ]
+
+  # Backup contains the pre-apply state.
+  run cat "${backups[0]}"
+  [[ "$output" == *"127.0.0.1 localhost"* ]]
+  [[ "$output" != *"##<bats-project-dev>##"* ]]
+}
+
 @test "append_host does not touch other-project blocks" {
   {
     echo "##<other-project-dev>##"

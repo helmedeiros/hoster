@@ -123,6 +123,8 @@ function hosts_clean(){
 function append_host(){
 	TEMP_APPLY_FILE="$TOP_LEVEL_FOLDER/$APPLY_TMP_NAME";
 
+	hoster_backup "apply-$ENVIRONMENT" > /dev/null;
+
 	find_occurrence;
 
 	if [ "$found" == "true" ]; then
