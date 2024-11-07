@@ -60,6 +60,31 @@ teardown() {
   [[ "$output" != *"dev.example.com"* ]]
 }
 
+@test "hosts_clean writes a backup before mutating" {
+  {
+    echo "##<bats-project-dev>##"
+    echo "10.0.0.1 dev.example.com"
+    echo "##</bats-project-dev>##"
+  } > "$HOST_FILE"
+  before="$(cat "$HOST_FILE")"
+
+  hosts_clean
+
+  shopt -s nullglob
+  backups=( "$TOP_LEVEL_FOLDER/$HOST_BACKUP_DIR"/*-clean-dev.hosts )
+  shopt -u nullglob
+  [ "${#backups[@]}" -ge 1 ]
+
+  # Backup matches the pre-clean state.
+  [ "$(cat "${backups[0]}")" = "$before" ]
+}
+
+@test "hosts_clean no-op does not produce a backup" {
+  : > "$HOST_FILE"
+  hosts_clean
+  [ ! -d "$TOP_LEVEL_FOLDER/$HOST_BACKUP_DIR" ]
+}
+
 @test "hosts_clean leaves other-project blocks untouched" {
   {
     echo "##<bats-project-dev>##"

@@ -112,6 +112,8 @@ function hosts_clean(){
 		return 0;
 	fi
 
+	hoster_backup "clean-$ENVIRONMENT" > /dev/null;
+
 	remove_occurrence;
 
 	run_cmd "sudo cp $TEMP_APPLY_FILE $HOST_FILE" "silent";
