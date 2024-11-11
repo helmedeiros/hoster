@@ -141,6 +141,16 @@ function handle_main_options(){
           break;
         ;;
 
+        # List or restore atomic backups
+        history)
+          COMMAND="HISTORY";
+          cmd_top_level;
+          cmd_project_name;
+          HISTORY_ACTION="$2";
+          HISTORY_TARGET="$3";
+          break;
+        ;;
+
         # Show the version
         --V|--version)
           COMMAND="VERSION";
