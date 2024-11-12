@@ -172,6 +172,11 @@ function cmd_hosts_doctor(){
 	hosts_doctor;
 }
 
+# Requests hosts_history inside /builtin/host_apply.sh
+function cmd_hosts_history(){
+	hosts_history;
+}
+
 # Requests append_host inside /builtin/host_apply.sh
 function cmd_append_hosts(){
   append_host "$@";
@@ -242,6 +247,9 @@ function cmd_execute_options(){
     ;;
     DOCTOR)
       cmd_hosts_doctor;
+    ;;
+    HISTORY)
+      cmd_hosts_history;
     ;;
     EDIT)
       cmd_hosts_edit;
