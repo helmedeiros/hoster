@@ -38,6 +38,59 @@ function clean_host(){
 	parse_env_arg "$@";
 }
 
+function hosts_history(){
+	local backup_root="$TOP_LEVEL_FOLDER/$HOST_BACKUP_DIR"
+
+	case "${HISTORY_ACTION:-list}" in
+		restore)
+			hosts_history_restore
+			return
+		;;
+		list|"")
+			# Fall through to listing below.
+		;;
+		*)
+			echo "Unknown history action: $HISTORY_ACTION" >&2
+			echo "Usage: hoster history [restore <file>]" >&2
+			return 1
+		;;
+	esac
+
+	if [ ! -d "$backup_root" ] || [ -z "$(ls -A "$backup_root" 2>/dev/null)" ]; then
+		hoster_color dim "No backups recorded for $PROJECT_NAME."
+		return 0
+	fi
+
+	hoster_color bold "Backups for $PROJECT_NAME (oldest first):"
+	for f in "$backup_root"/*.hosts; do
+		[ -e "$f" ] || continue
+		local base="${f##*/}"
+		printf '  %s\n' "$base"
+	done
+}
+
+function hosts_history_restore(){
+	local backup_root="$TOP_LEVEL_FOLDER/$HOST_BACKUP_DIR"
+
+	if [ -z "${HISTORY_TARGET:-}" ]; then
+		echo "Usage: hoster history restore <backup-file>" >&2
+		return 1
+	fi
+
+	local src="$backup_root/$HISTORY_TARGET"
+	if [ ! -f "$src" ]; then
+		echo "Backup not found: $src" >&2
+		return 1
+	fi
+
+	# Take one more backup of the pre-restore state so the operator can
+	# undo a bad restore.
+	hoster_backup "pre-restore" > /dev/null
+
+	run_cmd "sudo cp $src $HOST_FILE" "silent"
+	hoster_color green "Restored $HOST_FILE from $HISTORY_TARGET."
+}
+
 function diff_host(){
 	parse_env_arg "$@";
 }
