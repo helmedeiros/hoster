@@ -22,3 +22,7 @@ coverage/
 # Local
 Hosts.apply.tmp
 Hosts.out.tmp
+
+# Per-project backup directory (committed projects should not ship
+# system-hosts snapshots produced by apply/clean).
+.hosts/backup/
