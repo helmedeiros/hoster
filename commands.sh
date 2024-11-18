@@ -308,6 +308,19 @@ function cmd_top_level(){
 }
 
 function cmd_project_name(){
+  # Honour an explicit override in .hosts/config: a single "name=foo"
+  # line wins over the folder-name default. Comments and blanks are
+  # ignored.
+  local config="$TOP_LEVEL_FOLDER/config"
+  if [ -f "$config" ]; then
+    local override
+    override="$(awk -F= '/^name=/{print $2; exit}' "$config" | tr -d '[:space:]')"
+    if [ -n "$override" ]; then
+      PROJECT_NAME="$override"
+      return
+    fi
+  fi
+
   PROJECT_NAME="${TOP_LEVEL_FOLDER%/*}";
   PROJECT_NAME="${PROJECT_NAME##/*/}";
 }
