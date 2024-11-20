@@ -324,6 +324,18 @@ function hosts_doctor(){
 		_doctor_report fail "hoster.version readable" "expected at: $HOSTER_DIR/hoster.version"
 	fi
 
+	# Project-level diagnostics are best-effort: doctor still works
+	# outside a project (TOP_LEVEL_FOLDER unset), so each check is
+	# guarded.
+	if [ -n "${TOP_LEVEL_FOLDER:-}" ] && [ -d "$TOP_LEVEL_FOLDER" ]; then
+		echo "Project:"
+		if [ -f "$TOP_LEVEL_FOLDER/config" ]; then
+			_doctor_report ok ".hosts/config present"
+		else
+			_doctor_report fail ".hosts/config present" "optional -- name= override missing" opt
+		fi
+	fi
+
 	echo
 	if [ "$missing" -gt 0 ]; then
 		hoster_color red "doctor: $missing required check(s) failed"
