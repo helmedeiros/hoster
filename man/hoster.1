@@ -168,6 +168,18 @@ or
 .B clean
 mutate it.
 .TP
+.I .hosts/config
+Optional project metadata. Currently a single recognised key:
+.IP "" 4
+.B name=<value>
+.IP "" 4
+sets the project name used in
+.B apply
+markers (overrides the default of the parent folder name).
+Comments
+.RB ( # )
+and blank lines are ignored.
+.TP
 .I /etc/hosts
 .PD 0
 .TP
