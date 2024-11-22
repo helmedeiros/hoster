@@ -117,6 +117,20 @@ Then `man hoster`.
 
 Run `hoster --help` for the full command list and `hoster --version` to check the installed version. Pass `--verbose` (or `-v`) before any subcommand to surface the internal `run_cmd` invocations -- useful when debugging an `apply` or `clean` that does not seem to take effect.
 
+## Project metadata
+
+By default the project name (used in the `##<name-env>##` markers
+that `apply` writes to `/etc/hosts`) is the parent folder of `.hosts/`.
+To override it without renaming the folder, drop a `.hosts/config`
+file with:
+
+```
+name=my-project
+```
+
+Useful when the on-disk folder name differs from the project name
+the team uses elsewhere (forks, monorepo paths, etc.).
+
 ## Development
 
 Local quality checks go through `make`:
