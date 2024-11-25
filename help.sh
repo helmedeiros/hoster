@@ -25,4 +25,5 @@ function list_common_cmds_help(){
 	echo "    status  	Show which environments of the current project are applied.";
 	echo "    validate	Sanity-check the project files for malformed IPs and duplicates.";
 	echo "    doctor  	Diagnose the hoster install: deps, PATH, host file resolution.";
+	echo "    history 	List backups of the system hosts file (or restore one).";
 }

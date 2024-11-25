@@ -29,6 +29,7 @@ _hoster() {
     'status:Show which environments are currently applied'
     'validate:Sanity-check the project files for malformed IPs and duplicates'
     'doctor:Diagnose the hoster install (deps, PATH, host file)'
+    'history:List backups of the system hosts file (or restore one)'
   )
   envflags=(
     '--dev[Development hosts]'
@@ -59,6 +60,19 @@ _hoster() {
       ;;
     import)
       _files
+      ;;
+    history)
+      if (( CURRENT == 3 )); then
+        _values 'action' 'list[List backups]' 'restore[Restore a backup]'
+      elif (( CURRENT == 4 )) && [[ "${words[3]}" == "restore" ]]; then
+        local dir="$PWD"
+        while [[ "$dir" != "/" && ! -d "$dir/.hosts/backup" ]]; do
+          dir="${dir:h}"
+        done
+        if [[ -d "$dir/.hosts/backup" ]]; then
+          _files -W "$dir/.hosts/backup"
+        fi
+      fi
       ;;
   esac
 }

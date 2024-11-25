@@ -104,6 +104,23 @@ PATH wiring, and
 readability. Exits non-zero only if a required check fails.
 Run from any directory -- does not need a project.
 .TP
+.B history \fR[\fIlist\fR|\fIrestore \fIFILE\fR]
+Without arguments (or with
+.BR list ),
+prints the
+.B apply
+/
+.B clean
+backups under
+.I .hosts/backup/
+oldest first.
+.BR restore " " \fIFILE\fR
+copies the named backup back to the system hosts file, after
+first snapshotting the current state to
+.IR .hosts/backup/<timestamp>-pre-restore.hosts .
+Requires
+.BR sudo .
+.TP
 .B export
 Print a JSON document with the project name and the entries of all
 four environments to stdout. Suitable for pipe into

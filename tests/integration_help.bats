@@ -22,6 +22,7 @@ load test_helper
   [[ "$output" == *"status"* ]]
   [[ "$output" == *"validate"* ]]
   [[ "$output" == *"doctor"* ]]
+  [[ "$output" == *"history"* ]]
 }
 
 @test "hoster --H is an alias for --help" {

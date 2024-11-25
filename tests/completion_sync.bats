@@ -4,7 +4,7 @@ load test_helper
 
 # Subcommands declared in handle_main_options. Keep this list in sync
 # with builtin/handle_options.sh; the bats suite enforces that.
-ROUTED_SUBCOMMANDS="add apply clean diff doctor edit export import init list remove rm status validate"
+ROUTED_SUBCOMMANDS="add apply clean diff doctor edit export history import init list remove rm status validate"
 
 @test "bash completion subcommand list matches the router" {
   grep -E '^[[:space:]]+local subcommands=' "$PROJECT_ROOT/scripts/completion.bash" \
@@ -22,13 +22,13 @@ ROUTED_SUBCOMMANDS="add apply clean diff doctor edit export import init list rem
 }
 
 @test "all routed subcommands appear in the man page" {
-  for c in add apply clean diff doctor edit export import init list remove status validate; do
+  for c in add apply clean diff doctor edit export history import init list remove status validate; do
     grep -q "^\.B ${c}\b" "$PROJECT_ROOT/man/hoster.1"
   done
 }
 
 @test "all routed subcommands appear in help.sh" {
-  for c in add apply clean diff doctor edit export import init list remove status validate; do
+  for c in add apply clean diff doctor edit export history import init list remove status validate; do
     grep -q "${c}" "$PROJECT_ROOT/help.sh"
   done
 }
