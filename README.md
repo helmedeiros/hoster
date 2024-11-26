@@ -67,6 +67,12 @@ hoster validate
 # Diagnose the hoster install (deps, PATH, host file)
 hoster doctor
 
+# List atomic snapshots taken before each apply / clean
+hoster history
+
+# Restore one of them (requires sudo)
+hoster history restore 20241108T143218Z-apply-dev.hosts
+
 # Remove this project's entries from the system hosts file
 hoster clean --dev
 
