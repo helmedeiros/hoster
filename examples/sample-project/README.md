@@ -12,3 +12,5 @@ hoster export
 ```
 
 The four files under `.hosts/` are what `hoster init` creates, then populated with a couple of entries per environment plus a comment in `hosts.dev` to show what comment preservation looks like through `export` / `import`.
+
+`.hosts/config` overrides the project name to `hoster-sample` (otherwise the on-disk folder name `sample-project` would be used in the `##<name-env>##` markers). Try `hoster status` after `apply` to see the override in effect.

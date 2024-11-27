@@ -1,0 +1,5 @@
+# Optional project metadata. The single recognised key today is:
+#   name=<value>
+# which overrides the parent folder name as the project name used
+# in the ##<name-env>## markers that apply writes to /etc/hosts.
+name=hoster-sample
