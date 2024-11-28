@@ -9,6 +9,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `history` subcommand: lists atomic backups under
+  `.hosts/backup/` (oldest first) and `history restore <file>`
+  rolls one back via `sudo`, after first snapshotting the
+  current state to a `pre-restore.hosts` safety backup.
+- Atomic backups: every `apply` and every non-no-op `clean`
+  now snapshots the system hosts file to
+  `.hosts/backup/<timestamp>-<reason>.hosts` before mutating.
+  `hoster_backup` is the shared helper.
+- `.hosts/config` with `name=<value>` overrides the
+  folder-derived project name in the `##<name-env>##` markers.
+  Comments and blanks in the config are ignored.
+- `doctor` gains a `Project:` section reporting the presence
+  of `.hosts/config` (optional check) when run inside a
+  project.
+- 27 new tests (suite at 187): hoster_backup (5), apply +
+  clean backup behaviour (3), hosts_history (8), and
+  cmd_project_name override + 5 fallback paths.
+- `.gitignore` template ignores `.hosts/backup/`.
+- `examples/sample-project` gains a `.hosts/config` file
+  demonstrating the override.
+
+### Older Unreleased (carried over from 1.12.0-SNAPSHOT cycle)
+
 - `validate` subcommand: scans every env file and reports
   invalid IPs and duplicate hostnames as errors (exit 1) and
   malformed lines as warnings (exit 0). Comments and blank
