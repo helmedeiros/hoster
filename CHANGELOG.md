@@ -88,13 +88,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CONTRIBUTING.md subcommand recipe expanded from four steps to
   seven (help, man page, both completions).
 
-## [1.13.0-SNAPSHOT] - 2024-11-29
+## [1.13.0] - 2024-12-02
 
-Snapshot capturing the November work: history subcommand
-(list + restore), atomic backups on every apply and non-no-op
-clean, `.hosts/config name=` override for the project name,
-doctor reports config presence, 22 new tests bringing the
-suite to 178. Next tag will cut from here.
+Fourth tagged release. Builds on 1.12.0 with the November work:
+
+- `history` subcommand (list backups; restore one with sudo).
+- Atomic backups on every `apply` and non-no-op `clean`.
+- `.hosts/config` `name=<value>` project-name override.
+- `doctor` reports config presence when run inside a project.
+- 22 new tests; suite at 178.
 
 ## [1.12.0] - 2024-11-01
 
@@ -283,8 +285,8 @@ from here.
 - Logic to reinitialize an existing host repository.
 - `hoster init` for empty host repositories.
 
-[Unreleased]: https://github.com/helmedeiros/hoster/compare/v1.13.0-SNAPSHOT...HEAD
-[1.13.0-SNAPSHOT]: https://github.com/helmedeiros/hoster/compare/v1.12.0...v1.13.0-SNAPSHOT
+[Unreleased]: https://github.com/helmedeiros/hoster/compare/v1.13.0...HEAD
+[1.13.0]: https://github.com/helmedeiros/hoster/compare/v1.12.0...v1.13.0
 [1.12.0]: https://github.com/helmedeiros/hoster/compare/v1.11.0...v1.12.0
 [1.11.0]: https://github.com/helmedeiros/hoster/compare/v1.10.0...v1.11.0
 [1.10.0]: https://github.com/helmedeiros/hoster/compare/v1.7.2-IURI...v1.10.0
