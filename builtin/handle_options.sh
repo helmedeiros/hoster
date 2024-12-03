@@ -14,6 +14,7 @@ function handle_options(){
 function handle_main_options(){
   COMMAND="";
   VERBOSE="${VERBOSE:-false}";
+  FORCE="${FORCE:-false}";
 
    # Parse user options
    while [ $# -gt 0 ]; do
@@ -24,6 +25,13 @@ function handle_main_options(){
         # Verbose mode -- consumed in place, loop continues.
         --verbose|-v)
           VERBOSE="true";
+          shift;
+          continue;
+        ;;
+
+        # Force destructive operations (apply --prod). Consumed in place.
+        --force|-f)
+          FORCE="true";
           shift;
           continue;
         ;;
