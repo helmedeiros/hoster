@@ -11,6 +11,12 @@ function hosts_apply(){
 		return
 	fi
 
+	if [ "$ENVIRONMENT" = "prod" ] && [ "${FORCE:-false}" != "true" ]; then
+		hoster_color red "Refusing to apply --prod without --force."
+		hoster_color dim "Rerun with: hoster --force apply --prod"
+		return 1
+	fi
+
 	cmd_set_environment "$ENVIRONMENT";
 
 	HOST_FILE_TO_APPEND="$TOP_LEVEL_FOLDER/$FILE";
