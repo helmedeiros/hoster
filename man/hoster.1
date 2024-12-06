@@ -72,6 +72,11 @@ and applies each.
 A snapshot of the pre-apply system hosts file is saved to
 .I .hosts/backup/<timestamp>-apply-<env>.hosts
 before each mutation.
+.IP
+.B apply --prod
+is refused without
+.BR --force ;
+the no-flag form still walks prod as part of the all-envs sweep.
 .TP
 .B clean \fI--ENV\fR
 Reverse of
@@ -152,6 +157,13 @@ Surface internal
 .B run_cmd
 invocations on stderr. Consumed in place before the subcommand,
 so it can appear anywhere on the line.
+.TP
+.B --force, -f
+Allow destructive operations that are otherwise gated. Currently
+required to run
+.BR "apply --prod" .
+Consumed in place like
+.BR --verbose .
 .TP
 .B --help, --H
 Print the common-commands help and exit.

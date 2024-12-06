@@ -46,6 +46,8 @@ _hoster() {
     '--version[Show version]'
     '--verbose[Verbose output]'
     '-v[Verbose output]'
+    '--force[Allow destructive operations like apply --prod]'
+    '-f[Allow destructive operations like apply --prod]'
   )
 
   if (( CURRENT == 2 )); then

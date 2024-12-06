@@ -16,7 +16,7 @@ _hoster_complete() {
 
 	local subcommands="add apply clean diff doctor edit export history import init list remove rm status validate"
 	local env_flags="--dev --hlg --lcl --prod -d -h -l -p"
-	local globals="--help --version --verbose -v"
+	local globals="--help --version --verbose -v --force -f"
 
 	# First positional after "hoster" -> subcommand or global flag.
 	if [ "$COMP_CWORD" -eq 1 ]; then
