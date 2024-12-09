@@ -159,6 +159,15 @@ function handle_main_options(){
           break;
         ;;
 
+        # Print URLs for an environment's hosts (useful for scripts).
+        open)
+          COMMAND="OPEN";
+          cmd_top_level;
+          cmd_project_name;
+          cmd_open_host "$@";
+          break;
+        ;;
+
         # Show the version
         --V|--version)
           COMMAND="VERSION";
