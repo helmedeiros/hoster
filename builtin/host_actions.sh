@@ -345,6 +345,45 @@ function hosts_doctor(){
 	return 0
 }
 
+function open_host(){
+	parse_env_arg "$@";
+}
+
+function hosts_open(){
+	# Print one URL per host entry, walking either the requested
+	# environment or every environment when none was given.
+	# Comments and blanks in the env files are skipped.
+
+	local scheme="${HOSTER_OPEN_SCHEME:-https}"
+
+	_emit_env_urls() {
+		local env="$1"
+		cmd_set_environment "$env"
+		local target="$TOP_LEVEL_FOLDER/$FILE"
+		[ -s "$target" ] || return 0
+
+		while IFS= read -r line || [ -n "$line" ]; do
+			local trimmed="${line#"${line%%[![:space:]]*}"}"
+			[ -z "$trimmed" ] && continue
+			[[ "$trimmed" == \#* ]] && continue
+
+			local host
+			read -r _ host _ <<< "$trimmed"
+			[ -z "$host" ] && continue
+
+			echo "$scheme://$host"
+		done < "$target"
+	}
+
+	if [ "$ENVIRONMENT" = "all" ] || [ -z "$ENVIRONMENT" ]; then
+		for env in "${environments[@]}"; do
+			_emit_env_urls "$env"
+		done
+	else
+		_emit_env_urls "$ENVIRONMENT"
+	fi
+}
+
 function hosts_init(){
 	FOLDER=$(pwd);
 	HOSTS_FOLDER="$FOLDER/$HOST_DEFAULT_FOLDER";

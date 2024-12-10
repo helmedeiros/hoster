@@ -183,48 +183,18 @@ function handle_main_options(){
 }
 
 function handle_env_options(){
-    ENVIRONMENT=""; 
+    # Scan the forwarded arguments for an environment flag. GNU getopt
+    # and BSD getopt (macOS) disagree about long-option support, so
+    # walk the args by hand to stay portable.
+    ENVIRONMENT="all";
 
-    # Execute getopt
-    SUBARGS=$(getopt -o dhlp -l "dev,hlg,lcl,prod" -n "getopt.sh" -- "$@");
-
-    eval set -- "$SUBARGS";
-
-    # Parse user options
-    while true; do
-      SUBOPT="$1";
-      shift;
-
-      case "$SUBOPT" in
-
-        # Set development's host file
-        -d|--dev)
-          ENVIRONMENT="dev";
-          break;
-        ;;
-
-        # Set homolagtion's host file
-        -h|--hlg)
-          ENVIRONMENT="hlg";
-          break;
-        ;;
-
-        # Set localhost's host file
-        -l|--lcl)
-          ENVIRONMENT="lcl";
-          break;
-        ;;
-
-        # Set production's host file
-        -p|--prod)  
-          ENVIRONMENT="prod";
-          break;
-        ;;
-
-        *)
-          ENVIRONMENT="all";
-          break;
-        ;;
+    local arg
+    for arg in "$@"; do
+      case "$arg" in
+        -d|--dev)  ENVIRONMENT="dev";  return ;;
+        -h|--hlg)  ENVIRONMENT="hlg";  return ;;
+        -l|--lcl)  ENVIRONMENT="lcl";  return ;;
+        -p|--prod) ENVIRONMENT="prod"; return ;;
       esac
     done
 }
