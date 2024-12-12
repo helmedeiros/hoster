@@ -109,6 +109,21 @@ PATH wiring, and
 readability. Exits non-zero only if a required check fails.
 Run from any directory -- does not need a project.
 .TP
+.B open \fR[\fI--ENV\fR]
+Print
+.IR scheme://<host>
+for each entry in the named environment (or every populated
+environment when no flag is given). Default scheme is
+.BR https ;
+override with
+.B HOSTER_OPEN_SCHEME=http
+in the environment. Comments and blanks in the source files are
+skipped. Pipe into
+.BR open (1)
+or
+.BR xdg-open (1)
+to actually launch a browser.
+.TP
 .B history \fR[\fIlist\fR|\fIrestore \fIFILE\fR]
 Without arguments (or with
 .BR list ),

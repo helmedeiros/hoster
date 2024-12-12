@@ -26,4 +26,5 @@ function list_common_cmds_help(){
 	echo "    validate	Sanity-check the project files for malformed IPs and duplicates.";
 	echo "    doctor  	Diagnose the hoster install: deps, PATH, host file resolution.";
 	echo "    history 	List backups of the system hosts file (or restore one).";
+	echo "    open    	Print https://<host> for each entry (one env or all).";
 }

@@ -18,6 +18,7 @@ load test_helper
   [[ "$output" == *"import"* ]]
   [[ "$output" == *"init"* ]]
   [[ "$output" == *"list"* ]]
+  [[ "$output" == *"open"* ]]
   [[ "$output" == *"remove"* ]]
   [[ "$output" == *"status"* ]]
   [[ "$output" == *"validate"* ]]

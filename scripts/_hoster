@@ -24,6 +24,7 @@ _hoster() {
     'import:Load every environment from a JSON file'
     'init:Create an empty .hosts repository'
     'list:List entries in one or all environments'
+    'open:Print https://<host> for each entry'
     'remove:Remove a host from an environment'
     'rm:Alias for remove'
     'status:Show which environments are currently applied'
@@ -57,7 +58,7 @@ _hoster() {
   fi
 
   case "${words[2]}" in
-    add|apply|clean|diff|edit|list|remove|rm)
+    add|apply|clean|diff|edit|list|open|remove|rm)
       _values 'environment' "${envflags[@]}"
       ;;
     import)

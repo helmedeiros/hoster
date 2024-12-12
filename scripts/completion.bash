@@ -14,7 +14,7 @@ _hoster_complete() {
 	cur="${COMP_WORDS[COMP_CWORD]}"
 	prev="${COMP_WORDS[COMP_CWORD-1]}"
 
-	local subcommands="add apply clean diff doctor edit export history import init list remove rm status validate"
+	local subcommands="add apply clean diff doctor edit export history import init list open remove rm status validate"
 	local env_flags="--dev --hlg --lcl --prod -d -h -l -p"
 	local globals="--help --version --verbose -v --force -f"
 
@@ -27,7 +27,7 @@ _hoster_complete() {
 
 	# After a subcommand that takes an environment flag, suggest those.
 	case "${COMP_WORDS[1]}" in
-		add|apply|clean|diff|edit|list|remove|rm)
+		add|apply|clean|diff|edit|list|open|remove|rm)
 			if [[ "$cur" == -* ]]; then
 				# shellcheck disable=SC2207
 				COMPREPLY=( $(compgen -W "$env_flags" -- "$cur") )

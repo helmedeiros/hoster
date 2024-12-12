@@ -67,6 +67,9 @@ hoster validate
 # Diagnose the hoster install (deps, PATH, host file)
 hoster doctor
 
+# Print one https://<host> per dev entry (great for piping into open / xdg-open)
+hoster open --dev
+
 # List atomic snapshots taken before each apply / clean
 hoster history
 
