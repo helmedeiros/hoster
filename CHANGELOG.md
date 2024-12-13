@@ -9,6 +9,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `open` subcommand: prints `https://<host>` (one line per host)
+  for the named environment, or every populated environment when
+  no flag is given. Scheme is overridable via
+  `HOSTER_OPEN_SCHEME`. Pipe into `open(1)` / `xdg-open(1)` to
+  launch a browser, or feed into a smoke-test script.
+- Global `--force` / `-f` flag, consumed in place like
+  `--verbose`.
+- `apply --prod` is now gated behind `--force`. The no-flag
+  `apply` (which walks every populated env via `apply_all`) is
+  unaffected.
+
+### Changed
+
+- `handle_env_options` no longer relies on GNU `getopt -l`
+  (BSD getopt on macOS does not support it). Replaced with a
+  hand-rolled for-loop scan over the forwarded arguments. The
+  bug was latent since 2014 -- existing tests pre-set
+  `ENVIRONMENT` so it never surfaced; `hoster open --dev`
+  exposed it.
+
+### Older Unreleased (carried over from 1.13.0-SNAPSHOT cycle)
+
 - `history` subcommand: lists atomic backups under
   `.hosts/backup/` (oldest first) and `history restore <file>`
   rolls one back via `sudo`, after first snapshotting the
