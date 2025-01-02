@@ -110,6 +110,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CONTRIBUTING.md subcommand recipe expanded from four steps to
   seven (help, man page, both completions).
 
+## [1.14.0-SNAPSHOT] - 2025-01-02
+
+Opens the January refactor cycle. Goal: introduce a hexagonal
+split (core / adapters / commands), reorganise tests into
+unit + integration, add a CI matrix across macOS and Linux on
+bash 4 and 5, and wire coverage tooling.
+
 ## [1.13.0] - 2024-12-02
 
 Fourth tagged release. Builds on 1.12.0 with the November work:
@@ -307,7 +314,8 @@ from here.
 - Logic to reinitialize an existing host repository.
 - `hoster init` for empty host repositories.
 
-[Unreleased]: https://github.com/helmedeiros/hoster/compare/v1.13.0...HEAD
+[Unreleased]: https://github.com/helmedeiros/hoster/compare/v1.14.0-SNAPSHOT...HEAD
+[1.14.0-SNAPSHOT]: https://github.com/helmedeiros/hoster/compare/v1.13.0...v1.14.0-SNAPSHOT
 [1.13.0]: https://github.com/helmedeiros/hoster/compare/v1.12.0...v1.13.0
 [1.12.0]: https://github.com/helmedeiros/hoster/compare/v1.11.0...v1.12.0
 [1.11.0]: https://github.com/helmedeiros/hoster/compare/v1.10.0...v1.11.0
