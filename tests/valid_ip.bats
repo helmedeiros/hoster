@@ -3,8 +3,8 @@
 load test_helper
 
 setup() {
-  # shellcheck source=../builtin/host_actions.sh
-  source "$PROJECT_ROOT/builtin/host_actions.sh"
+  # shellcheck source=../core/pure.sh
+  source "$PROJECT_ROOT/core/pure.sh"
 }
 
 @test "valid_ip accepts a standard IPv4" {

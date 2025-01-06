@@ -414,16 +414,4 @@ function hosts_edit(){
 	run_cmd "$DEFAULT_IDE $TOP_LEVEL_FOLDER/$FILE" "silent";
 }
 
-function valid_ip(){
-    local  ip="$1"
-    local  stat=1
-    local  octets
-
-    if [[ $ip =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
-        IFS='.' read -r -a octets <<< "$ip"
-        [[ ${octets[0]} -le 255 && ${octets[1]} -le 255 \
-            && ${octets[2]} -le 255 && ${octets[3]} -le 255 ]]
-        stat=$?
-    fi
-    return $stat
-}
+# valid_ip now lives in core/pure.sh; sourced from commands.sh.

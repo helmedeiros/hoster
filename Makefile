@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-SH_FILES := $(wildcard *.sh) $(wildcard builtin/*.sh) $(wildcard scripts/*.sh) $(wildcard scripts/*.bash)
+SH_FILES := $(wildcard *.sh) $(wildcard core/*.sh) $(wildcard adapters/*.sh) $(wildcard builtin/*.sh) $(wildcard scripts/*.sh) $(wildcard scripts/*.bash)
 
 COMPLETION_DIR ?= $(if $(shell test -d /opt/homebrew/etc/bash_completion.d && echo yes),/opt/homebrew/etc/bash_completion.d,/etc/bash_completion.d)
 ZSH_COMPLETION_DIR ?= $(if $(shell test -d /opt/homebrew/share/zsh/site-functions && echo yes),/opt/homebrew/share/zsh/site-functions,/usr/local/share/zsh/site-functions)
