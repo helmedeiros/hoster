@@ -98,16 +98,7 @@ function hosts_export(){
 	#     }
 	#   }
 
-	# JSON-escape a single value (quotes and backslashes only -- host
-	# files cannot legitimately contain control characters).
-	_json_escape() {
-		local s="$1"
-		s="${s//\\/\\\\}"
-		s="${s//\"/\\\"}"
-		printf '%s' "$s"
-	}
-
-	printf '{\n  "project": "%s",\n  "environments": {' "$(_json_escape "$PROJECT_NAME")"
+	printf '{\n  "project": "%s",\n  "environments": {' "$(json_escape "$PROJECT_NAME")"
 
 	local first_env=true
 	for env in "${environments[@]}"; do
@@ -128,12 +119,12 @@ function hosts_export(){
 					printf '\n      {"type": "blank"}'
 				elif [[ "$trimmed" == \#* ]]; then
 					printf '\n      {"type": "comment", "value": "%s"}' \
-						"$(_json_escape "$line")"
+						"$(json_escape "$line")"
 				else
 					local ip host
 					read -r ip host _ <<< "$trimmed"
 					printf '\n      {"type": "entry", "ip": "%s", "host": "%s"}' \
-						"$(_json_escape "$ip")" "$(_json_escape "$host")"
+						"$(json_escape "$ip")" "$(json_escape "$host")"
 				fi
 			done < "$target"
 			printf '\n    '
