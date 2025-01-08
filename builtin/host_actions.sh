@@ -208,22 +208,18 @@ function hosts_validate(){
 
 		while IFS= read -r line || [ -n "$line" ]; do
 			line_no=$((line_no + 1))
-			# Strip leading whitespace.
-			local trimmed="${line#"${line%%[![:space:]]*}"}"
-			# Skip blank lines and comments.
-			if [ -z "$trimmed" ] || [[ "$trimmed" == \#* ]]; then
-				continue
-			fi
 
-			# Parse "<ip> <host>"; everything past the first two fields is ignored.
-			local ip host rest
-			read -r ip host rest <<< "$trimmed"
+			local kind ip host
+			read -r kind ip host _ <<< "$(parse_host_line "$line")"
 
-			if [ -z "$ip" ] || [ -z "$host" ]; then
-				hoster_color yellow "$env:$line_no: malformed line: $line"
-				warnings=$((warnings + 1))
-				continue
-			fi
+			case "$kind" in
+				blank|comment) continue ;;
+				malformed)
+					hoster_color yellow "$env:$line_no: malformed line: $line"
+					warnings=$((warnings + 1))
+					continue
+				;;
+			esac
 
 			if ! valid_ip "$ip"; then
 				hoster_color red "$env:$line_no: invalid IP '$ip' for host '$host'"

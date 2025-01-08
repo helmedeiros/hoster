@@ -6,6 +6,39 @@
 # the terminal. Inputs come from arguments; outputs go to stdout or
 # the exit status. Test it directly; do not stub anything.
 
+# parse_host_line classifies a single line from a hosts file.
+#
+# Echoes one of three forms to stdout:
+#   blank
+#   comment <original-line>
+#   entry <ip> <host>
+#
+# Leading whitespace is stripped before classification; a line with
+# fewer than two fields after the leading whitespace is reported as
+# "malformed <original-line>" (callers decide whether that's an error
+# or a warning).
+function parse_host_line(){
+	local line="$1"
+	local trimmed="${line#"${line%%[![:space:]]*}"}"
+
+	if [ -z "$trimmed" ]; then
+		echo "blank"
+		return
+	fi
+	if [[ "$trimmed" == \#* ]]; then
+		echo "comment $line"
+		return
+	fi
+
+	local ip host rest
+	read -r ip host rest <<< "$trimmed"
+	if [ -z "$ip" ] || [ -z "$host" ]; then
+		echo "malformed $line"
+		return
+	fi
+	echo "entry $ip $host"
+}
+
 # json_escape emits its argument with the two characters JSON cares
 # about ("\\" and "\"") backslash-escaped. Host file content is plain
 # ASCII in practice, so escaping control characters is left out by
