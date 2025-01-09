@@ -6,6 +6,18 @@
 # the terminal. Inputs come from arguments; outputs go to stdout or
 # the exit status. Test it directly; do not stub anything.
 
+# env_to_filename maps an environment key to its on-disk host file
+# name. Empty output for unknown keys -- callers decide whether that
+# is an error or a no-op.
+function env_to_filename(){
+	case "$1" in
+		dev)  echo "hosts.dev" ;;
+		hlg)  echo "hosts.hml" ;;
+		lcl)  echo "hosts.lcl" ;;
+		prod) echo "hosts.prd" ;;
+	esac
+}
+
 # parse_host_line classifies a single line from a hosts file.
 #
 # Echoes one of three forms to stdout:

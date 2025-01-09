@@ -284,29 +284,14 @@ function cmd_execute_options(){
 }
 
 function cmd_set_environment(){
-	case "$1" in
-
-        # Set development's host file
-        dev)
-          FILE="hosts.dev";
-        ;;
-
-        # Set homolagtion's host file
-        hlg)
-          FILE="hosts.hml";
-        ;;
-
-        # Set localhost's host file
-        lcl)
-          FILE="hosts.lcl";
-        ;;
-
-        # Set production's host file
-        prod)  
-          FILE="hosts.prd";
-        ;;
-
-      esac
+	# Thin shell over the pure env_to_filename helper. FILE stays
+	# unset / unchanged for unknown env keys so existing callers keep
+	# their no-op behaviour.
+	local mapped
+	mapped="$(env_to_filename "$1")"
+	if [ -n "$mapped" ]; then
+		FILE="$mapped"
+	fi
 }
 
 function cmd_top_level(){
