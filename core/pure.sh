@@ -6,6 +6,19 @@
 # the terminal. Inputs come from arguments; outputs go to stdout or
 # the exit status. Test it directly; do not stub anything.
 
+# mk_marker_open / mk_marker_close render the open and close markers
+# hoster writes around a project's block in the system hosts file.
+# Centralising the template here means every reader and writer agrees
+# on the exact syntax -- no risk of the apply path writing "##<>##"
+# and the status path searching for "## < > ##".
+function mk_marker_open(){
+	printf '##<%s-%s>##' "$1" "$2"
+}
+
+function mk_marker_close(){
+	printf '##</%s-%s>##' "$1" "$2"
+}
+
 # env_to_filename maps an environment key to its on-disk host file
 # name. Empty output for unknown keys -- callers decide whether that
 # is an error or a no-op.

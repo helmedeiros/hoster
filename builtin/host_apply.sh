@@ -196,9 +196,9 @@ function append_host(){
 	fi
 
 	{
-		echo "##<$PROJECT_NAME-$ENVIRONMENT>##"
+		mk_marker_open  "$PROJECT_NAME" "$ENVIRONMENT"; echo
 		cat "$1"
-		echo "##</$PROJECT_NAME-$ENVIRONMENT>##"
+		mk_marker_close "$PROJECT_NAME" "$ENVIRONMENT"; echo
 	} >> "$TEMP_APPLY_FILE"
 
 	run_cmd "sudo cp $TEMP_APPLY_FILE $HOST_FILE" "silent";
