@@ -3,8 +3,8 @@
 load test_helper
 
 setup() {
-  # shellcheck source=../commands.sh
-  source "$PROJECT_ROOT/commands.sh"
+  # shellcheck source=../adapters/term.sh
+  source "$PROJECT_ROOT/adapters/term.sh"
   unset NO_COLOR
 }
 
@@ -25,7 +25,7 @@ setup() {
   # writer; bash's <(...) keeps -t 1 false, so instead we read the
   # function body and exercise the inner printf directly.
   run bash -c '
-    source "'"$PROJECT_ROOT"'/commands.sh"
+    source "'"$PROJECT_ROOT"'/adapters/term.sh"
     # Bypass the isatty guard by re-calling printf the same way the
     # function does; this asserts the format string only.
     printf "\033[%sm%s\033[0m\n" "32" "ok"

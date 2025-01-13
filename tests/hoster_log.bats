@@ -3,8 +3,8 @@
 load test_helper
 
 setup() {
-  # shellcheck source=../commands.sh
-  source "$PROJECT_ROOT/commands.sh"
+  # shellcheck source=../adapters/term.sh
+  source "$PROJECT_ROOT/adapters/term.sh"
 }
 
 @test "hoster_log emits nothing when VERBOSE=false" {
@@ -28,6 +28,6 @@ setup() {
 
 @test "hoster_log writes to stderr, not stdout" {
   VERBOSE="true"
-  run bash -c "VERBOSE=true; source '$PROJECT_ROOT/commands.sh'; hoster_log 'stderr only' 2>/dev/null"
+  run bash -c "VERBOSE=true; source '$PROJECT_ROOT/adapters/term.sh'; hoster_log 'stderr only' 2>/dev/null"
   [ -z "$output" ]
 }
