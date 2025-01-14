@@ -5,6 +5,8 @@ source "$HOSTER_DIR/version.sh"
 source "$HOSTER_DIR/help.sh"
 source "$HOSTER_DIR/core/pure.sh"
 source "$HOSTER_DIR/adapters/term.sh"
+source "$HOSTER_DIR/adapters/clock.sh"
+source "$HOSTER_DIR/adapters/fs.sh"
 source "$HOSTER_DIR/builtin/os.sh"
 source "$HOSTER_DIR/builtin/defaults.sh"
 source "$HOSTER_DIR/builtin/handle_options.sh"
@@ -20,25 +22,6 @@ source "$HOSTER_DIR/builtin/paths.sh"
 # "handle_env_options \"\$2\"" pattern.
 function parse_env_arg(){
 	handle_env_options "$@";
-}
-
-# hoster_backup snapshots the system hosts file under
-# $TOP_LEVEL_FOLDER/$HOST_BACKUP_DIR/<timestamp>-<reason>.hosts before
-# any mutating command (apply, clean) runs. Returns the absolute path
-# of the written backup on stdout.
-function hoster_backup(){
-	local reason="${1:-mutation}"
-	local backup_root="$TOP_LEVEL_FOLDER/$HOST_BACKUP_DIR"
-
-	mkdir -p "$backup_root"
-
-	local stamp
-	stamp="$(date -u +%Y%m%dT%H%M%SZ)"
-	local dest="$backup_root/${stamp}-${reason}.hosts"
-
-	cp "$HOST_FILE" "$dest"
-	hoster_log "Backed up $HOST_FILE -> $dest"
-	echo "$dest"
 }
 
 function run_cmd(){
