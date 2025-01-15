@@ -111,7 +111,7 @@ function hosts_diff(){
 	fi
 
 	APPLIED_TMP="$TOP_LEVEL_FOLDER/Hosts.diff.tmp";
-	sudo sed -n "/<$PROJECT_NAME-$ENVIRONMENT>/,/<\/$PROJECT_NAME-$ENVIRONMENT>/{//!p;}" "$HOST_FILE" \
+	priv_run sed -n "/<$PROJECT_NAME-$ENVIRONMENT>/,/<\/$PROJECT_NAME-$ENVIRONMENT>/{//!p;}" "$HOST_FILE" \
 		| tee "$APPLIED_TMP" > /dev/null;
 
 	if [ ! -s "$APPLIED_TMP" ]; then
@@ -210,7 +210,7 @@ function find_occurrence(){
 	found="false";
 	TMP_OCCURRENCE_FILE="$OCCURRENCE_TMP_NAME";
 
-	sudo sed "/<$PROJECT_NAME/,/<\/$PROJECT_NAME/!d" "$HOST_FILE" | tee "$TMP_OCCURRENCE_FILE" > /dev/null;
+	priv_run sed "/<$PROJECT_NAME/,/<\/$PROJECT_NAME/!d" "$HOST_FILE" | tee "$TMP_OCCURRENCE_FILE" > /dev/null;
 
 	if [[ -s "$TMP_OCCURRENCE_FILE" ]] ; then
 		echo "HOST for $ENVIRONMENT of project->$PROJECT_NAME found.";
@@ -225,7 +225,7 @@ function find_occurrence(){
 }
 
 function remove_occurrence(){
-	sudo sed "/<$PROJECT_NAME/,/<\/$PROJECT_NAME/d" "$HOST_FILE" | tee "$TEMP_APPLY_FILE" > /dev/null;
+	priv_run sed "/<$PROJECT_NAME/,/<\/$PROJECT_NAME/d" "$HOST_FILE" | tee "$TEMP_APPLY_FILE" > /dev/null;
 }
 
 
