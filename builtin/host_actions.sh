@@ -137,7 +137,9 @@ function hosts_export(){
 
 function hosts_import(){
 	# Read a JSON document produced by hosts_export and overwrite the
-	# four environment files with its contents. Requires jq for parsing.
+	# four environment files with its contents. Validation and jq
+	# wrangling live in adapters/json.sh; this function reads as a
+	# data-flow checklist.
 
 	if [ -z "${IMPORT_FILE:-}" ]; then
 		echo "Usage: hoster import <file.json>" >&2
@@ -149,37 +151,22 @@ function hosts_import(){
 		return 1
 	fi
 
-	if ! command -v jq >/dev/null; then
+	if ! json_available; then
 		echo "jq is required for import. Install via brew install jq." >&2
 		return 1
 	fi
 
-	if ! jq -e . "$IMPORT_FILE" >/dev/null 2>&1; then
-		echo "Import file is not valid JSON: $IMPORT_FILE" >&2
-		return 1
-	fi
-
-	if ! jq -e '.environments' "$IMPORT_FILE" >/dev/null 2>&1; then
-		echo "Import file missing .environments key: $IMPORT_FILE" >&2
-		return 1
-	fi
+	local rc=0
+	json_validate "$IMPORT_FILE" || rc=$?
+	case "$rc" in
+		1) echo "Import file is not valid JSON: $IMPORT_FILE" >&2; return 1 ;;
+		2) echo "Import file missing .environments key: $IMPORT_FILE" >&2; return 1 ;;
+	esac
 
 	for env in "${environments[@]}"; do
 		cmd_set_environment "$env"
 		local target="$TOP_LEVEL_FOLDER/$FILE"
-		# Accepts both the typed schema (entry/comment/blank) and the
-		# legacy flat schema where each item is an {ip, host} object.
-		jq -r --arg env "$env" '
-			.environments[$env] // []
-			| map(
-				if .type == "comment" then .value
-				elif .type == "blank"   then ""
-				elif .type == "entry"   then "\(.ip) \(.host)"
-				else "\(.ip) \(.host)"
-				end
-			)
-			| .[]
-		' "$IMPORT_FILE" > "$target"
+		json_env_to_lines "$IMPORT_FILE" "$env" > "$target"
 		hoster_log "Wrote $(wc -l < "$target" | tr -d ' ') lines to $target"
 	done
 
