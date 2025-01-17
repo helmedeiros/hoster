@@ -3,8 +3,8 @@
 load test_helper
 
 setup() {
-  # shellcheck source=../builtin/os.sh
-  source "$PROJECT_ROOT/builtin/os.sh"
+  # shellcheck source=../adapters/os.sh
+  source "$PROJECT_ROOT/adapters/os.sh"
 }
 
 @test "hoster_os_is_macos true under darwin*" {

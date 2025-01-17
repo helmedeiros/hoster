@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
-# shellcheck source=builtin/os.sh
-source "$(dirname "${BASH_SOURCE[0]}")/os.sh"
+# shellcheck source=adapters/os.sh
+source "$(dirname "${BASH_SOURCE[0]}")/../adapters/os.sh"
 
 # Supported environment identifiers, in display order.
 environments=(lcl dev hlg prod);
