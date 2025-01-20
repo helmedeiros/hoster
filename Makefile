@@ -6,12 +6,14 @@ COMPLETION_DIR ?= $(if $(shell test -d /opt/homebrew/etc/bash_completion.d && ec
 ZSH_COMPLETION_DIR ?= $(if $(shell test -d /opt/homebrew/share/zsh/site-functions && echo yes),/opt/homebrew/share/zsh/site-functions,/usr/local/share/zsh/site-functions)
 MAN_DIR ?= $(if $(shell test -d /opt/homebrew/share/man/man1 && echo yes),/opt/homebrew/share/man/man1,/usr/local/share/man/man1)
 
-.PHONY: help lint test all clean install-completion install-zsh-completion install-man install-hooks
+.PHONY: help lint test test-unit test-integration all clean install-completion install-zsh-completion install-man install-hooks
 
 help:
 	@echo "Targets:"
 	@echo "  lint                    - run shellcheck on all shell scripts"
-	@echo "  test                    - run bats test suite"
+	@echo "  test                    - run unit + integration bats suites"
+	@echo "  test-unit               - run tests/unit only"
+	@echo "  test-integration        - run tests/integration only"
 	@echo "  all                     - lint + test"
 	@echo "  clean                   - remove build artifacts"
 	@echo "  install-completion      - install scripts/completion.bash into \$$COMPLETION_DIR"
@@ -26,8 +28,13 @@ help:
 lint:
 	shellcheck -x $(SH_FILES)
 
-test:
-	bats tests/
+test: test-unit test-integration
+
+test-unit:
+	bats tests/unit/
+
+test-integration:
+	bats tests/integration/
 
 all: lint test
 
