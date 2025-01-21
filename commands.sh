@@ -14,7 +14,6 @@ source "$HOSTER_DIR/builtin/defaults.sh"
 source "$HOSTER_DIR/builtin/handle_options.sh"
 source "$HOSTER_DIR/builtin/host_actions.sh"
 source "$HOSTER_DIR/builtin/host_apply.sh"
-source "$HOSTER_DIR/builtin/paths.sh"
 
 
 

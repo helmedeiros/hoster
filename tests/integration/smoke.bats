@@ -15,5 +15,14 @@ load ../test_helper
   [ -f "$PROJECT_ROOT/builtin/handle_options.sh" ]
   [ -f "$PROJECT_ROOT/builtin/host_actions.sh" ]
   [ -f "$PROJECT_ROOT/builtin/host_apply.sh" ]
-  [ -f "$PROJECT_ROOT/builtin/paths.sh" ]
+}
+
+@test "core and adapter modules exist" {
+  [ -f "$PROJECT_ROOT/core/pure.sh" ]
+  [ -f "$PROJECT_ROOT/adapters/term.sh" ]
+  [ -f "$PROJECT_ROOT/adapters/clock.sh" ]
+  [ -f "$PROJECT_ROOT/adapters/fs.sh" ]
+  [ -f "$PROJECT_ROOT/adapters/sudo.sh" ]
+  [ -f "$PROJECT_ROOT/adapters/json.sh" ]
+  [ -f "$PROJECT_ROOT/adapters/os.sh" ]
 }
