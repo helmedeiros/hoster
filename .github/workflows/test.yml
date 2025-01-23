@@ -8,22 +8,44 @@ on:
 
 jobs:
   bats:
-    name: bats (${{ matrix.os }})
+    name: bats (${{ matrix.os }}, bash ${{ matrix.bash }})
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
+        bash: ['4', '5']
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install dependencies (Ubuntu)
+      - name: Install bash ${{ matrix.bash }} (Ubuntu)
         if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y bats jq shellcheck
+        run: |
+          set -eux
+          sudo apt-get update
+          sudo apt-get install -y bats jq shellcheck
+          # Ubuntu's apt bash is 5.x; install bash 4 via build if needed.
+          if [ "${{ matrix.bash }}" = "4" ]; then
+            sudo apt-get install -y wget build-essential
+            wget -q https://ftp.gnu.org/gnu/bash/bash-4.4.tar.gz
+            tar xf bash-4.4.tar.gz
+            cd bash-4.4 && ./configure --prefix=/opt/bash4 && make -j 2 && sudo make install
+            echo "/opt/bash4/bin" >> "$GITHUB_PATH"
+          fi
 
-      - name: Install dependencies (macOS)
+      - name: Install bash ${{ matrix.bash }} (macOS)
         if: runner.os == 'macOS'
-        run: brew install bats-core jq shellcheck
+        run: |
+          set -eux
+          brew install bats-core jq shellcheck
+          if [ "${{ matrix.bash }}" = "4" ]; then
+            brew install bash@4 || brew install bash
+          else
+            brew install bash
+          fi
+
+      - name: Confirm bash version
+        run: bash --version | head -1
 
       - name: Run tests
         run: make test
