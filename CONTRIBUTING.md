@@ -33,13 +33,30 @@ Tools you'll want installed:
 - Make sure CI is green before requesting review.
 - The PR description should answer **why** the change is needed; the diff already says what.
 
+## Code layout
+
+The codebase splits into three concentric layers (see [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full sketch):
+
+- `core/` — pure functions. No I/O, no side effects. Easy to unit-test in isolation. Examples: `valid_ip`, `parse_host_line`, `json_escape`, `mk_marker_open`, `env_to_filename`.
+- `adapters/` — wrappers around the outside world. One file per concern: `term.sh` (color, log), `clock.sh` (timestamps), `fs.sh` (backup dir), `sudo.sh` (`priv_run` chokepoint), `json.sh` (jq), `os.sh` (OSTYPE detection).
+- `builtin/` and `commands.sh` — the verbs and the router. Compose `core/` + `adapters/` to do the user-visible work.
+
 ## Tests
 
-The suite follows a pyramid:
+The suite lives under `tests/` in two subfolders:
 
-- Unit tests in `tests/*.bats` source a single module and call its functions directly.
-- Integration tests (`tests/integration_*.bats`) shell out to `hoster.sh`.
-- The smoke suite asserts the file layout so missing-file failures are obvious.
+- `tests/unit/` — exercise one function in `core/` or `adapters/` directly. No fixtures. Fast (~1 second total).
+- `tests/integration/` — drive whole commands or the `hoster.sh` entrypoint. Stub `sudo` and override `HOST_FILE` to a tmpdir so the suite never touches the real `/etc/hosts`.
+
+Run them together or separately:
+
+```sh
+make test              # both
+make test-unit         # tests/unit/ only
+make test-integration  # tests/integration/ only
+```
+
+The integration suite includes a `smoke` test that asserts the file layout so missing-file failures point at the right thing, and a `completion_sync` test that fails if a new subcommand is added without updating every docs surface.
 
 New behaviour needs a new test. New tests for existing behaviour are welcome on their own.
 
@@ -49,13 +66,13 @@ A new subcommand typically touches **seven** places. Use the existing `clean` an
 
 1. **Route the keyword** in `builtin/handle_options.sh` (add a `case` branch that sets `COMMAND` and calls a `cmd_<name>_host` wrapper).
 2. **Add wrappers** in `commands.sh` (`cmd_<name>_host` and `cmd_hosts_<name>`) and a branch in `cmd_execute_options`.
-3. **Implement** the actual work in `builtin/host_actions.sh` or `builtin/host_apply.sh`.
-4. **Unit test it**: `tests/<name>.bats` that stubs `sudo` and overrides `HOST_FILE` to a temp file.
+3. **Implement** the actual work in `builtin/host_actions.sh` or `builtin/host_apply.sh`. Use `core/` helpers for pure logic and `adapters/` for sudo, jq, the clock, or the filesystem.
+4. **Unit test it**: `tests/integration/<name>.bats` if it touches the filesystem, `tests/unit/<name>.bats` if it stays pure. Stub `sudo` and point `HOST_FILE` at a tmpdir for any integration test.
 5. **Wire it into `help.sh`** so `hoster --help` lists it.
 6. **Document it** in `man/hoster.1` under COMMANDS (and re-render with `man man/hoster.1` to sanity-check the formatting).
-7. **Update completions**: add the keyword to `scripts/completion.bash` (both the `subcommands` variable and the env-flag dispatch case) and `scripts/_hoster` (the `subcommands` array). `tests/completion_sync.bats` will catch you if you miss one.
+7. **Update completions**: add the keyword to `scripts/completion.bash` (both the `subcommands` variable and the env-flag dispatch case) and `scripts/_hoster` (the `subcommands` array). `tests/integration/completion_sync.bats` will catch you if you miss one.
 
-The unit suite should not touch the real `/etc/hosts` -- always point `HOST_FILE` at a tempdir.
+The unit suite should never touch the real `/etc/hosts` -- always point `HOST_FILE` at a tempdir.
 
 ## Reporting issues
 
