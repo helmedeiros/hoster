@@ -6,7 +6,7 @@ COMPLETION_DIR ?= $(if $(shell test -d /opt/homebrew/etc/bash_completion.d && ec
 ZSH_COMPLETION_DIR ?= $(if $(shell test -d /opt/homebrew/share/zsh/site-functions && echo yes),/opt/homebrew/share/zsh/site-functions,/usr/local/share/zsh/site-functions)
 MAN_DIR ?= $(if $(shell test -d /opt/homebrew/share/man/man1 && echo yes),/opt/homebrew/share/man/man1,/usr/local/share/man/man1)
 
-.PHONY: help lint test test-unit test-integration all clean install-completion install-zsh-completion install-man install-hooks
+.PHONY: help lint test test-unit test-integration coverage all clean install-completion install-zsh-completion install-man install-hooks
 
 help:
 	@echo "Targets:"
@@ -14,6 +14,7 @@ help:
 	@echo "  test                    - run unit + integration bats suites"
 	@echo "  test-unit               - run tests/unit only"
 	@echo "  test-integration        - run tests/integration only"
+	@echo "  coverage                - run kcov via Docker and emit coverage/"
 	@echo "  all                     - lint + test"
 	@echo "  clean                   - remove build artifacts"
 	@echo "  install-completion      - install scripts/completion.bash into \$$COMPLETION_DIR"
@@ -35,6 +36,17 @@ test-unit:
 
 test-integration:
 	bats tests/integration/
+
+# kcov via Docker so the host doesn't need a local install. Writes a
+# self-contained HTML report under ./coverage and prints the summary
+# line so CI can grep it.
+coverage:
+	@mkdir -p coverage
+	docker run --rm -v "$(PWD)":/src -w /src kcov/kcov:latest \
+		kcov --include-path=/src/core,/src/adapters,/src/builtin,/src/commands.sh \
+		     /src/coverage \
+		     bats /src/tests/unit /src/tests/integration
+	@echo "Coverage report: file://$(PWD)/coverage/index.html"
 
 all: lint test
 
