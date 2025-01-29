@@ -1,6 +1,6 @@
 # Architecture
 
-> Status: in transition. This document describes the **target** shape the codebase is being refactored toward over the January 2025 cycle. Pieces that already live in their target home are marked ✅; pieces still in their legacy location are marked ⏳.
+> Status: hexagonal layout is in place as of the January 2025 cycle. `core/` and `adapters/` exist and host the pieces described below. The remaining `builtin/` files are the **commands** layer (verbs that compose core + adapters) — they have not been split further because the grouping is already reasonable, and one-file-per-command would multiply files without payoff.
 
 ## The three layers
 
@@ -73,16 +73,16 @@ The wiring (which `case` branch dispatches to which command) stays in `commands.
 - **Privileged operations have one chokepoint.** Auditing what hoster does as root means reading `adapters/sudo.sh`.
 - **New commands are mechanical to add.** Drop a file in `commands/`, add a router entry in `commands.sh`, add an integration test. No surgery in `host_actions.sh`.
 
-## Migration plan (January 2025)
+## Migration log (January 2025)
 
-| Week | Move |
-|---|---|
-| Jan 6–10  | ⏳ extract `core/pure.sh` (valid_ip, json_escape, parse_host_line, env_to_filename, mk_marker) |
-| Jan 13–17 | ⏳ extract `adapters/term.sh`, `adapters/fs.sh`, `adapters/clock.sh`, `adapters/sudo.sh`, `adapters/json.sh`; move `os.sh` → `adapters/os.sh` |
-| Jan 20–24 | ⏳ reorganise `tests/` into `tests/unit/` and `tests/integration/`; CI matrix (macOS+Linux × bash 4+5); drop dead `builtin/paths.sh` |
-| Jan 27–31 | ⏳ add `make coverage`; gap-fill; CHANGELOG; hold 1.14.0-SNAPSHOT |
+| Week | Status | What landed |
+|---|---|---|
+| Jan 6–10  | ✅ | `core/pure.sh` holds `valid_ip`, `json_escape`, `parse_host_line`, `env_to_filename`, `mk_marker_open` / `_close`. Each pure function has its own unit test. |
+| Jan 13–17 | ✅ | `adapters/term.sh` (color + log), `adapters/clock.sh`, `adapters/fs.sh` (backup), `adapters/sudo.sh` (`priv_run` chokepoint), `adapters/json.sh` (jq wrapper). `os.sh` moved into `adapters/`. |
+| Jan 20–24 | ✅ | `tests/` split into `tests/unit/` (74) and `tests/integration/` (140+); CI matrix runs Ubuntu × macOS × bash 4 × bash 5; dead `builtin/paths.sh` removed. |
+| Jan 27–31 | ✅ | `make coverage` runs kcov via Docker; CI publishes coverage as an artifact; `1.14.0-SNAPSHOT` cycle held — next tag cuts when the verbs migrate. |
 
-Each commit during the migration leaves `make all` green: the function moves, every call site picks it up from the new home, the old definition is deleted, lint and tests stay green. No mid-migration broken state hits master.
+Every commit in the cycle left `make all` green: each function move was paired with a call-site update, the old definition deleted, lint and tests still passing. No mid-migration broken state hit master.
 
 ## Out of scope for this cycle
 

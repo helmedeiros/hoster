@@ -18,6 +18,7 @@ Thumbs.db
 # Test outputs
 .bats-tmp/
 coverage/
+kcov*/
 
 # Local
 Hosts.apply.tmp
