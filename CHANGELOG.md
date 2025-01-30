@@ -110,12 +110,64 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CONTRIBUTING.md subcommand recipe expanded from four steps to
   seven (help, man page, both completions).
 
-## [1.14.0-SNAPSHOT] - 2025-01-02
+## [1.14.0-SNAPSHOT] - 2025-01-02 → 2025-01-31
 
-Opens the January refactor cycle. Goal: introduce a hexagonal
-split (core / adapters / commands), reorganise tests into
-unit + integration, add a CI matrix across macOS and Linux on
-bash 4 and 5, and wire coverage tooling.
+Hexagonal refactor cycle. Lands the structural split called out
+at the top of the month plus the surrounding tooling. The 14
+subcommand surface is unchanged; this release is internals-only.
+
+### Added
+
+- `core/pure.sh` with side-effect-free helpers:
+  `valid_ip`, `json_escape`, `parse_host_line`, `env_to_filename`,
+  `mk_marker_open` / `mk_marker_close`. Each has its own unit
+  test in `tests/unit/`.
+- `adapters/` directory with one file per kind of side effect:
+  `term.sh` (color + log), `clock.sh` (timestamps), `fs.sh`
+  (backup helper), `sudo.sh` (`priv_run` chokepoint),
+  `json.sh` (jq reader), `os.sh` (OSTYPE detection — moved from
+  `builtin/`).
+- `docs/ARCHITECTURE.md` documenting the three-layer design and
+  the migration log.
+- `make coverage` runs kcov via Docker and emits a self-contained
+  HTML report under `coverage/`. New `.github/workflows/coverage.yml`
+  publishes the report as a CI artifact on every push / PR.
+- `make test-unit` and `make test-integration` sub-targets.
+- CI matrix: tests run on Ubuntu × macOS × bash 4 × bash 5 (4
+  jobs). The Ubuntu/bash-4 leg builds bash 4.4 from source to
+  cover the LTS-distro case.
+
+### Changed
+
+- `tests/` split into `tests/unit/` (74 tests over pure functions
+  and adapters) and `tests/integration/` (141 tests over commands
+  and end-to-end flows). `load test_helper` adjusted to
+  `load ../test_helper` so the helper stays at `tests/`.
+- `hosts_validate` rewritten to consume `parse_host_line` instead
+  of inlining the classification loop.
+- `hosts_import` rewritten to drive `json_available`,
+  `json_validate`, and `json_env_to_lines` from `adapters/json.sh`
+  — the function now reads as a flat checklist.
+- `cmd_set_environment` is now a 4-line thin shell over the pure
+  `env_to_filename`.
+- `find_occurrence`, `remove_occurrence`, and `hosts_diff` route
+  their `sudo sed …` calls through `priv_run`.
+- `append_host` writes its markers via `mk_marker_open` /
+  `mk_marker_close`.
+
+### Removed
+
+- `builtin/paths.sh` — dead since 2014 (contained one
+  contributor's hardcoded Dropbox path; never called).
+
+### Internal
+
+- `git mv` used for every relocation so file history follows.
+- Each commit kept `make all` green; no mid-migration broken
+  state hit master.
+- Manual scientific verification of all 14 subcommands plus the
+  4 global flags on the post-refactor tree (23 hypotheses, all
+  PASS).
 
 ## [1.13.0] - 2024-12-02
 
