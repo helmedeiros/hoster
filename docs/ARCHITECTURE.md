@@ -2,6 +2,16 @@
 
 > Status: hexagonal layout is in place as of the January 2025 cycle. `core/` and `adapters/` exist and host the pieces described below. The remaining `builtin/` files are the **commands** layer (verbs that compose core + adapters) — they have not been split further because the grouping is already reasonable, and one-file-per-command would multiply files without payoff.
 
+## Snapshot
+
+| Layer | Files | Tests |
+|---|---|---|
+| `core/`     | 1 (5 functions) | 74 unit |
+| `adapters/` | 6               | shared with integration |
+| `builtin/` + `commands.sh` | 5 | 141 integration |
+
+Run `make test` for the full 215. Coverage at `make coverage`.
+
 ## The three layers
 
 hoster is a bash CLI. We organise its source into three concentric layers, in the spirit of hexagonal / ports-and-adapters architecture:
