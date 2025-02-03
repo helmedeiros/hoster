@@ -35,7 +35,7 @@ Tools you'll want installed:
 
 ## Code layout
 
-The codebase splits into three concentric layers (see [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full sketch):
+The codebase splits into three concentric layers (see [ADR-0001](docs/architecture/decisions/0001-adopt-hexagonal-layout.md) for the full reasoning):
 
 - `core/` — pure functions. No I/O, no side effects. Easy to unit-test in isolation. Examples: `valid_ip`, `parse_host_line`, `json_escape`, `mk_marker_open`, `env_to_filename`.
 - `adapters/` — wrappers around the outside world. One file per concern: `term.sh` (color, log), `clock.sh` (timestamps), `fs.sh` (backup dir), `sudo.sh` (`priv_run` chokepoint), `json.sh` (jq), `os.sh` (OSTYPE detection).
