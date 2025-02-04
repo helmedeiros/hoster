@@ -47,9 +47,11 @@ teardown() {
   run hosts_apply_all
   [[ "$output" == *"Applied 3 environment(s)"* ]]
   run cat "$HOST_FILE"
+  # Markers use the ENVIRONMENT name (lcl/dev/hlg/prod), not the
+  # FILE suffix (.lcl/.dev/.hml/.prd).
   [[ "$output" == *"##<bats-project-lcl>##"* ]]
   [[ "$output" == *"##<bats-project-dev>##"* ]]
-  [[ "$output" == *"##<bats-project-prd>##"* ]]
+  [[ "$output" == *"##<bats-project-prod>##"* ]]
   [[ "$output" != *"##<bats-project-hlg>##"* ]]
 }
 
