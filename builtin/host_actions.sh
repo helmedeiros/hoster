@@ -290,7 +290,9 @@ function hosts_doctor(){
 	if command -v hoster >/dev/null || command -v hoster.sh >/dev/null; then
 		_doctor_report ok "hoster on PATH"
 	else
-		_doctor_report fail "hoster on PATH" "add the repo dir to PATH"
+		# Optional: hoster can also be run as ./hoster.sh from the repo,
+		# which is what CI and most contributor workflows do.
+		_doctor_report fail "hoster on PATH" "add the repo dir to PATH" opt
 	fi
 	if [ -r "$HOSTER_DIR/hoster.version" ]; then
 		_doctor_report ok "hoster.version readable"
