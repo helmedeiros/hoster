@@ -13,23 +13,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install bats and jq
-        run: sudo apt-get update && sudo apt-get install -y bats jq
-
-      - name: Install kcov
-        run: |
-          sudo apt-get install -y kcov
-
-      - name: Run coverage
+      - name: Run kcov via the official image
         run: |
           mkdir -p coverage
-          kcov \
-            --include-path=core,adapters,builtin,commands.sh \
-            coverage \
-            bats tests/unit tests/integration
+          docker run --rm -v "$PWD":/src -w /src kcov/kcov:latest \
+            bash -lc '
+              apt-get update >/dev/null && apt-get install -y -q bats jq >/dev/null
+              kcov \
+                --include-path=core,adapters,builtin,commands.sh \
+                coverage \
+                bats tests/unit tests/integration
+            '
 
       - name: Upload report
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: coverage-html
           path: coverage
