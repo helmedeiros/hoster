@@ -5,6 +5,13 @@ load ../test_helper
 setup() {
   # shellcheck source=../commands.sh
   source "$PROJECT_ROOT/commands.sh"
+  # Doctor's "hoster on PATH" check looks up `hoster` / `hoster.sh`
+  # via command -v. CI checks out the repo but does not add it to
+  # PATH; production users do. Put the repo on PATH here so the
+  # test asserts the "happy install" state regardless of the host's
+  # ambient configuration. The check remains a required one in
+  # production code.
+  export PATH="$PROJECT_ROOT:$PATH"
 }
 
 @test "hosts_doctor exits 0 on the dev box" {
