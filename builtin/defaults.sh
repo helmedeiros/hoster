@@ -22,7 +22,8 @@ function define_defaults(){
     OCCURRENCE_TMP_NAME="Hosts.out.tmp";
 
     # Where atomic backups of the system hosts file are stored before
-    # any apply/clean mutation. Relative to the project root so each
-    # project carries its own history.
-    HOST_BACKUP_DIR=".hosts/backup";
+    # any apply/clean mutation. Resolved relative to TOP_LEVEL_FOLDER
+    # (which cmd_top_level sets to the .hosts directory), so the
+    # disk path is "<project-root>/.hosts/backup/".
+    HOST_BACKUP_DIR="backup";
 }

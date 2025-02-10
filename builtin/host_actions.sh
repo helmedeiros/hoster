@@ -1,10 +1,31 @@
 #!/usr/bin/env bash
 #
 
-function add_host(){
-	ADD_HOST="$3";
+# positionals_skipping_flags echoes the non-verb, non-env-flag
+# arguments in their original order, one per line. Lets add/remove
+# accept the env flag in any position alongside the IP/host
+# positionals they read by index.
+function positionals_skipping_flags(){
+	local arg
+	for arg in "$@"; do
+		case "$arg" in
+			add|remove|rm) ;;
+			-d|--dev|-h|--hlg|-l|--lcl|-p|--prod) ;;
+			*) echo "$arg" ;;
+		esac
+	done
+}
 
-	define_ip "$2";
+function add_host(){
+	local positionals
+	positionals="$(positionals_skipping_flags "$@")"
+	# First positional is the IP, second is the host.
+	local ip host
+	ip="$(echo "$positionals"   | sed -n 1p)"
+	host="$(echo "$positionals" | sed -n 2p)"
+
+	ADD_HOST="$host";
+	define_ip "$ip";
 
 	parse_env_arg "$@";
 }
@@ -24,7 +45,8 @@ function host_add(){
 }
 
 function remove_host(){
-	REMOVE_HOST="$2";
+	# First non-flag positional after the verb is the hostname.
+	REMOVE_HOST="$(positionals_skipping_flags "$@" | sed -n 1p)";
 	parse_env_arg "$@";
 }
 
