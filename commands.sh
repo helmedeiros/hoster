@@ -243,15 +243,25 @@ function cmd_set_environment(){
 }
 
 function cmd_top_level(){
-  found=$(find \. -type d -name "$HOST_DEFAULT_FOLDER");
+  # Walk up from the current directory until we find a sibling
+  # "$HOST_DEFAULT_FOLDER" (".hosts") as a direct child. Bail out
+  # cleanly at the filesystem root.
+  #
+  # The old implementation used "find . -type d -name .hosts" which
+  # walked the whole subtree of pwd; that succeeded when a nested
+  # project lived under pwd (e.g. running from /tmp where two
+  # unrelated hoster projects sit) and then "cd .hosts" failed
+  # because the matches were grand-children, not direct ones.
+  while [ "$PWD" != "/" ] && [ ! -d "$HOST_DEFAULT_FOLDER" ]; do
+    cd .. || die "cd .. failed from $PWD"
+  done
 
-  if [ -n "$found" ]; then
-    run_cmd "cd $HOST_DEFAULT_FOLDER" "silent";
-    TOP_LEVEL_FOLDER=$(pwd);
-  else
-    run_cmd "cd .." "silent";
-    cmd_top_level;
+  if [ ! -d "$HOST_DEFAULT_FOLDER" ]; then
+    die "Not inside a hoster project (no $HOST_DEFAULT_FOLDER/ found)."
   fi
+
+  cd "$HOST_DEFAULT_FOLDER" || die "cd $HOST_DEFAULT_FOLDER failed."
+  TOP_LEVEL_FOLDER="$(pwd)"
 }
 
 function cmd_project_name(){
