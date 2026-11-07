@@ -16,7 +16,7 @@ jobs:
         os: [ubuntu-latest, macos-latest]
         bash: ['4', '5']
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Install bash ${{ matrix.bash }} (Ubuntu)
         if: runner.os == 'Linux'
